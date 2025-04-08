@@ -1,0 +1,117 @@
+.checkout-container {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90%; /* Ensure responsiveness */
+  max-width: 1400px; /* Increased for larger screens */
+  margin: 30px auto;
+}
+
+/* Make the checkout details a flex container */
+.checkout-details {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  gap: 30px; /* Increased space between image and details */
+  width: 100%;
+}
+
+/* Style the product image */
+.checkout-image-container {
+  flex: 0.6; /* Allow image to take more space */
+  display: flex;
+  justify-content: center;
+}
+
+.checkout-product-image {
+  width: 100%; /* Ensure image scales properly */
+  max-width: 500px; /* Increased max size */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Product & User Info should take remaining space */
+.checkout-info {
+  flex: 1; /* Takes remaining space */
+  min-width: 300px; /* Ensure it doesn’t get too small */
+}
+
+.checkout-info h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.checkout-info p {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+/* User Info Box */
+.user-info {
+  background-color: #2c2c2c;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: left;
+  color: #bbb;
+}
+
+/* User Info Text */
+.user-info h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+/* Confirm Purchase Button */
+/* Confirm Purchase Button */
+.confirm-purchase-button {
+  background-color: #ff6f61; // orangered
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+  width: 100%; /* Make it full width */
+
+  &:hover {
+    background-color: #ff4c3b;
+    box-shadow: 0 4px 10px rgba(255, 76, 59, 0.4);
+  }
+
+  &:active {
+    background-color: #d84336; /* Darker red when clicked */
+    transform: scale(0.98); /* Slight press effect */
+  }
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .checkout-details {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .checkout-image-container {
+    width: 100%;
+  }
+
+  .checkout-product-image {
+    max-width: 80%; /* Adjusts image size for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-product-image {
+    max-width: 100%; /* Make it take full width on small screens */
+  }
+}

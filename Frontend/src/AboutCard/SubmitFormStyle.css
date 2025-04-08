@@ -1,0 +1,59 @@
+    .form-container {
+        max-width: 800px;  
+        margin: auto;
+        padding: 25px;
+        background: #2c2c2c; 
+        border-radius: 10px;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        color: #ffffff; 
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff4f00; 
+        text-transform: uppercase;
+    }
+
+    label {
+        display: block;
+        margin: 12px 0 6px;
+        font-weight: bold;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #444;
+        border-radius: 6px;
+        background: #3b3b3b;
+        color: white;
+    }
+
+    input::placeholder {
+        color: #bbb;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 12px;
+        background: #ff4f00; 
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+    .form-container button:hover {
+        background: #d62828;
+    }
+
+    .message {
+        text-align: center;
+        color: #4caf50;
+        font-weight: bold;
+        margin-top: 10px;
+    }

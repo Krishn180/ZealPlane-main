@@ -1,0 +1,20 @@
+.landing-container {
+    background-color: black; /* Dark gray background color */
+    color: white; /* White text color (for better readability) */
+    padding: 20px; /* Optional: Add padding for better spacing */
+    
+    
+}
+.curated-container {
+    margin-top: -50px;
+    position: relative;
+    z-index: 2;
+
+    @media screen and (max-width: 850px) {
+        margin-top: 10px; /* Prevents overlap issues on smaller screens */
+    }
+
+    @media screen and (max-width: 600px) {
+        margin-top: 20px; /* More spacing for very small screens */
+    }
+}

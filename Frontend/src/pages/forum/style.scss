@@ -1,0 +1,369 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1a1a1b; /* Dark background similar to Reddit's dark mode */
+  color: #d7dadc; /* Lighter text color for all body text */
+  margin: 0;
+  padding: 0;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: #1a1a1b;
+  width: 100%;
+  padding: 8px 25px;
+  border-bottom: 1px solid #343536;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+
+  .header-logo {
+    img {
+      width: 40px;
+      height: auto;
+    }
+  }
+
+  .header-nav {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    .nav-link {
+      text-decoration: none;
+      color: #d7dadc;
+      font-weight: bold;
+      border: 1px solid rgb(69, 68, 68);
+      padding: 5px 16px;
+      border-radius: 15px;
+
+      &:hover {
+        background: #343536;
+        color: #0079d3;
+      }
+    }
+  }
+
+  .left-menu {
+    display: flex;
+    gap: 70px;
+  }
+
+  .header-icons {
+    gap: 15px;
+
+    .icon-link {
+      color: #d7dadc;
+      font-size: 27px;
+
+      &:hover {
+        color: #0079d3;
+      }
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+   
+    padding: 10px 5px;
+    gap: 0;
+    .left-menu {
+     gap: 0px;
+    }
+    
+    .search-bar input {
+      padding: 0.5rem 0.4rem 0.3rem 2rem;
+      font-size: 14px;
+      width: 190px;
+      // margin-left: -15px;
+    }
+    .search-bar .search-icon{
+      left: 10px;
+      color: #c3c4c5;
+    }
+    
+    .search-results-list{
+      width: 390px;
+      left: -45px;
+  }
+  // .header-search {
+  //   input {
+  //     width: 150px; /* Narrower width for smaller screens */
+  //   }
+  // }
+  #logout-icon{
+    display: none;
+  }
+
+    .header-nav {
+      gap: 10px;
+      // display: flex;
+      // align-items: center;
+      .nav-link {
+       border: none;
+        padding: 4px 5px;
+      }
+     
+    }
+    .search-bar{
+      margin-left: 0;
+    }
+    .header-icons {
+      gap: 10px;
+
+      .icon-link {
+        font-size: 24px;
+      }
+
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+      }
+    
+    }
+  }
+
+  @media (max-width: 480px) {
+    // .header-nav {
+    //   display: none;
+    // }
+    
+   .header-logo img {
+      width: 33px;
+    }
+    .header-icons {
+      gap: 1px;
+      display: flex;
+
+      .icon-link {
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #1a1a1b; /* Dark background for the main container */
+}
+// @media (max-width: 768px) {
+//   .header {
+//     flex-direction: column;
+//     align-items: center;
+//   }
+//   .header-search {
+//     width: 90%; /* Make the search bar responsive */
+//     margin: 10px 0;
+//   }
+// }
+
+
+.content-container {
+  flex: 1;
+ 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d7dadc; /* Lighter title color */
+  margin-bottom: 20px;
+}
+
+.post-list {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #272729; /* Dark background for post container */
+  border: 0.1px solid #343536;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-wrapper {
+  margin-bottom: 20px;
+}
+
+.post {
+  background-color: #1c1c1e; /* Dark background for posts */
+  // margin: 15px 0;
+  // padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+  font-size: 12px;
+  color: #d7dadc; /* Lighter color for post metadata */
+  margin-bottom: 10px;
+}
+
+.post-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #d7dadc;
+  margin-bottom: 10px;
+}
+
+.post-body {
+  font-size: 14px;
+  color: #d7dadc; /* Light text for the post content */
+  margin-bottom: 15px;
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #d7dadc; /* Light footer text */
+}
+
+.post-footer button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  color: #ff4500; /* Reddit orange for like buttons */
+}
+
+.post-footer button:hover {
+  color: #d13600; /* Darker orange on hover */
+}
+
+.comments-link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: #d7dadc; /* Light color for comment links */
+}
+
+.comments-link:hover {
+  text-decoration: underline;
+}
+
+.subreddit {
+  font-weight: bold;
+  color: #0079d3; /* Blue color for subreddit links */
+}
+
+.subreddit:hover {
+  text-decoration: underline;
+}
+
+.author {
+  margin-left: 5px;
+  color: #d7dadc; /* Lighter text color for author */
+}
+
+.timestamp {
+  margin-left: 5px;
+  color: #818384; /* Slightly darker color for timestamp */
+}
+
+.vote-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  color: #ff4500;
+  display: flex;
+  align-items: center;
+}
+
+.vote-button svg {
+  margin-right: 5px;
+}
+
+.vote-button:hover {
+  color: #d13600;
+}
+
+.comments-link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: #d7dadc;
+  display: flex;
+  align-items: center;
+}
+
+.comments-link svg {
+  margin-right: 5px;
+}
+
+.comments-link:hover {
+  text-decoration: underline;
+}
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header-icons .icon-link {
+  margin-left: 10px;
+}
+.header-icons .icon-link {
+  position: relative;
+  display: inline-block;
+  margin: 0 10px;
+  cursor: pointer;
+
+  /* Tooltip styling */
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%; /* Position the tooltip above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  &:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1200px) {
+  .sidebar-component {
+    display: none;
+  }
+  
+  .header-search {
+    input {
+      width: 300px; /* Set the width to 300px for search bar input */
+    }
+  }
+  .header .left-menu{
+    gap: 0;
+  }
+}
+
+
+
+

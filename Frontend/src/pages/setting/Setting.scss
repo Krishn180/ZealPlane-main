@@ -1,0 +1,72 @@
+.settings-page {
+  background: #141414; /* Netflix-style dark background */
+  color: #ffffff; /* White text */
+  padding: 2rem;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #ffffff; /* White heading */
+  }
+
+  .setting-item {
+    background: #1f1f1f; /* Slightly lighter dark background */
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #757575; /* Gray text for descriptions */
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #3b3b3b;
+      border-radius: 4px;
+      background: #2b2b2b;
+      color: #ffffff;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #e50914; /* Netflix red */
+      color: #ffffff;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05); /* Slight hover effect */
+      }
+    }
+
+    .apply-verification-btn {
+      /* Same consistent styling for all buttons */
+    }
+
+    .update-mobile-btn {
+      /* Same consistent styling for all buttons */
+    }
+
+    .delete-account-btn {
+      background: #f47521; /* Distinct orange for delete button */
+    }
+
+    .logout-btn {
+      background: #3b3b3b; /* Subtle gray for logout button */
+    }
+  }
+}

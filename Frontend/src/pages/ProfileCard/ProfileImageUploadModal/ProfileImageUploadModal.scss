@@ -1,0 +1,77 @@
+.upload-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.image-preview-container {
+  position: relative;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto; /* Adjust height to maintain aspect ratio on mobile */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.image-preview-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  margin: 0 5px;
+}
+
+.upload-dragger {
+  margin-top: 20px;
+}
+
+.progress-container {
+  margin-top: 15px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .image-preview {
+    height: auto; /* Adjust the image height to auto on smaller screens */
+  }
+
+  .image-preview-actions {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center align buttons */
+  }
+
+  .edit-btn,
+  .delete-btn {
+    margin: 5px 0; /* Adjust button margin for better spacing */
+  }
+
+  .upload-dragger {
+    margin-top: 15px; /* Reduce margin for better mobile layout */
+  }
+
+  .progress-container {
+    margin-top: 10px; /* Adjust the margin for better fit on smaller screens */
+  }
+}
+
+// ProfileImageUploadModal.scss
+@media (max-width: 768px) {
+  .ant-modal {
+    width: 90% !important; // Adjust width for smaller screens
+    top: 10% !important; // Ensure modal is centered vertically
+  }
+  .image-preview-actions {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    align-items: center; /* Center align buttons */
+  }
+
+  .edit-btn,
+  .delete-btn {
+    margin: 5px 0; /* Adjust button margin for better spacing */
+  }
+}

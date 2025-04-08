@@ -1,0 +1,884 @@
+.detailsBanner {
+  width: 100%;
+  background-color: var(--black);
+  // padding-top: 100px;
+}
+.title {
+  color: white;
+  margin-top: 0px; /* Optional: Adjust as needed */
+}
+
+.title h1 {
+  font-size: 28px; /* Reduced font size */
+  margin: 0; /* Remove default margin */
+}
+
+
+
+.content1 {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  // flex-direction: column;
+  gap: 20px;
+ 
+  overflow: hidden;
+
+  .left1 {
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    width: fit-content;
+
+    
+    .posterImg {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .right1 {
+    width: 48vh; /* Fixed width */
+    height: 100%; /* Full height of the viewport */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    background-color: #1c1c1c; /* Dark background for a DeviantArt-like appearance */
+    padding: 18px; /* Add padding for spacing */
+    box-sizing: border-box;
+    position: fixed; /* Fixed position relative to the viewport */
+    top: 60px; /* Align to the top of the viewport */
+    right: 0; /* Align to the right of the viewport */
+    color: #e0e0e0; /* Light text color for contrast against dark background */
+    transition: all 0.3s ease;
+  }
+  
+  .project-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+  }
+  
+  .row-layout {
+    flex-direction: row; /* Arrange items in a row */
+  }
+  
+  .column-layout {
+    flex-direction: column; /* Arrange items in a column */
+  }
+  
+  .project-item {
+    position: relative;
+    margin: 10px; /* Space between items */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Ensure content stays within boundaries */
+    width: calc(50% - 20px); /* Adjust width for row layout */
+    transition: transform 0.3s ease, box-shadow 0.2s ease;
+  }
+  
+  .project-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Add a shadow effect on hover */
+  }
+  
+  .project-image {
+    width: 100%; /* Full width of the container */
+    height: 150px; /* Adjust height as needed */
+    object-fit: cover; /* Cover the area while maintaining aspect ratio */
+    border-radius: 8px 8px 0 0; /* Rounded top corners */
+  }
+  
+  .project-content {
+    position: absolute; /* Position content over the image */
+    top: 0; /* Align content to the top */
+    left: 0; /* Align content to the left */
+    right: 0; /* Align content to the right */
+    bottom: 0; /* Align content to the bottom */
+    background-color: rgba(0, 0, 0, 0.3 ); /* Semi-transparent background for better visibility */
+    color: #fffcfc; /* Lighter text color for visibility */
+    display: flex;
+    flex-direction: column;
+    justify-content: start; /* Center content vertically */
+    align-items: start; /* Center content horizontally */
+    opacity: 0; /* Hide content by default */
+    transition: opacity 0.3s ease; /* Smooth transition effect */
+    padding: 10px; /* Add padding for content */
+    text-align: start; /* Center text within content */
+  }
+  
+  .project-item:hover .project-content {
+    opacity: 1; /* Show content on hover */
+  }
+  
+  .project-content h4 {
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .project-content p {
+    margin: 0;
+    font-size: 15px;
+  }
+  
+  .avatarContainer2 {
+    position: absolute;
+    bottom: 10px; /* Position it near the bottom */
+    left: 10px;   /* Position it near the left */
+    display: flex;
+    align-items: center;
+  }
+  
+  .profileIcon2 img {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px; /* Add space between the image and the text */
+  }
+  
+  .profileIcon2 span {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  
+  .iconsContainer2 {
+    position: absolute;
+    bottom: 10px;
+    right: 10px; /* Align icons to the bottom right */
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .icons2 {
+    margin-left: 120px;
+  
+    .icon {
+      color: #fff;
+      font-size: 14px;
+    }
+  }
+
+  .plus-icon {
+    position: absolute;
+    right: 10px;
+    color: white;
+    background-color: transparent;
+    // padding: 10px;
+    // margin-top: -60px;
+    // border-radius: 10%;
+    border: 1px solid white;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .plus-icon:hover {
+    color: #1dbf73;
+    border: 1px solid #1dbf73;
+  }
+  
+  .plus-icon-inner {
+    font-size: 21px;
+  }
+  
+  
+  /* Media Queries for responsive design */
+  @media (max-width: 768px) {
+    .project-item {
+      width: calc(100% - 20px); /* Full width for smaller screens */
+    }
+  
+    .avatarContainer2 {
+      bottom: 5px; /* Adjust position for smaller screens */
+      left: 5px;   /* Adjust position for smaller screens */
+    }
+  
+    .iconsContainer2 {
+      bottom: 5px;
+      right: 5px; /* Adjust for smaller screens */
+      flex-direction: row; /* Display icons in a row for better fit */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .content1 .right1{
+      display: none;
+    }
+    .project-item {
+      width: calc(100% - 20px); /* Full width for very small screens */
+    }
+  
+    .project-image {
+      height: 120px; /* Adjust height for small screens */
+    }
+  
+    .project-content h4 {
+      font-size: 12px; /* Smaller font size for small screens */
+    }
+  
+    .project-content p {
+      font-size: 14px; /* Smaller font size for small screens */
+    }
+  
+    .profileIcon2 img {
+      width: 20px;
+      height: 20px; /* Adjust icon size for small screens */
+    }
+  
+    .profileIcon2 span {
+      font-size: 9px; /* Adjust text size for small screens */
+    }
+  
+    .iconsContainer2 {
+      gap: 4px; /* Reduce gap for small screens */
+    }
+  }
+}  
+// style.scss
+
+@keyframes scrollUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// .project-item:hover .iconsContainer2 {
+//   transform: scale(1.05); /* Slight zoom in on hover */
+// }
+
+
+
+
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  .likeButton,
+  .wishlistButton {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 5px 5px;
+    border-radius: 15px;
+
+    svg {
+      margin-right: 5px;
+    }
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+.created {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+  span {
+    color: #999;
+  }
+}
+
+.cardContainer {
+  margin-top: 20px;
+}
+
+.addProjectCard {
+  width: 50px;
+  height: 50px;
+}
+
+.addIconButton {
+  font-size: 24px;
+}
+
+.tags {
+  background-color: var(--pink);
+  padding: 3px 5px;
+  font-size: 12px;
+  border-radius: 4px;
+  color: white;
+  // width: 60px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-right: 5px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  opacity: 0.8; /* Initial opacity to make it semi-transparent */
+}
+
+.tags:hover {
+  background-color: rgba(var(--pink-rgb), 0.9); /* Hover background with increased opacity */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+
+
+@media only screen and (min-width: 768px) {
+  .detailsBanner .content .left .posterImg {
+    max-width: 600px;
+  }
+}
+
+
+.User-Profile {
+  display: flex;
+  width: 70vw;
+  align-items: center;
+  margin-bottom: 20px;
+  color: white;
+
+  .avatar-container {
+    margin-right: 20px;
+    img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+  }
+
+  .user-details {
+    .username {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .user-description {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #d3d3d2;
+    }
+
+    .user-stats {
+      display: flex;
+      margin-bottom: 10px;
+      color: #d3d3d2;
+
+      .stat {
+        margin-right: 20px;
+        text-align: center;
+
+        h4 {
+          font-size: 14px;
+          margin-bottom: 5px;
+        }
+
+        p {
+          font-size: 16px;
+          font-weight: bold;
+          margin: 0;
+        }
+      }
+    }
+
+    .edit-profile-btn {
+      padding: 10px 20px;
+      background-color: orangered; // Fiverr's primary green color
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #19a163; // Darker green on hover
+      }
+    }
+  }
+}
+
+// swiperStyles.scss
+
+.mySwiper {
+  width: 60vw;
+  height: 65vh; // Decrease height as needed for main Swiper container
+  overflow: auto;
+  margin-left: 0;
+  position: relative;
+
+
+  .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000 !important;
+      // width: 100%; 
+      height: 100%; // Ensure each slide has a fixed height
+      
+
+    
+
+    .TitleImg {
+      // top: 100px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      position: relative;
+      
+    }
+  }
+
+  
+
+/* Custom styles for Swiper navigation buttons */
+// .swiper-button-next,
+// .swiper-button-prev {
+
+//   color: #fff; /* Set the color of the navigation arrows */
+// }
+
+// /* Additional styling if you want the buttons to be more prominent */
+// .swiper-button-next::after,
+// .swiper-button-prev::after {
+//   font-size: 35px; /* Adjust the arrow icon size */
+// }
+
+// .swiper-button-next {
+//   right: 10px; /* Adjust position from the right */
+// }
+
+
+
+}
+
+
+.swiper-container {
+  position: relative;
+  width: 100%;
+
+}
+
+.swiper-main-wrapper {
+  position: relative;
+}
+
+.swiper-nav-buttons {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.custom-prev,
+.custom-next {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 40px;
+  color: #fff;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.swiper-pagination.custom-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+
+
+
+@media  (max-width: 1106px) {
+  .swiper-nav-buttons {
+    width: 80%; /* Arrows will stay inside swiper */
+    
+    position: absolute;
+  }
+
+ 
+
+  .custom-next {
+    right: -76px;
+  }
+}
+
+
+// @media  (min-width: 1180px) {
+//   .swiper-nav-buttons {
+//     width: 90%; /* Arrows will stay inside swiper */
+    
+//     position: absolute;
+//   }
+
+//  }
+
+
+
+// thumbanil
+
+.thumbImg{
+  width: 100%;
+}
+
+.mySwiper-thumbs {
+  height: 85px; /* Try setting a fixed height */
+
+  box-sizing: border-box;
+  margin-top: 10px; /* Adjust this as needed */
+
+  margin-left: 0px;
+}
+
+
+
+/* More specific styles for the active thumbnail */
+.mySwiper-thumbs .swiper-slide.swiper-slide-thumb-active {
+  opacity: 1 !important; /* Force full visibility for the active thumbnail */
+  border: 2px solid #fff; /* Add a border to the active thumbnail */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Add a shadow for highlight */
+  transition: opacity 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* Styles for non-active thumbnails */
+.mySwiper-thumbs .swiper-slide {
+  opacity: 0.7; /* Darken the non-active thumbnails */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity change */
+}
+
+
+.mySwiper-thumbs .swiper-slide img {
+  max-width: 100%;
+  // border-radius: 10px;
+  max-height: 100%;
+  object-fit: cover; /* Ensures the image covers the slide */
+}
+
+
+.menu {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.menuItem {
+  margin-right: 10px;
+  cursor: pointer;
+  gap:10px
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: inherit;
+}
+
+.icon {
+  font-size: 18px;
+}
+
+.iconBox:hover .icon {
+  color: #1dbf73;
+}
+
+// breadcrumb.scss
+.enhanced-breadcrumbs {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #62646a;
+
+  .breadcrumb-link {
+    display: flex;
+    align-items: center;
+    color: #95979d;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #1dbf73;
+    }
+
+    &::after {
+      content: '>';
+      margin: 0 8px;
+      color: #b0b1b4;
+    }
+
+    .breadcrumb-icon {
+      margin-right: 4px;
+    }
+  }
+
+  .breadcrumb-current {
+    color: #62646a;
+    font-weight: 700;
+  }
+
+  .breadcrumb-link:last-of-type::after {
+    content: '';
+  }
+
+  .chip-container {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    padding: 4px;
+    background-color: #f5f5f5;
+    border-radius: 16px;
+
+    .chip {
+      margin-right: 4px;
+      background-color: #007bff;
+      color: white;
+      font-size: 12px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 12px;
+    }
+  }
+}
+
+.menuItems {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  background-color: orange;
+  color: #333;
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-left: 5px;
+}
+
+.iconBox {
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 15px;
+  color: #555454;
+  cursor: pointer;
+}
+
+.avatarImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.description1 {
+  color: rgb(219, 218, 218);
+  margin-top: 30px;
+  font-size: 17px;
+  width: 60vw;
+  letter-spacing: 0.6px;
+
+  .Description-Title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+}
+
+.description1 a {
+  color: #1e90ff; /* Default link color */
+  text-decoration: underline; /* Default underline */
+}
+
+.description1 a:hover {
+  text-decoration: none; /* Underline remove on hover */
+}
+
+
+
+.project-description{
+  border-radius: 3px;
+  padding: 5px;
+  text-decoration: none;
+  width: 350px;
+}
+
+@media (max-width: 1224px) {
+  .content1 .right1{
+    width: 45vh;
+  }
+}
+
+
+
+/* Media Query for Tablet Screens */
+@media (max-width: 1105px) {
+  .content1 {
+    display: flex;
+    flex-direction: column; /* Ensure vertical stacking if required */
+  }
+  .mySwiper{
+    height: 490px;
+    width: 75vw;
+  }
+  .content1 .left1 {
+    margin-right: 20px; /* Add spacing between .left1 and .right1 */
+    width: 90vw;
+  }
+
+  .content1 .right1{
+    width: 15vh;
+    padding: 10px;
+    
+  
+  }
+  .content1 .project-item{
+    margin: 2px;
+    width: calc(100% - 20px);
+  }
+  .mySwiper-thumbs{
+    width: 400px;
+  }
+  .description1{
+    width: 80%;
+  }
+  .User-Profile{
+    width: 80vw;
+    display: contents;
+  }
+  .plus-icon{
+    margin-right: 130px;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  
+  .content1 .right1 {
+    display: none;
+  }
+  .description1{
+    width: 90%;
+    font-size: 13px;
+  }
+  .mySwiper{
+    width: 92vw;
+  }
+  .title h1{
+    font-size: 22px;
+  }
+  .User-Profile .user-details .username{
+    font-size: 20px;
+  }
+  .avatarImage{
+    width: 30px;
+    height: 30px;
+  }
+  .menuItem{
+    font-size: 13px;
+  }
+  .badge{
+    font-size: 9px;
+  }
+  .menuItems{
+    gap: 0;
+  }
+
+  .project-item {
+    width: 100%; /* Full width for project items */
+  }
+
+  .project-content h4 {
+    font-size: 12px; /* Adjust font size */
+  }
+  .User-Profile{
+    display: flex;
+    width: 77vw;
+  }
+  .plus-icon{
+    margin-right: 1px;
+  }
+  .mySwiper-thumbs{
+    width: 290px;
+  }
+}
+
+
+
+/* Media Query for Desktop Screens */
+@media (min-width: 1025px) {
+  
+  // .content1 .right1 {
+  //   width: 45vh;
+  // }
+
+  .project-item {
+    width: calc(33.33% - 20px); /* Three columns */
+  }
+}
+
+.tags-views-container {
+  display: flex;
+  align-items: center; /* Vertically center the items */
+  gap: 12px; /* Add space between tags and views, but not too much */
+  margin-top: 10px; /* Optional: Add some spacing from the above content */
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap; /* Allows tags to wrap into multiple lines if needed */
+  gap: 8px; /* Adds space between tags */
+}
+
+.tag-item {
+  background-color: #f1f1f1; /* Light gray background for each tag */
+  color: #333; /* Dark text for readability */
+  padding: 5px 10px; /* Padding around the tag */
+  font-size: 14px; /* Standard font size for tags */
+  border-radius: 15px; /* Rounded corners for tags */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.tag-item:hover {
+  background-color: #007bff; /* Hover effect with blue background */
+  color: white; /* Change text color on hover */
+}
+
+.views {
+  display: flex;
+  align-items: center; /* Align the icon and text vertically */
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.swiper-wrapper {
+  height: auto ;
+}

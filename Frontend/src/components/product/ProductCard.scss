@@ -1,0 +1,61 @@
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .product-card {
+    background-color: #222;
+    color: white;
+    border-radius: 10px;
+    padding: 10px; /* Reduced padding for smaller size */
+    width: 180px;  /* Reduced width for compact cards */
+    height: 320px; /* Reduced height for a more compact card */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: 150px; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensures the image scales properly without stretching */
+    border-radius: 10px;
+  }
+  
+  .product-details {
+    margin-top: 10px;
+    flex-grow: 1; /* Ensures content fills the remaining space */
+  }
+  
+  .product-title {
+    font-size: 16px; /* Adjusted font size for title */
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .product-category {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .product-price {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .buy-button {
+    background-color: orangered; /* Updated button color */
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 14px; /* Adjusted button font size */
+  }
+  
