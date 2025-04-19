@@ -287,7 +287,7 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
       }
   
       await axiosInstance.put(
-        `${apiBaseUrl}/projects/${projectId}`,
+        `${apiBaseUrl}/projects/id/${projectId}`,
         formData,
         {
           headers: {
