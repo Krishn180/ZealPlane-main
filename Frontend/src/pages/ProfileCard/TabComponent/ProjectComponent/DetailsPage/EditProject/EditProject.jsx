@@ -275,37 +275,41 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
 
   const handleUpdateProject = async () => {
     setLoading(true);
-  
+
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("tags", JSON.stringify(tags)); // send tags as stringified array
-  
-      if (thumbnailImage) {
-        formData.append("thumbnailImage", thumbnailImage); // append only if a new file is selected
+      // Perform PUT request for updated fields
+      if (name || description || tags.length) {
+        await axiosInstance.put(
+          `${apiBaseUrl}/projects/id/${projectId}`,
+          { name, description, tags },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
       }
-  
-      await axiosInstance.put(
-        `${apiBaseUrl}/projects/id/${projectId}`,
-        formData,
-        {
+
+      // Perform POST request for thumbnail image if updated
+      if (thumbnailImage) {
+        const formData = new FormData();
+        formData.append("projectId", projectId);
+        formData.append("thumbnailImage", thumbnailImage);
+
+        await axios.post(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
-        }
-      );
-  
+        });
+      }
+
       toast.success("Project updated successfully!");
-      handleClose(); // Close modal after successful update
+      onProjectUpdate(); // Notify parent to refresh data
+      handleClose(); // Close modal
     } catch (error) {
-      toast.error("Failed to update project.");
+      console.error("Error updating project:", error);
+      toast.error("Error updating project. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <Modal open={open} onClose={handleClose}>
