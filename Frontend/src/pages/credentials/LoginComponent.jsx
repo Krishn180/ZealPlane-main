@@ -65,8 +65,8 @@ export default function LoginComponent() {
 
       // Send the Google token to your backend for verification
       const response = await axios.post(
-        `http://localhost:5000/api/users/google-login`,
-        // `https://api.comicplane.site/api/users/google-login`,
+        // `http://localhost:5000/api/users/google-login`,
+        `https://api.comicplane.site/api/users/google-login`,
         {
           token: googleToken,
         }
