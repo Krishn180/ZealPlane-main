@@ -239,7 +239,7 @@ import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
+const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl, onProjectUpdate }) => {
   const [thumbnailImage, setThumbnailImage] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
