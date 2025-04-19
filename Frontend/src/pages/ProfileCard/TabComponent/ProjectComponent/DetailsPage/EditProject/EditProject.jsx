@@ -273,6 +273,40 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
     }
   };
 
+  const updateProject = async () => {
+    if (!name.trim()) {
+      toast.error("Project name is required.");
+      return;
+    }
+  
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    tags.forEach((tag) => formData.append("tags[]", tag));
+    if (thumbnailImage) {
+      formData.append("thumbnailImage", thumbnailImage);
+    }
+  
+    try {
+      await axiosInstance.put(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      toast.success("Project updated successfully!");
+      handleClose(); // close modal after update
+    } catch (error) {
+      toast.error("Failed to update project.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -372,11 +406,14 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
         </Box>
 
         <Button
-          variant="contained"
-          sx={{ bgcolor: "#ff4500", color: "#fff", mt: 2 }}
-        >
-          {loading ? <CircularProgress size={24} /> : "Update Project"}
-        </Button>
+  variant="contained"
+  sx={{ bgcolor: "#ff4500", color: "#fff", mt: 2 }}
+  onClick={updateProject}
+  disabled={loading}
+>
+  {loading ? <CircularProgress size={24} /> : "Update Project"}
+</Button>
+
       </Box>
     </Modal>
   );
