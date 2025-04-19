@@ -29,8 +29,8 @@
       margin-bottom: 15px;
 
       .profile-pic {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         margin-right: 20px;
         object-fit: cover;
@@ -44,7 +44,7 @@
       margin-bottom: 2px;
 
       .post-title {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
         color: #f3f3f3;
         margin: 0;
@@ -61,13 +61,13 @@
       }
 
       .post-author {
-        font-size: 14px;
+        font-size: 12px;
         color: #aaa;
         margin-top: 5px;
       }
 
       .post-timestamp {
-        font-size: 13px;
+        font-size: 11px;
         color: #888;
         margin-top: 2px;
       }
@@ -138,14 +138,17 @@
       }
     }
 
-    .post-image-container {
-      margin: 15px 0;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #383838;
-      width: 100%; /* Make image container responsive */
-      max-width: 100%; /* Ensure no stretching */
-    }
+   .post-image-container {
+  margin: 15px auto; /* Center the image horizontally */
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #383838;
+  width: 90%;        /* Make image container responsive */
+  max-width: 100%;   /* Ensure no stretching */
+  display: flex;     /* Optional: make sure content inside is centered */
+  justify-content: center; /* Center the image inside the container */
+}
+
 
     .post-image {
       width: 100%; /* Makes the image take full width */

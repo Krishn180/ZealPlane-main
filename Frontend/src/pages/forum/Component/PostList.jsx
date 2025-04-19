@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiUpvote } from "react-icons/bi";
 import { FaRegCommentAlt, FaRegShareSquare, FaArrowUp } from "react-icons/fa";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import linkifyHtml from "linkify-html";
+import { toast } from "react-toastify";
 import "./postList.scss";
 
 const PostList = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts || []);
   const token = localStorage.getItem("token");
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const navigate = useNavigate();
 
   const handleShare = (postId) => {
     console.log(`Shared post with ID: ${postId}`);
@@ -18,37 +20,21 @@ const PostList = ({ initialPosts }) => {
 
   const handleUpvote = async (postId, isUpvoted) => {
     try {
-      // Check if the token exists
       if (!token) {
-        toast.error(
-          "You are not authorized to perform this action. Please log in again."
-        );
-        navigate("/login"); // Optionally, redirect to login page
+        toast.error("You are not authorized to perform this action. Please log in.");
+        navigate("/login");
         return;
       }
 
       const decodedToken = jwtDecode(token);
       const currentUserId = decodedToken.uniqueId;
 
-      if (isUpvoted) {
-        // Remove the vote
-        await axios.put(
-          `${apiBaseUrl}/posts/votes/${postId}`,
-          { voteType: 0 },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        console.log("Vote removed!");
-      } else {
-        // Add an upvote
-        await axios.put(
-          `${apiBaseUrl}/posts/votes/${postId}`,
-          { voteType: 1 },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        console.log("Upvoted!");
-      }
+      await axios.put(
+        `${apiBaseUrl}/posts/votes/${postId}`,
+        { voteType: isUpvoted ? 0 : 1 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-      // Update the post's votes in the local state
       setPosts((prevPosts) =>
         prevPosts.map((post) =>
           post._id === postId
@@ -78,19 +64,11 @@ const PostList = ({ initialPosts }) => {
             <div className="post">
               <div className="post-header">
                 {post.profilePic && (
-                  <img
-                    src={post.profilePic}
-                    alt="Profile"
-                    className="profile-pic"
-                  />
+                  <img src={post.profilePic} alt="Profile" className="profile-pic" />
                 )}
                 <div className="post-title-container">
-                  <h3 className="post-title">
-                    {post.title || "No title available"}
-                  </h3>
-                  <span className="post-author">
-                    Posted by / {post.author || "Anonymous"}
-                  </span>
+                  <h3 className="post-title">{post.title || "No title available"}</h3>
+                  <span className="post-author">Posted by / {post.author || "Anonymous"}</span>
                   <span className="post-timestamp">
                     {post.timestamp
                       ? new Date(post.timestamp).toLocaleString()
@@ -124,8 +102,7 @@ const PostList = ({ initialPosts }) => {
                 </div>
                 <span className="post-comments">
                   <FaRegCommentAlt />{" "}
-                  {Array.isArray(post.comments) ? post.comments.length : 0}{" "}
-                  Comments
+                  {Array.isArray(post.comments) ? post.comments.length : 0} Comments
                 </span>
                 <span
                   className="post-share"
@@ -152,27 +129,41 @@ const PostBody = ({ body }) => {
     setIsExpanded((prev) => !prev);
   };
 
+  const formatParagraphs = (text, truncate = false) => {
+    if (!text) return "No content available";
+
+    const paragraphs = text.split(/<\/?p>/g).filter(p => p.trim() !== "");
+
+    return paragraphs
+      .map((para) => {
+        const words = para.trim().split(/\s+/);
+        if (truncate && words.length > 50) {
+          return `<p>${words.slice(0, 50).join(" ")}...</p>`;
+        }
+        return `<p>${para.trim()}</p>`;
+      })
+      .join("");
+  };
+
+  const shouldTruncate = body && body.split(/\s+/).length > 100;
+
   return (
     <div className="post-body-container">
       <p
         className="post-body"
         dangerouslySetInnerHTML={{
           __html: isExpanded
-            ? body || "No content available"
-            : body && body.length > 1000
-            ? body.substring(0, window.innerWidth <= 768 ? 500 : 1000) + "..."
-            : body || "No content available",
+            ? formatParagraphs(body, false)
+            : formatParagraphs(body, true),
         }}
         style={{ whiteSpace: "pre-wrap" }}
       ></p>
-      {!isExpanded && body && body.length > 100 && (
-        <button onClick={toggleContent} className="read-more-button">
-          Read more
-        </button>
-      )}
-      {isExpanded && (
-        <button onClick={toggleContent} className="read-less-button">
-          Read less
+      {shouldTruncate && (
+        <button
+          onClick={toggleContent}
+          className={isExpanded ? "read-less-button" : "read-more-button"}
+        >
+          {isExpanded ? "Read less" : "Read more"}
         </button>
       )}
     </div>

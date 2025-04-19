@@ -1,10 +1,11 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #1a1a1b; /* Dark background similar to Reddit's dark mode */
-  color: #d7dadc; /* Lighter text color for all body text */
+  font-family: 'Inter', sans-serif;
+  background-color: #1a1a1b;
+  color: #d7dadc;
   margin: 0;
   padding: 0;
 }
+
 .header {
   display: flex;
   align-items: center;
@@ -185,14 +186,17 @@ body {
 
 .post-list {
   width: 100%;
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 10px;
-  background-color: #272729; /* Dark background for post container */
+  max-width: 550px; /* Increased from 480px to 680px */
+  margin: 12px auto;
+  padding: 8px;
+  background-color: #272729;
   border: 0.1px solid #343536;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
+
+
 
 .post-wrapper {
   margin-bottom: 20px;
@@ -207,13 +211,13 @@ body {
 }
 
 .post-header {
-  font-size: 12px;
+  font-size: 10px;
   color: #d7dadc; /* Lighter color for post metadata */
   margin-bottom: 10px;
 }
 
 .post-title {
-  font-size: 18px;
+  font-size: 10px;
   font-weight: bold;
   color: #d7dadc;
   margin-bottom: 10px;

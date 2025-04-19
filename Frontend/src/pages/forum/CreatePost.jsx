@@ -118,9 +118,10 @@ const CreatePost = () => {
     }
 
     const cleanedBody = body
-      .replace(/<\/?p>/g, "")
-      .replace(/<br\s*\/?>/gi, "\n")
-      .replace(/background-color:[^;]+;/gi, ""); // Removes background-color styles
+    .replace(/<\/?p>/g, "")
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/background-color:[^;]+;/gi, ""); // Removes background-color styles
+  
 
     const postData = new FormData();
     postData.append("title", title);

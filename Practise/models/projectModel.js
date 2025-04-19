@@ -74,7 +74,7 @@ const projectSchema = new mongoose.Schema(
         viewedAt: { type: String, required: true },
       },
     ],
-    status: { type: String, required: true }, // Added status field (required)
+    status: { type: String }, // Added status field (required)
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
