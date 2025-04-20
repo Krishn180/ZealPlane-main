@@ -239,18 +239,18 @@ import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl, onProjectUpdate }) => {
+const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl }) => {
   const [thumbnailImage, setThumbnailImage] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
   const [loading, setLoading] = useState(false);
+  const [projectLoading, setProjectLoading] = useState(false);
   const token = localStorage.getItem("token");
-
-  // Responsive Modal
   const isMobile = useMediaQuery("(max-width:600px)");
 
+  // Fetch project data when modal opens
   useEffect(() => {
     if (open && projectId) {
       fetchProjectData();
@@ -258,54 +258,68 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl, onProjec
   }, [open, projectId]);
 
   const fetchProjectData = async () => {
+    setProjectLoading(true);
     try {
-      const { data } = await axiosInstance.get(
+      const response = await axiosInstance.get(
         `${apiBaseUrl}/projects/id/${projectId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setName(data.name || "");
-      setDescription(data.description || "");
-      setTags(data.tags || []);
+
+      const project = response.data;
+      console.log('project data is', project);
+
+      setName(project.project.name || "");
+      console.log('project name is', name);
+      
+      setDescription(project.project.description || "");
+      setTags(project.project.tags || []);
     } catch (error) {
-      toast.error("Failed to load project details.");
+      toast.error("Failed to load project data");
+    } finally {
+      setProjectLoading(false);
     }
   };
 
   const handleUpdateProject = async () => {
     setLoading(true);
-
     try {
-      // Perform PUT request for updated fields
-      if (name || description || tags.length) {
-        await axiosInstance.put(
-          `${apiBaseUrl}/projects/id/${projectId}`,
-          { name, description, tags },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      }
+      await axiosInstance.put(
+        `${apiBaseUrl}/projects/id/${projectId}`,
+        {
+          name,
+          description,
+          tags,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      // Perform POST request for thumbnail image if updated
       if (thumbnailImage) {
         const formData = new FormData();
         formData.append("projectId", projectId);
         formData.append("thumbnailImage", thumbnailImage);
 
-        await axios.post(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axiosInstance.post(
+          `${apiBaseUrl}/projects/id/${projectId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       }
 
       toast.success("Project updated successfully!");
-      onProjectUpdate(); // Notify parent to refresh data
-      handleClose(); // Close modal
+      handleClose();
     } catch (error) {
-      console.error("Error updating project:", error);
-      toast.error("Error updating project. Please try again.");
+      toast.error("Failed to update project");
     } finally {
       setLoading(false);
     }
@@ -323,17 +337,16 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl, onProjec
           borderRadius: "8px",
           boxShadow: 24,
           p: isMobile ? 2 : 4,
-          border: "1px solid gray",
-          color: "#d7dadc",
           width: isMobile ? "90%" : "600px",
-          height: isMobile ? "auto" : "600px",
           maxHeight: "90vh",
           overflowY: "auto",
+          color: "#fff",
+          border: "1px solid gray",
         }}
       >
         <IconButton
           onClick={handleClose}
-          sx={{ position: "absolute", top: 8, right: 8, color: "#d7dadc" }}
+          sx={{ position: "absolute", top: 8, right: 8, color: "#fff" }}
         >
           <FaTimes />
         </IconButton>
@@ -342,84 +355,107 @@ const UpdateProjectModal = ({ open, handleClose, projectId, apiBaseUrl, onProjec
           Update Project
         </Typography>
 
-        <TextField
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-          margin="normal"
-          sx={{
-            bgcolor: "#272729",
-            input: { color: "white" },
-          }}
-        />
-
-        <ReactQuill
-          theme="snow"
-          value={description}
-          onChange={setDescription}
-          style={{ backgroundColor: "#272729", color: "white" }}
-        />
-
-        <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
-          {tags.map((tag) => (
-            <Chip
-              key={tag}
-              label={tag}
-              sx={{ bgcolor: "#ff4500", color: "#fff" }}
+        {projectLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <>
+            <TextField
+              label="Project Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              margin="normal"
+              sx={{
+                bgcolor: "#272729",
+                input: { color: "white" },
+                label: { color: "white" },
+              }}
             />
-          ))}
-        </Box>
 
-        <Box sx={{ display: "flex", mt: 2, gap: 1 }}>
-          <TextField
-            label="Add Tag"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            fullWidth
-            sx={{ bgcolor: "#272729" }}
-          />
-          <IconButton onClick={() => setTags([...tags, newTag.trim()])}>
-            <FaPlus />
-          </IconButton>
-        </Box>
+            <Typography sx={{ mt: 2, mb: 1 }}>Description</Typography>
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={setDescription}
+              style={{ backgroundColor: "#272729", color: "#fff", marginBottom: "20px" }}
+            />
 
-        <Box sx={{ display: "flex", alignItems: "center", mt: 2, gap: 1 }}>
-          <input
-            type="file"
-            id="thumbnail-upload"
-            style={{ display: "none" }}
-            onChange={(e) => setThumbnailImage(e.target.files[0])}
-          />
-          <label htmlFor="thumbnail-upload">
-            <IconButton component="span">
-              <FiCamera
-                style={{
-                  fontSize: "24px",
-                  color: "white",
-                  background: "transparent",
-                  borderRadius: "50%",
-                  padding: "4px",
-                  boxShadow: "0 0 9px rgba(215, 203, 205, 0.8)",
+            <Typography sx={{ mt: 2, mb: 1 }}>Tags</Typography>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
+              {tags.map((tag, idx) => (
+                <Chip
+                  key={idx}
+                  label={tag}
+                  onDelete={() => {
+                    const newTags = [...tags];
+                    newTags.splice(idx, 1);
+                    setTags(newTags);
+                  }}
+                  sx={{ bgcolor: "#ff4500", color: "white" }}
+                />
+              ))}
+            </Box>
+
+            <Box sx={{ display: "flex", gap: 1, mb: 3 }}>
+              <TextField
+                label="New Tag"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                fullWidth
+                sx={{
+                  bgcolor: "#272729",
+                  input: { color: "white" },
+                  label: { color: "white" },
                 }}
               />
-            </IconButton>
-          </label>
-          <Typography>
-            {thumbnailImage ? thumbnailImage.name : "Upload Thumbnail"}
-          </Typography>
-        </Box>
+              <IconButton
+                onClick={() => {
+                  if (newTag.trim()) {
+                    setTags([...tags, newTag.trim()]);
+                    setNewTag("");
+                  }
+                }}
+                sx={{ color: "#fff" }}
+              >
+                <FaPlus />
+              </IconButton>
+            </Box>
 
-        <Button
-  variant="contained"
-  sx={{ bgcolor: "#ff4500", color: "#fff", mt: 2 }}
-  onClick={handleUpdateProject}
-  disabled={loading}
->
-  {loading ? <CircularProgress size={24} /> : "Update Project"}
-</Button>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+              <input
+                type="file"
+                id="thumbnail-upload"
+                style={{ display: "none" }}
+                onChange={(e) => setThumbnailImage(e.target.files[0])}
+              />
+              <label htmlFor="thumbnail-upload">
+                <IconButton component="span">
+                  <FiCamera style={{ color: "white" }} />
+                </IconButton>
+              </label>
+              <Typography sx={{ ml: 2 }}>
+                {thumbnailImage ? thumbnailImage.name : "Upload New Thumbnail"}
+              </Typography>
+            </Box>
+
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleUpdateProject}
+              disabled={loading}
+              sx={{ bgcolor: "#ff4500", color: "#fff" }}
+            >
+              {loading ? <CircularProgress size={24} color="inherit" /> : "Update Project"}
+            </Button>
+          </>
+        )}
       </Box>
     </Modal>
   );
 };
 
 export default UpdateProjectModal;
+
+
