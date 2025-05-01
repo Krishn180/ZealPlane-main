@@ -27,6 +27,7 @@ app.use(
       "https://comicplane.site",
       "http://localhost:5173",
       "http://comicplane.site",
+      'https://www.comicplane.site'
     ], // Allow frontend origins
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these HTTP methods
     credentials: true, // Allow cookies and authentication
