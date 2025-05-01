@@ -3,6 +3,7 @@ import axios from "axios";
 import PostList from "./Component/PostList";
 import Header from "./Component/Header";
 import Sidebar from "./Component/Sidebar";
+import CuratedSidebar from "./Component/right-sidebar/right-sidebar";  // New CuratedSidebar Component
 import "./style.scss";
 import Spinner from "../../components/spinner/Spinner";
 import axiosInstance from "../../Auth/Axios";
@@ -35,17 +36,22 @@ const Home = () => {
   return (
     <div className="home-container">
       <Header />
-      <div className="sidebar-component">
-        <Sidebar />
-      </div>
-      <div className="main-content" style={{ marginTop: "55px" }}>
-        <main className="content-container">
-          {loading ? (
-            <Spinner /> // Show spinner while data is loading
-          ) : (
-            <PostList initialPosts={combinedPosts} /> // Show posts when data is loaded
-          )}
-        </main>
+      <div className="main-layout">
+        <div className="sidebar-component">
+          <Sidebar />
+        </div>
+        <div className="main-content" style={{ marginTop: "55px" }}>
+          <main className="content-container">
+            {loading ? (
+              <Spinner /> // Show spinner while data is loading
+            ) : (
+              <PostList initialPosts={combinedPosts} /> // Show posts when data is loaded
+            )}
+          </main>
+        </div>
+        <div className="curated-sidebar">
+          <CuratedSidebar /> {/* New CuratedSidebar */}
+        </div>
       </div>
     </div>
   );

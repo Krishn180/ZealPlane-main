@@ -14,7 +14,8 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "project_images", // Set the folder to project_images
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg', 'ico', 'heif', 'heic', 'avif'], // Allowing a wide range of image formats
+    resource_type: 'image',  // Ensure it's an image
   },
 });
 
@@ -23,8 +24,8 @@ const upload = multer({ storage: storage });
 
 // Middleware to handle single thumbnail image and multiple additional images
 const projectUpload = {
-  singleThumbnail: upload.single('thumbnailImage'),
-  multipleImages: upload.array('additionalImages', 10) // Handle up to 10 additional images
+  singleThumbnail: upload.single('thumbnailImage'), // Handle single thumbnail image
+  multipleImages: upload.array('additionalImages', 10), // Handle up to 10 additional images
 };
 
 module.exports = projectUpload;

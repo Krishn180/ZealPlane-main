@@ -10,6 +10,9 @@
   }
 
   .post {
+    width: 100%; // Make it stretch full width of the container
+    max-width: 900px; // Optional: set a max width for large screens
+    margin: 0 auto 20px auto; // Center align and give some bottom margin
     background-color: #1c1c1c;
     border: 1px solid rgb(61, 61, 61);
     border-radius: 12px;

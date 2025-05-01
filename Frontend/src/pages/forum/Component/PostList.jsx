@@ -125,36 +125,28 @@ const PostList = ({ initialPosts }) => {
 const PostBody = ({ body }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const toggleContent = () => {
-    setIsExpanded((prev) => !prev);
-  };
+  const toggleContent = () => setIsExpanded((prev) => !prev);
 
-  const formatParagraphs = (text, truncate = false) => {
+  const formatContent = (text, truncate = false) => {
     if (!text) return "No content available";
 
-    const paragraphs = text.split(/<\/?p>/g).filter(p => p.trim() !== "");
+    const words = text.trim().split(/\s+/); // Split the body text into words
 
-    return paragraphs
-      .map((para) => {
-        const words = para.trim().split(/\s+/);
-        if (truncate && words.length > 50) {
-          return `<p>${words.slice(0, 50).join(" ")}...</p>`;
-        }
-        return `<p>${para.trim()}</p>`;
-      })
-      .join("");
+    if (truncate && words.length > 20) {
+      return words.slice(0, 20).join(" ") + "..."; // Truncate to 20 words
+    }
+
+    return text; // Return full text if not truncated
   };
 
-  const shouldTruncate = body && body.split(/\s+/).length > 100;
+  const shouldTruncate = body && body.split(/\s+/).length > 20; // Truncate if more than 20 words
 
   return (
     <div className="post-body-container">
       <p
         className="post-body"
         dangerouslySetInnerHTML={{
-          __html: isExpanded
-            ? formatParagraphs(body, false)
-            : formatParagraphs(body, true),
+          __html: isExpanded ? body : formatContent(body, true),
         }}
         style={{ whiteSpace: "pre-wrap" }}
       ></p>
@@ -169,5 +161,7 @@ const PostBody = ({ body }) => {
     </div>
   );
 };
+
+
 
 export default PostList;
