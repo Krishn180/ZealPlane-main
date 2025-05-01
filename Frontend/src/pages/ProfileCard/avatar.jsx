@@ -17,6 +17,7 @@ import { FiCamera } from "react-icons/fi";
 import ProfileImageUploadModal from "./ProfileImageUploadModal/ProfileImageUploadModal";
 import axiosInstance from "../../Auth/Axios";
 import EnquiryModal from "./EnquiryModal/EnquiryModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const AvatarComponent = () => {
   const [activeTabKey, setActiveTabKey] = useState("postroom");
@@ -43,6 +44,7 @@ const AvatarComponent = () => {
   const handleEnquiryOpen = () => setIsEnquiryModalOpen(true);
   const handleEnquiryClose = () => setIsEnquiryModalOpen(false);
   const [status, setStatus] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(false);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
@@ -187,6 +189,41 @@ const AvatarComponent = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+
+  useEffect(() => {
+    const checkFollowStatus = async () => {
+      try {
+        const res = await axiosInstance.get(`/users/${id}/following`);
+        console.log("Following data from backend:", res.data);
+  
+        const followingIds = res.data.map(user => user._id);
+        setIsFollowing(followingIds.includes(id));
+      } catch (err) {
+        console.error("Error checking follow status", err);
+      }
+    };
+  
+    if (userId && id) checkFollowStatus();
+  }, [userId, id]);
+  
+
+  const handleSendConnectionRequest = async () => {
+    try {
+      const response = await axiosInstance.post(`users/toggle-follow`, {
+        senderId: userId,
+        receiverId: id,
+      });
+  
+      toast.success(response.data.msg);
+  
+      // ✅ Toggle follow state after successful response
+      setIsFollowing(prev => !prev);
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Failed to send request");
+    }
+  };
+  
 
   return (
     <div
@@ -500,17 +537,27 @@ const AvatarComponent = () => {
                           )}
                         </>
                       )}
-                      <Row justify="center" style={{ marginTop: "20px" }}>
-                        <Col>
-                          <Button
-                            type="button"
-                            className="custom-button"
-                            onClick={handleEnquiryOpen}
-                          >
-                            Enquiry
-                          </Button>
-                        </Col>
-                      </Row>
+                   <Row justify="center" style={{ marginTop: "20px" }}>
+  <Col>
+    <Button
+      type="button"
+      className="custom-button"
+      onClick={handleEnquiryOpen}
+    >
+      Enquiry
+    </Button>
+  </Col>
+  <Col style={{ marginLeft: "10px" }}>
+    <Button
+      type="button"
+      className="custom-button"
+      onClick={handleSendConnectionRequest}
+    >
+       {isFollowing ? 'Unfollow' : 'Follow'}
+    </Button>
+  </Col>
+</Row>
+
                       <div className="text-muted">
                         <small style={{ color: "white" }}>
                           Last seen status

@@ -480,9 +480,11 @@ const deleteComment = async (req, res) => {
 
 const likeProject = async (req, res) => {
   try {
+    // Find the project by projectId
     const project = await Project.findOne({
       projectId: req.params.projectId,
     }).populate("likedBy", "username"); // Populate 'likedBy' with user data
+
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -499,12 +501,12 @@ const likeProject = async (req, res) => {
       (user) => user._id.toString() === userId
     );
 
+    // If the user hasn't liked the project, add the like
     if (userIndex === -1) {
-      // User has not liked the project yet, so like it
       project.likes += 1;
       project.likedBy.push(userId); // Add user to likedBy array
     } else {
-      // User has already liked the project, so unlike it
+      // If the user already liked the project, remove the like
       project.likes -= 1;
       project.likedBy.splice(userIndex, 1); // Remove user from likedBy array
     }
@@ -512,13 +514,30 @@ const likeProject = async (req, res) => {
     // Save the updated project
     const updatedProject = await project.save();
 
-    // Re-populate likedBy to include user details
-    const populatedProject = await Project.findById(
-      updatedProject._id
-    ).populate("likedBy", "username");
+    // Now, calculate the total likes for all projects belonging to the user
+    const user = await User.findById(req.user.userId); // Get the user object
+    if (user) {
+      // Use aggregation to get the total likes across all the user's projects
+      const totalLikes = await Project.aggregate([
+        { $match: { username: user.username } }, // Filter projects by the user's username
+        { $group: { _id: null, totalLikes: { $sum: "$likes" } } } // Sum the likes
+      ]);
 
-    // Return the updated project in the response
-    res.json(populatedProject);
+      // If total likes exist, update the totalLikes field in the user model
+      if (totalLikes.length > 0) {
+        user.totalLikes = totalLikes[0].totalLikes;
+        await user.save(); // Save the updated totalLikes in the user model
+      }
+    }
+
+    // Re-populate likedBy to include user details after saving
+    const populatedProject = await Project.findById(updatedProject._id).populate("likedBy", "username");
+
+    // Return the updated project with the total likes
+    res.json({
+      project: populatedProject,
+      totalLikes: user ? user.totalLikes : 0, // Send back the updated totalLikes
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

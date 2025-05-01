@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -9,9 +10,11 @@ import {
   RadialLinearScale,
   Filler
 } from 'chart.js';
-import './RadarChart.scss'; // Import SCSS styles
+import './RadarChart.scss';
+import axiosInstance from '../../Auth/Axios';
+import { useParams } from 'react-router-dom';
 
-// Register the required chart elements
+
 ChartJS.register(
   LineElement,
   PointElement,
@@ -22,66 +25,92 @@ ChartJS.register(
 );
 
 export default function RadarChartExample() {
-  // Event handler for when a label is clicked
-  const handleLabelClick = (event, label) => {
-    console.log(`Clicked on label: ${label}`);
-  };
+  const [popularity, setPopularity] = useState(0);
+  const { id } = useParams();
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  console.log("userId fetched from useparams are", id);
+  
 
-  // Radar chart data (you can replace this with DOTA-style stats later)
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const res = await axiosInstance.get(`${apiBaseUrl}/users/${id}`);
+        console.log("total number of likes recieved for user", res.data);
+        
+        const likes = res.data.user.totalLikes;
+        console.log("total likes are", likes);
+        
+        // Normalize popularity value (e.g., max out at 100)
+        const normalized = Math.min((likes / 100) * 100, 100); // Adjust scale as needed
+        setPopularity(normalized);
+      } catch (err) {
+        console.error('Failed to fetch total likes:', err);
+      }
+    };
+
+    fetchLikes();
+  }, [id]);
+
   const data = {
-    labels: ['Strength', 'Agility', 'Intelligence', 'Attack', 'Speed'],
+    labels: ['Popularity', 'Recognition', 'Monetary', 'Connections', 'Grind'],
     datasets: [{
-      label: 'Hero Stats',
-      data: [85, 70, 60, 90, 80], // Example data points
-      backgroundColor: 'rgba(255, 255, 0, 0.2)', // Aqua color with transparency
-      borderColor: 'rgba(255, 255, 0, 1)', // Solid Aqua for borders
-      pointBackgroundColor: 'rgba(255, 0, 0, 1)', // Solid Red for points
+      label: 'User Stats',
+      data: [popularity, 60, 50, 40, 90],
+      backgroundColor: 'rgba(255, 215, 0, 0.3)',
+      borderColor: 'rgba(255, 215, 0, 1)',
+      pointBackgroundColor: 'rgba(255, 0, 0, 1)',
       pointBorderColor: 'rgba(255, 0, 0, 1)',
+      pointHoverRadius: 6,
+      pointRadius: 4,
     }]
   };
 
-  // Radar chart options to customize appearance and behavior
   const options = {
+    responsive: true,
     onClick: (event, elements) => {
-      // Handle the click event on the radar chart
       if (elements && elements.length > 0) {
         const clickedLabel = data.labels[elements[0].index];
-        handleLabelClick(event, clickedLabel);
+        console.log(`Clicked on label: ${clickedLabel}`);
       }
     },
     elements: {
       line: {
         borderWidth: 2,
       },
-      point: {
-        radius: 2, // Larger point radius for more emphasis
-        borderWidth: 1, // Thicker point borders
-      },
     },
     scales: {
       r: {
-        grid: {
-          color: 'rgba(255, 255, 255, 0.1)', // Subtle grid lines
-        },
         angleLines: {
-          color: 'rgba(255, 255, 255, 0.9)', // Light angle lines
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.05)',
         },
         pointLabels: {
           font: {
             size: 14,
-            weight: 'bold',
-            family: "'Poppins', sans-serif" // Similar to DOTA font style
+            weight: '600',
+            family: "'Orbitron', sans-serif"
           },
-          color: '#fff', // White label color for radar chart
+          color: '#FFD700',
         },
         ticks: {
-          display: false, // Hide the ticks
+          display: false
         },
+        suggestedMin: 0,
+        suggestedMax: 100
       },
     },
     plugins: {
       legend: {
-        display: false, // Hide the legend for cleaner look
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: '#111',
+        titleColor: '#FFD700',
+        bodyColor: '#fff',
+        borderColor: '#FFD700',
+        borderWidth: 1,
       },
     },
   };

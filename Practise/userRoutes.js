@@ -9,6 +9,9 @@ const {
   searchUsers,
   googleLoginUser,
   getUserByUsername, // New controller function for Google login
+  toggleFollow,
+  getFollowers,
+  getFollowing
 } = require("./controllers/userController");
 const upload = require("./midleware/upload"); // Import the configured multer instance
 const ValidateToken = require("./midleware/validateTokenHandler");
@@ -51,5 +54,11 @@ router.delete("/:id", ValidateToken, deleteUser);
 
 // Get user by username (useful for search functionality)
 router.get("/username/:username", ValidateToken, getUserByUsername);
+
+router.post('/toggle-follow', toggleFollow);
+router.get('/:id/following', getFollowing);
+router.get('/:id/followers', getFollowers);
+
+
 
 module.exports = router;

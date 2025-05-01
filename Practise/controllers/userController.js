@@ -5,6 +5,8 @@ const { v4: uuidv4 } = require("uuid");
 const nodemailer = require("nodemailer");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
+const { get } = require("../contactsRoutes");
+const mongoose = require('mongoose');
 
 // Temporary storage for OTPs
 const otpStore = new Map();
@@ -513,6 +515,71 @@ const getUserByUsername = asynchandler(async (req, res) => {
     }); // Respond with a structured JSON error message
   }
 });
+// Send friend request
+const toggleFollow = async (req, res) => {
+  const { senderId, receiverId } = req.body;
+
+  console.log("Received senderId:", senderId);
+  console.log("Received receiverId:", receiverId);
+
+  if (!senderId || !receiverId) {
+    return res.status(400).json({ msg: 'Missing user ID(s)' });
+  }
+
+  // Prevent user from following themselves
+  if (senderId === receiverId) {
+    return res.status(400).json({ msg: "You can't follow yourself" });
+  }
+
+  try {
+    const user = await User.findOne({ uniqueId: senderId });
+    const targetUser = await User.findOne({ uniqueId: receiverId });
+
+    if (!user || !targetUser) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+
+    const isFollowing = user.following.includes(receiverId);
+
+    if (isFollowing) {
+      user.following = user.following.filter(id => id !== receiverId);
+      targetUser.followers = targetUser.followers.filter(id => id !== senderId);
+    } else {
+      user.following.push(receiverId);
+      targetUser.followers.push(senderId);
+    }
+
+    await user.save();
+    await targetUser.save();
+
+    return res.status(200).json({ msg: `Successfully ${isFollowing ? 'unfollowed' : 'followed'} user.` });
+  } catch (error) {
+    console.error("Error toggling follow:", error);
+    return res.status(500).json({ msg: 'Server error', error });
+  }
+};
+
+
+
+const getFollowing = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate("following", "username profilePic");
+    res.json(user.following);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const getFollowers = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate("followers", "username profilePic");
+    res.json(user.followers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 
 module.exports = {
   registerUser,
@@ -523,4 +590,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserByUsername,
+  toggleFollow,
+  getFollowers,
+  getFollowing
 };

@@ -73,6 +73,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    totalLikes: {
+      type: Number,
+      default: 0, // Initialize with 0
+    },
     refreshToken: { type: String }, // Store refresh token here
     level: {
       type: String,
@@ -87,6 +91,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null, // Store Google token if needed
     },
+  
+    following: [{ type: String, ref: 'User' }],
+    followers: [{ type: String, ref: 'User' }],
+    
   },
   {
     timestamps: true,
