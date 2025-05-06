@@ -23,22 +23,21 @@ app.use(express.json());
 
 const cors = require("cors");
 
-app.use(
-  cors({
-    origin: [
-      "https://comicplane.site",
-      "http://localhost:5173",
-      "http://comicplane.site",
-      'https://www.comicplane.site'
-    ], // Allow frontend origins
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these HTTP methods
-    credentials: true, // Allow cookies and authentication
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers that might be included in the request
-  })
-);
+const corsOptions = {
+  origin: [
+    "https://comicplane.site",
+    "https://www.comicplane.site",
+    "http://comicplane.site",
+    "http://localhost:5173",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-// ✅ Ensure OPTIONS request is handled properly
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // <-- use same config
+
 
 const port = process.env.PORT || 5000; // Default to 5000 if no PORT environment variable is set
 
