@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom"; // Import useParams
 import axiosInstance from "../../Auth/Axios";
 import "./Checkout.scss";
+import { Link } from "react-router-dom"; // Add Link
+
 
 const Checkout = () => {
-  const location = useLocation();
-  const { product } = location.state || {}; // Get product data from state
+  const { id } = useParams(); // Use useParams to get the product ID from the URL params
 
   const [user, setUser] = useState(null);
+  const [product, setProduct] = useState(null); // State to store product data
   const [loading, setLoading] = useState(true);
   const [purchaseLoading, setPurchaseLoading] = useState(false); // Loading for purchase process
   const [error, setError] = useState("");
   const [purchaseStatus, setPurchaseStatus] = useState(""); // Success/Error message
-
+  
   const userId = localStorage.getItem("Id");
 
   useEffect(() => {
+    // Fetch user data from API
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -32,8 +35,45 @@ const Checkout = () => {
       }
     };
 
-    fetchUserData();
-  }, []);
+    const handleAddToCart = (product) => {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingItem = cart.find(item => item._id === product._id);
+    
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+    
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`🛒 ${product.title} has been added to your cart!`);
+    };
+    
+
+    // Fetch product data from API
+    const fetchProductData = async () => {
+      try {
+        console.log("Fetching product with ID:", id); // Log the product ID
+        const response = await axiosInstance.get(`/products/${id}`);
+        console.log("Product data:", response.data); // Log the product data
+
+        if (response.data) {
+          setProduct(response.data); // Set product state
+        } else {
+          setError("❌ Product not found.");
+        }
+      } catch (err) {
+        setError("❌ Failed to fetch product data. Please try again.");
+        console.error("Failed to fetch product:", err);
+      }
+    };
+
+    if (id) {
+      fetchProductData(); // Fetch product data if productId exists
+    }
+
+    fetchUserData(); // Fetch user data
+  }, [id, userId]); // Re-run when productId or userId changes
 
   const handleConfirmPurchase = async () => {
     if (!user || !product) return;
@@ -86,11 +126,9 @@ const Checkout = () => {
     }
   };
 
-  if (!product)
-    return <p className="error-message">❌ No product data found!</p>;
-  if (loading)
-    return <p className="loading-message">🔄 Loading user data...</p>;
+  if (loading) return <p className="loading-message">🔄 Loading user data...</p>;
   if (error) return <p className="error-message">{error}</p>;
+  if (!product) return <p className="error-message">❌ No product data found!</p>;
 
   const isUserUpdated = user?.fullName && user?.address;
 
@@ -100,7 +138,7 @@ const Checkout = () => {
       <div className="checkout-details">
         <div className="checkout-image-container">
           <img
-            src={product.image}
+            src={product.thumbnail}
             alt={product.title}
             className="checkout-product-image"
           />
@@ -152,12 +190,15 @@ const Checkout = () => {
           {purchaseStatus && (
             <p className="purchase-message">{purchaseStatus}</p>
           )}
-          {!isUserUpdated && (
-            <p className="error-message">
-              ⚠️ Please update your user info to proceed.You can update your
-              data in settings
-            </p>
-          )}
+      {!isUserUpdated && (
+  <p className="error-message">
+    ⚠️ Please update your user info to proceed. You can update it in{" "}
+    <Link to="/settings" style={{ color: "#FF5733", fontWeight: "bold" }}>
+      Settings
+    </Link>.
+  </p>
+)}
+
         </div>
       </div>
     </div>

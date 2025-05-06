@@ -194,7 +194,7 @@ const AvatarComponent = () => {
   useEffect(() => {
     const checkFollowStatus = async () => {
       try {
-        const res = await axiosInstance.get(`/users/${id}/following`);
+        const res = await axiosInstance.get(`/users/${id}/followers`);
         console.log("Following data from backend:", res.data);
   
         const followingIds = res.data.map(user => user._id);
@@ -215,14 +215,30 @@ const AvatarComponent = () => {
         receiverId: id,
       });
   
+      // Show success message from the API response
       toast.success(response.data.msg);
   
-      // ✅ Toggle follow state after successful response
+      // Update the local follow status based on the response
       setIsFollowing(prev => !prev);
+  
+      // Optionally, update user data if needed
+      // For example, you can also update local user data with new follower/following info
+      // Example: (Assuming response contains the target user's info)
+      const { uniqueId, username, profilePic } = response.data.user;
+      setTargetUser(prevUser => ({
+        ...prevUser,
+        uniqueId,
+        username,
+        profilePic,
+      }));
+  
     } catch (error) {
+      // Handle errors, show error message
       toast.error(error.response?.data?.msg || "Failed to send request");
     }
   };
+  
+  
   
 
   return (
@@ -548,14 +564,15 @@ const AvatarComponent = () => {
     </Button>
   </Col>
   <Col style={{ marginLeft: "10px" }}>
-    <Button
-      type="button"
-      className="custom-button"
-      onClick={handleSendConnectionRequest}
-    >
-       {isFollowing ? 'Unfollow' : 'Follow'}
-    </Button>
-  </Col>
+  <Button
+    type="button"
+    className="custom-button"
+    onClick={handleSendConnectionRequest}
+  >
+    {isFollowing ? 'Unfollow' : 'Follow'}
+  </Button>
+</Col>
+
 </Row>
 
                       <div className="text-muted">

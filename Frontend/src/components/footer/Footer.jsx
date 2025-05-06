@@ -68,6 +68,7 @@ import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/userAction";
+import { Link } from "react-router-dom"; // Import Link for routing
 
 import LogoImage from "../../assets/logoZP.png"; // Your company logo image
 import "./style.scss";
@@ -92,11 +93,19 @@ const Footer = () => {
 
         {/* Navigation Links */}
         <ul className="menuItems">
-          <li className="menuItem">Terms Of Use</li>
-          <li className="menuItem">Privacy Policy</li>
-          <li className="menuItem">About</li>
+          <li className="menuItem">
+            <Link to="/terms-of-use">Terms Of Use</Link>
+          </li>
+          <li className="menuItem">
+            <Link to="/privacy-policy">Privacy Policy</Link>
+          </li>
+          <li className="menuItem">
+            <Link to="/about">About</Link> {/* Link to About Page */}
+          </li>
+          <li className="menuItem">
+            <Link to="/faq">FAQ</Link> {/* Link to FAQ Page */}
+          </li>
           <li className="menuItem">Blog</li>
-          <li className="menuItem">FAQ</li>
         </ul>
 
         {/* Social Media Icons */}
@@ -126,7 +135,7 @@ const Footer = () => {
             <FaTwitter />
           </a>
           <a
-            href=""
+            href="https://www.linkedin.com/company/zealplane"
             target="_blank"
             rel="noopener noreferrer"
             className="icon linkedin"

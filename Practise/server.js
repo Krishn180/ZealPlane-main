@@ -10,6 +10,8 @@ const likeRouter = require("./routes/likeRoutes");
 const forumPost = require("./routes/postRoutes");
 const notification = require("./routes/notificationRoutes");
 const refreshToken = require("./routes/refreshTokenRoutes");
+const productroutes = require("./routes/e-commerce routes/productroutes");
+const ordersRoutes = require("./routes/e-commerce routes/orderRoutes");
 
 // Connect to the database
 connectDb();
@@ -43,6 +45,8 @@ const port = process.env.PORT || 5000; // Default to 5000 if no PORT environment
 // Route middlewares
 app.use("/api/contacts", contactsRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/products", productroutes);
+app.use("/api/orders", ordersRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/comments", commentRouter);
 app.use("/api/like", likeRouter);

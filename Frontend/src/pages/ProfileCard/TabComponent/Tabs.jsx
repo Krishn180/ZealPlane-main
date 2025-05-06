@@ -7,6 +7,7 @@ import ProjectComponent from "./ProjectComponent/ProjectComponent.jsx";
 import axios from "axios"; // Import axios for API calls
 import Spinner from "../../../components/spinner/Spinner.jsx"; // Import Spinner component
 import axiosInstance from "../../../Auth/Axios.jsx";
+import ProductComponent from "./ProductComponent/ProductComponent.jsx";
 
 const TabComponent = () => {
   const [activeTabKey, setActiveTabKey] = useState("postroom");
@@ -31,6 +32,11 @@ const TabComponent = () => {
     //   key: "feedback",
     //   label: "Feedback",
     // },
+    {
+      key: "products",
+      label: "Products",
+    }
+    
   ];
 
   const contentList = {
@@ -64,6 +70,8 @@ const TabComponent = () => {
         </div>
       ),
     // feedback: <FeedbackComponent />,
+    products: <ProductComponent />,
+
   };
 
   // Simulate ProjectComponent loading

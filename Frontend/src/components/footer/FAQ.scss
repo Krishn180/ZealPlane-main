@@ -1,0 +1,36 @@
+.faq-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #121212;
+    color: #f4f4f4;
+  
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #ff6f00;
+    }
+  
+    .faq-item {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      background-color: #1e1e1e;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  
+      h3 {
+        font-size: 22px;
+        color: #ffb74d;
+        margin-bottom: 10px;
+      }
+  
+      p {
+        font-size: 16px;
+        color: #ccc;
+        line-height: 1.5;
+      }
+    }
+  }
+  

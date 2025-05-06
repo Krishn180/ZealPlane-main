@@ -91,10 +91,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null, // Store Google token if needed
     },
-  
-    following: [{ type: String, ref: 'User' }],
-    followers: [{ type: String, ref: 'User' }],
-    
+    following: [
+      {
+        uniqueId: { type: String },
+        username: { type: String },
+        profilePic: { type: String }
+      }
+    ],
+    followers: [
+      {
+        uniqueId: { type: String },
+        username: { type: String },
+        profilePic: { type: String }
+      }
+    ],
   },
   {
     timestamps: true,

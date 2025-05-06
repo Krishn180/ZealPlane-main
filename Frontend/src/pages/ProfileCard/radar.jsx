@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -14,6 +13,27 @@ import './RadarChart.scss';
 import axiosInstance from '../../Auth/Axios';
 import { useParams } from 'react-router-dom';
 
+// 🔴 Glow plugin for red center
+const glowPlugin = {
+  id: 'glowBackground',
+  beforeDraw: (chart) => {
+    const { ctx, chartArea } = chart;
+    const { left, top, width, height } = chartArea;
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const radius = Math.min(width, height) / 2;
+
+    const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+    gradient.addColorStop(0, 'rgba(255, 0, 0, 0.5)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = gradient;
+    ctx.fillRect(left, top, width, height);
+    ctx.restore();
+  }
+};
 
 ChartJS.register(
   LineElement,
@@ -21,98 +41,125 @@ ChartJS.register(
   Tooltip,
   Legend,
   RadialLinearScale,
-  Filler
+  Filler,
+  glowPlugin
 );
 
 export default function RadarChartExample() {
-  const [popularity, setPopularity] = useState(0);
+  const [datasetValues, setDatasetValues] = useState([0, 0, 0, 0, 0]);
   const { id } = useParams();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-  console.log("userId fetched from useparams are", id);
-  
 
   useEffect(() => {
-    const fetchLikes = async () => {
+    const fetchStats = async () => {
       try {
         const res = await axiosInstance.get(`${apiBaseUrl}/users/${id}`);
-        console.log("total number of likes recieved for user", res.data);
+        console.log("fetched user data for radar chart", res.data);
         
-        const likes = res.data.user.totalLikes;
-        console.log("total likes are", likes);
-        
-        // Normalize popularity value (e.g., max out at 100)
-        const normalized = Math.min((likes / 100) * 100, 100); // Adjust scale as needed
-        setPopularity(normalized);
+        const { totalLikes = 0, totalViews = 0 } = res.data.user;
+
+        let popularity = 0;
+        let recognition = 0;
+        let monetary = 0;
+        let connections = 0;
+        let grind = 0;
+
+        if (totalLikes < 50 && totalViews < 100) {
+          // Level 1 (Beginner)
+          popularity = 10;
+          recognition = 15;
+          monetary = 5;
+          connections = 20;
+          grind = 25;
+        } else {
+          // Level based on data (Example: Normalization)
+          popularity = Math.min((totalLikes / 100) * 100, 100);
+          recognition = Math.min((totalViews / 200) * 100, 100);
+          monetary = Math.min((totalViews / 300) * 100, 100);
+          connections = Math.min((totalLikes / 80) * 100, 100);
+          grind = Math.min((totalViews / 150) * 100, 100);
+        }
+
+        setDatasetValues([
+          Math.round(popularity),
+          Math.round(recognition),
+          Math.round(monetary),
+          Math.round(connections),
+          Math.round(grind)
+        ]);
       } catch (err) {
-        console.error('Failed to fetch total likes:', err);
+        console.error('Failed to fetch user stats:', err);
       }
     };
-
-    fetchLikes();
+    fetchStats();
   }, [id]);
 
   const data = {
     labels: ['Popularity', 'Recognition', 'Monetary', 'Connections', 'Grind'],
     datasets: [{
       label: 'User Stats',
-      data: [popularity, 60, 50, 40, 90],
-      backgroundColor: 'rgba(255, 215, 0, 0.3)',
-      borderColor: 'rgba(255, 215, 0, 1)',
-      pointBackgroundColor: 'rgba(255, 0, 0, 1)',
+      data: datasetValues,
+      backgroundColor: 'rgba(255, 50, 50, 0.3)',
+      borderColor: 'rgba(255, 0, 0, 1)',
+      borderWidth: 2,
+      pointBackgroundColor: 'rgba(255, 255, 255, 1)',
       pointBorderColor: 'rgba(255, 0, 0, 1)',
-      pointHoverRadius: 6,
-      pointRadius: 4,
+      pointRadius: 5,
+      pointHoverRadius: 7,
     }]
   };
 
   const options = {
     responsive: true,
-    onClick: (event, elements) => {
-      if (elements && elements.length > 0) {
-        const clickedLabel = data.labels[elements[0].index];
-        console.log(`Clicked on label: ${clickedLabel}`);
-      }
-    },
     elements: {
       line: {
-        borderWidth: 2,
-      },
+        borderJoinStyle: 'round'
+      }
     },
     scales: {
       r: {
         angleLines: {
-          color: 'rgba(255, 255, 255, 0.1)',
+          color: 'rgba(255, 0, 0, 0.2)',
+          lineWidth: 1.5
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.05)',
+          color: 'rgba(255, 0, 0, 0.05)',
         },
         pointLabels: {
           font: {
-            size: 14,
+            size: 13,
             weight: '600',
-            family: "'Orbitron', sans-serif"
+            family: "'Orbitron', sans-serif",
           },
-          color: '#FFD700',
+          color: 'rgba(255, 255, 255, 0.8)',
         },
         ticks: {
           display: false
         },
         suggestedMin: 0,
         suggestedMax: 100
-      },
+      }
     },
     plugins: {
-      legend: {
-        display: false,
-      },
+      legend: { display: false },
       tooltip: {
         backgroundColor: '#111',
-        titleColor: '#FFD700',
+        titleColor: '#FF3333',
         bodyColor: '#fff',
-        borderColor: '#FFD700',
+        borderColor: '#FF3333',
         borderWidth: 1,
-      },
-    },
+        titleFont: {
+          family: "'Orbitron', sans-serif",
+          size: 16,
+          weight: '700',
+        },
+        bodyFont: {
+          family: "'Orbitron', sans-serif",
+          size: 14,
+          weight: '600',
+        },
+      }
+    }
   };
 
   return (

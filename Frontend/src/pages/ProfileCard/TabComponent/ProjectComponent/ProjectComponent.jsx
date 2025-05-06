@@ -215,44 +215,45 @@ const ProjectComponent = () => {
         {submittedData && submittedData.length > 0 ? (
           submittedData.map((project, index) => (
             <Card
-              className="card"
-              key={index}
+            className="card"
+            key={index}
+            style={{
+              width: window.innerWidth <= 768 ? "155px" : "320px",
+              height: window.innerWidth <= 768 ? "180px" : "260px",
+              margin: "5px",
+              flex: "0 0 auto",
+              cursor: "pointer",
+              display: "inline-flex",
+              flexDirection: "column",
+              borderRadius: "3px",
+              backgroundImage: project.thumbnailImage
+                ? `url(${project.thumbnailImage})`
+                : "none",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              position: "relative",
+              overflow: "hidden",
+              transition: "filter 0.3s ease-in-out",
+            }}
+            onClick={() => navigate(`/details/${project.projectId}`)}
+          >
+            <div
               style={{
-                width: window.innerWidth <= 768 ? "155px" : "320px",
-                height: window.innerWidth <= 768 ? "180px" : "260px",
-                margin: "5px",
-                flex: "0 0 auto",
-                cursor: "pointer",
-                display: "inline-flex",
-                flexDirection: "column",
-                borderRadius: "3px",
-                backgroundImage: project.thumbnailImage
-                  ? `url(${project.thumbnailImage})`
-                  : "none",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                position: "relative",
-                overflow: "hidden",
-                transition: "filter 0.3s ease-in-out",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: "rgba(0, 0, 0, 0.5)",
+                padding: "10px",
+                color: "white",
               }}
-              onClick={() => navigate(`/details/${project.projectId}`)}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  background: "rgba(0, 0, 0, 0.5)",
-                  padding: "10px",
-                  color: "white",
-                }}
-              >
-                <Typography variant="h6" className="tab-title">
-                  {project.name}
-                </Typography>
-              </div>
-            </Card>
+              <Typography variant="h6" className="tab-title">
+                {project.name}
+              </Typography>
+            </div>
+          </Card>
+          
           ))
         ) : (
           <p>No projects found.</p>

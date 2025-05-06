@@ -111,6 +111,102 @@ exports.createPost = async (req, res) => {
   }
 };
 
+exports.createQuiz = async (req, res) => {
+  try {
+    const {
+      title,
+      question,
+      options,
+      author,
+      uniqueId,
+      profilePic,
+      subreddit
+    } = req.body;
+
+    // Validation
+    if (!title || !question || !Array.isArray(options) || options.length < 2) {
+      return res.status(400).json({
+        message: "All fields are required, and quiz must have at least 2 options."
+      });
+    }
+
+    const newQuizPost = new Post({
+      title,
+      question,
+      options: options.map(option => ({
+        text: option.text || option,  // Accept simple strings or objects with 'text'
+        voteCount: 0
+      })),
+      author,
+      uniqueId,
+      profilePic,
+      subreddit,
+      postType: "quiz"
+    });
+
+    const savedPost = await newQuizPost.save();
+    res.status(201).json(savedPost);
+  } catch (error) {
+    console.error("Error creating quiz post:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// Vote on a quiz option
+exports.voteOnQuiz = async (req, res) => {
+  try {
+    const { postId, optionIndex } = req.body;
+    const uniqueId = req.user?.uniqueId;
+
+    const post = await Post.findById(postId);
+
+    if (!post || post.postType !== "quiz") {
+      return res.status(404).json({ message: "Quiz not found." });
+    }
+
+    // Prevent multiple votes by the same user
+    const alreadyVoted = post.votes?.some(vote => vote.uniqueId === uniqueId);
+    if (alreadyVoted) {
+      return res.status(400).json({ message: "User already voted on this quiz." });
+    }
+
+    if (!post.options[optionIndex]) {
+      return res.status(400).json({ message: "Invalid option selected." });
+    }
+
+    post.options[optionIndex].voteCount += 1;
+    post.votes.push({ uniqueId, voteValue: optionIndex });
+
+    const updatedPost = await post.save();
+    res.json({ message: "Vote recorded", quiz: updatedPost });
+  } catch (error) {
+    console.error("Error voting on quiz:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// Get quiz results
+exports.getQuizResults = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await Post.findById(id);
+    if (!post || post.postType !== "quiz") {
+      return res.status(404).json({ message: "Quiz not found." });
+    }
+
+    res.json({
+      title: post.title,
+      question: post.question,
+      options: post.options
+    });
+  } catch (error) {
+    console.error("Error fetching quiz results:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
 // Update a post by ID
 exports.updatePost = async (req, res) => {
   const { title, body, image, communityId } = req.body;

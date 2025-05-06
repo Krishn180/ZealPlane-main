@@ -1,12 +1,19 @@
+html, body {
+    height: 100%;
+    overflow-y: auto;
+}
+
 .carouselSection {
     position: relative;
     margin-bottom: 70px;
+
     & > .contentWrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
     }
+
     .carouselTitle {
         font-size: 35px;
         color: white;
@@ -14,10 +21,20 @@
     }
 }
 
-
 @media (max-width: 768px) {
-    .carouselSection .carouselTitle{
+    .carouselSection .carouselTitle {
         font-size: 21px;
     }
+}
+.homePage::-webkit-scrollbar {
+    width: 8px;
+}
 
+.homePage::-webkit-scrollbar-thumb {
+    background: var(--netflix-red);
+    border-radius: 4px;
+}
+
+.homePage::-webkit-scrollbar-track {
+    background: var(--black3);
 }

@@ -526,7 +526,6 @@ const toggleFollow = async (req, res) => {
     return res.status(400).json({ msg: 'Missing user ID(s)' });
   }
 
-  // Prevent user from following themselves
   if (senderId === receiverId) {
     return res.status(400).json({ msg: "You can't follow yourself" });
   }
@@ -539,20 +538,38 @@ const toggleFollow = async (req, res) => {
       return res.status(404).json({ msg: 'User not found' });
     }
 
-    const isFollowing = user.following.includes(receiverId);
+    const isFollowing = user.following.some(follow => follow.uniqueId === receiverId);
 
     if (isFollowing) {
-      user.following = user.following.filter(id => id !== receiverId);
-      targetUser.followers = targetUser.followers.filter(id => id !== senderId);
+      // Unfollow: Remove the user from both following and followers arrays
+      user.following = user.following.filter(follow => follow.uniqueId !== receiverId);
+      targetUser.followers = targetUser.followers.filter(follow => follow.uniqueId !== senderId);
     } else {
-      user.following.push(receiverId);
-      targetUser.followers.push(senderId);
+      // Follow: Add the user to both following and followers arrays
+      user.following.push({
+        uniqueId: targetUser.uniqueId,
+        username: targetUser.username,
+        profilePic: targetUser.profilePic
+      });
+
+      targetUser.followers.push({
+        uniqueId: user.uniqueId,
+        username: user.username,
+        profilePic: user.profilePic
+      });
     }
 
     await user.save();
     await targetUser.save();
 
-    return res.status(200).json({ msg: `Successfully ${isFollowing ? 'unfollowed' : 'followed'} user.` });
+    return res.status(200).json({
+      msg: `Successfully ${isFollowing ? 'unfollowed' : 'followed'} user.`,
+      user: {
+        uniqueId: targetUser.uniqueId,
+        username: targetUser.username,
+        profilePic: targetUser.profilePic
+      }
+    });
   } catch (error) {
     console.error("Error toggling follow:", error);
     return res.status(500).json({ msg: 'Server error', error });
@@ -560,11 +577,20 @@ const toggleFollow = async (req, res) => {
 };
 
 
-
 const getFollowing = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId).populate("following", "username profilePic");
-    res.json(user.following);
+    const user = await User.findOne({ uniqueId: req.params.userId });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Directly return the following data from the array
+    const followingData = user.following.map(followingUser => ({
+      uniqueId: followingUser.uniqueId,
+      username: followingUser.username,
+      profilePic: followingUser.profilePic
+    }));
+
+    res.json(followingData);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -572,12 +598,31 @@ const getFollowing = async (req, res) => {
 
 const getFollowers = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId).populate("followers", "username profilePic");
-    res.json(user.followers);
+    const user = await User.findOne({ uniqueId: req.params.userId });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Fetch the details of each follower by querying the User model with the uniqueId
+    const followerData = await Promise.all(
+      user.followers.map(async (followerUniqueId) => {
+        // Fetch the follower's data from the User collection using the uniqueId
+        const followerUser = await User.findOne({ uniqueId: followerUniqueId }).select('uniqueId username profilePic');
+        return followerUser;
+      })
+    );
+
+    // Filter out any null or undefined values (in case any follower is not found)
+    res.json(followerData.filter(follower => follower !== null && follower !== undefined));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+
+
 
 
 
