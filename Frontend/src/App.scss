@@ -1,21 +1,12 @@
 html, body {
-    height: 100%;
-    overflow-y: scroll;
-    scrollbar-width: thin; // Firefox
-    scrollbar-color: #ffb74d #1e1e1e; // Firefox
-  
-    // WebKit (Chrome, Edge, Safari)
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: #ffb74d;
-      border-radius: 10px;
-    }
-  
-    &::-webkit-scrollbar-track {
-      background-color: #1e1e1e;
-    }
+  height: 100%;
+  overflow: hidden; // This disables scrolling completely
+
+  // Firefox
+  scrollbar-width: none;
+
+  // WebKit (Chrome, Edge, Safari)
+  &::-webkit-scrollbar {
+    display: none;
   }
-  
+}

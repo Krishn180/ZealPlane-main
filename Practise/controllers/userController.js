@@ -11,43 +11,53 @@ const mongoose = require('mongoose');
 // Temporary storage for OTPs
 const otpStore = new Map();
 
-// Helper function to send OTP via email
 const sendOtpEmail = async (email, otp) => {
+  console.log("Starting sendOtpEmail function...");
+
   try {
-    // Configure nodemailer transporter
+    console.log("Setting up transporter...");
+
     const transporter = nodemailer.createTransport({
-      service: "gmail", // Use your email service
+      service: "gmail",
       auth: {
-        user: "teamzealplane@gmail.com", // Replace with your email
-        pass: "jnyl tbel vzfb eyns", // Replace with your email password or app password
+        user: "teamzealplane@gmail.com",
+        pass: "prra qpoy tzqx urfz", // Use App Password (not Gmail password!)
       },
     });
 
-    // Email content
+    console.log("Transporter created successfully.");
+
     const mailOptions = {
       from: "teamzealplane@gmail.com",
       to: email,
       subject: "Your OTP for Registration",
       text: `Dear User,  
 
-Thank you for registering with **ZealPlane**!  
+Thank you for registering with ZealPlane!  
 
-Your One-Time Password (OTP) for account verification is: **${otp}**.  
+Your One-Time Password (OTP) for account verification is: ${otp}.  
 Please enter this code within the next 10 minutes to complete your registration.  
 
 If you did not request this, please ignore this message.  
 
 Best regards,  
-The **ZealPlane Team**`,
+The ZealPlane Team`,
     };
 
-    // Send email
-    await transporter.sendMail(mailOptions);
-    console.log(`OTP sent successfully to: ${email}`); // Log success
+    console.log("Mail options set:");
+    console.log(mailOptions);
+
+    console.log("Sending email...");
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("Email sent successfully!");
+    console.log("Message ID:", info.messageId);
+    console.log(`OTP sent to: ${email}`);
   } catch (error) {
-    console.error("Error sending OTP email:", error); // Log any errors
+    console.error("Error sending OTP email:", error);
   }
 };
+
 
 const registerUser = asynchandler(async (req, res) => {
   try {

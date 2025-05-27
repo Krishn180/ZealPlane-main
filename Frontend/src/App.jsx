@@ -58,7 +58,6 @@ const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWi
 
   return (
     <div>
-      <Header />
 
       <main>
         <Routes>
