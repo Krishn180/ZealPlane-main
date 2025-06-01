@@ -63,7 +63,7 @@ const Landing = () => {
       <br />
       <br />
       {/* <OurPartners/> */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
