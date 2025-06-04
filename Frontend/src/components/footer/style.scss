@@ -189,28 +189,36 @@
 .footer {
   background-color: #0e0e0e;
   color: #ccc;
-  padding: 50px 20px 40px;
+  padding: 50px 20px;
   font-family: "Inter", sans-serif;
 
   .footer-container {
     display: flex;
-    flex-direction: column;
+    // justify-content: space-between;
     align-items: center;
-    text-align: center;
-    max-width: 1300px;
+    // flex-wrap: wrap;
+    gap: 200px;
+    max-width: 1150px;
     margin: 0 auto;
+    padding: 0 20px;
+    @media (max-width: 767px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
 
-    @media (min-width: 768px) {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
+      .footer-brand {
+        justify-content: center;
+        margin-bottom: 20px;
+      }
     }
   }
 
   .footer-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 20px;
 
     .logo {
@@ -218,71 +226,65 @@
     }
 
     .brand-name {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 300;
       color: #fff;
       text-transform: uppercase;
     }
   }
 
-  .footer-links {
+  .middle {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    // margin-left: auto;
 
-    a {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.3s ease;
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
 
-      &:hover {
-        color: #fff;
+      a {
+        color: #ccc;
+        font-size: 14px;
+        text-decoration: none;
+
+        &:hover {
+          color: #fff;
+        }
       }
     }
-  }
-  .footer-socials {
-    display: flex;
-    gap: 20px;
 
-    .social-icon {
-      font-size: 22px;
-      transition: transform 0.3s ease;
+    .footer-socials {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
 
-      &:hover {
-        transform: scale(1.1);
-      }
-
-      &.facebook {
-        color: #4267b2;
+      .social-icon {
+        font-size: 20px;
+        transition: transform 0.3s ease;
 
         &:hover {
-          color: #3b5998;
+          transform: scale(1.2);
         }
-      }
 
-      &.whatsapp {
-        color: #25d366;
-
-        &:hover {
-          color: #1ebe5d;
+        &.facebook {
+          color: #4267b2;
         }
-      }
 
-      &.twitter {
-        color: #1da1f2;
-
-        &:hover {
-          color: #0d8ddb;
+        &.whatsapp {
+          color: #25d366;
         }
-      }
 
-      &.linkedin {
-        color: #0077b5;
+        &.twitter {
+          color: #1da1f2;
+        }
 
-        &:hover {
-          color: #005983;
+        &.linkedin {
+          color: #0077b5;
         }
       }
     }
@@ -291,7 +293,7 @@
   .footer-bottom {
     margin-top: 30px;
     border-top: 1px solid #333;
-    padding-top: 25px;
+    padding-top: 20px;
     font-size: 13px;
     text-align: center;
     color: #888;

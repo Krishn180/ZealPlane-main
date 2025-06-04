@@ -40,25 +40,25 @@ function App() {
   const { url } = useSelector((state) => state.home);
 
   // Use location to check the current path
- // Use location to check the current path
-const location = useLocation();
+  // Use location to check the current path
+  const location = useLocation();
 
-// List of paths where the footer should be hidden
-const hideFooterPaths = [
-  "/login", 
-  "/register", 
-  "/forgot-password", 
-  "/details/",
-  "/forum/create-post" // ✅ Added this line
-];
+  // List of paths where the footer should be hidden
+  const hideFooterPaths = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/details/",
+    "/forum/create-post", // ✅ Added this line
+  ];
 
-// Check if the current path is in the list of paths to hide footer
-const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWith(path));
-
+  // Check if the current path is in the list of paths to hide footer
+  const shouldHideFooter = hideFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <div>
-
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -84,12 +84,11 @@ const shouldHideFooter = hideFooterPaths.some(path => location.pathname.startsWi
           <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
-
         </Routes>
       </main>
 
       {/* Conditionally render Footer based on the current path */}
-      {!shouldHideFooter && <Footer />}
+      {/* {!shouldHideFooter && <Footer />} */}
     </div>
   );
 }

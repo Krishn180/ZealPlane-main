@@ -160,7 +160,6 @@ import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/userAction";
-
 import LogoImage from "../../assets/logoZP.png";
 import "./style.scss";
 
@@ -176,59 +175,59 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Brand & Logo */}
+        {/* Left: Logo and Brand */}
         <div className="footer-brand">
           <img src={LogoImage} alt="Zealplane Logo" className="logo" />
           <span className="brand-name">Zealplane</span>
         </div>
 
-        {/* Links */}
-        <div className="footer-links">
-          <a href="#">Terms of Use</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">About</a>
-          <a href="#">Blog</a>
-          <a href="#">FAQ</a>
-        </div>
+        {/* Center: Links + Social */}
+        <div className="middle">
+          <div className="footer-links">
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">FAQ</a>
+          </div>
 
-        {/* Social Media */}
-        <div className="footer-socials">
-          <a
-            href="https://www.facebook.com/groups/683526374340078/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon facebook"
-          >
-            <FaFacebookF />
-          </a>
-          <a
-            href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon whatsapp"
-          >
-            <FaWhatsapp />
-          </a>
-          <a
-            href="https://x.com/plane38843"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon twitter"
-          >
-            <FaTwitter />
-          </a>
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon linkedin"
-          >
-            <FaLinkedin />
-          </a>
+          <div className="footer-socials">
+            <a
+              href="https://www.facebook.com/groups/683526374340078/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon facebook"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon whatsapp"
+            >
+              <FaWhatsapp />
+            </a>
+            <a
+              href="https://x.com/plane38843"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon twitter"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon linkedin"
+            >
+              <FaLinkedin />
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Footer Bottom */}
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} Zealplane. All rights reserved.</p>
       </div>
