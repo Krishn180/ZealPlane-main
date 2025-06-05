@@ -1,420 +1,408 @@
-    @import "../../mixins.scss";
+@import "../../mixins.scss";
 
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
 
-    .header1 {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: 60px;
-        z-index: 3;
-        gap: 20px;
-        display: flex;
-        align-items: center;
-        transition: all ease 0.5s;
-        z-index: 1000;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(3.5px);
-        -webkit-backdrop-filter: blur(3.5px);
+.header1 {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 3;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  transition: all ease 0.5s;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+  border-bottom: 0.1px solid #333;
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
 
-        .contentWrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        
-        }
+  .contentWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 
-        .logo {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+  .logo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
 
-            img {
-                height: 45px;
-                width: 45px;
-                border-radius: 100%;
-                object-fit: cover;
-            }
-        }
-
-        .menuItems {
-            list-style-type: none;
-            display: flex;
-            align-items: center;
-            margin: 0;
-            gap: 0;
-            font-family: "Poppins", sans-serif !important;
-            // font-family: "Open Sans", sans-serif;
-            font-family: Arial, sans-serif; 
-            .menuItem1 {
-                height: 60px;
-                font-size: 18px;
-                font-style:normal;
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                margin: 0 15px;
-                color: rgb(223, 223, 223);
-                font-weight: 500;
-                position: relative;
-                cursor: pointer;
-
-                &:hover {
-                    color: var(--pink);
-                }
-                .username {
-                    color: rgb(223, 223, 223);
-                font-weight: 500;
-                    @media (max-width: 768px) {
-                        display: none;
-                    }}
-            }
-        }
-    
-        .avatarImage {
-            width: 45px;
-            height: 45px;
-            object-fit: cover;
-            border-radius: 50%;
-        
-            cursor: pointer;
-            
-        }
-
-        .FaBell {
-            cursor: pointer;
-            font-size: 1.5em;
-            color: #fff;
-        }
+    img {
+      // height: 40px;
+      width: 43px;
+      border-radius: 100%;
+      object-fit: cover;
     }
-    .iconWrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
-    
-    /* Community Icon */
-    .communityIcon {
-        font-size: 18px;
-    }
-    //  Hover Text (Initially Hidden) */
-    .hoverText {
-         display: none;
-         position: absolute;
-         top: -110%; /* Position below the icon */
-         left: 50%;
-         transform: translateX(-50%);
-         background: transparent;
-         color: rgb(217, 216, 216);
-         padding: 5px 10px;
-         border-radius: 10px;
-         // border: 0.1px solid rgb(63, 63, 63);
-         font-size: 14px;
-         white-space: nowrap;
-     }
-    .iconWrapper:hover .hoverText {
-        display: block;
-         z-index: 10;
-    }  
+  }
 
+  .menuItems {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 0;
+    font-family: "Poppins", sans-serif !important;
+    // font-family: "Open Sans", sans-serif;
+    font-family: Arial, sans-serif;
+    .menuItem1 {
+      height: 60px;
+      font-size: 18px;
+      font-style: normal;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 0 15px;
+      color: rgb(223, 223, 223);
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
 
-    .search-bar {
-        position: relative;
-        margin: 0 auto;
-        max-width: 550px; /* Increased width from 400px to 500px */
-        display: flex;
-        margin-left: 25px;
-        align-items: center;
+      &:hover {
+        color: var(--pink);
+      }
+      .username {
+        color: rgb(223, 223, 223);
+        font-weight: 500;
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .avatarImage {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+
+    cursor: pointer;
+  }
+
+  .FaBell {
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #fff;
+  }
+}
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Community Icon */
+.communityIcon {
+  font-size: 18px;
+}
+//  Hover Text (Initially Hidden) */
+.hoverText {
+  display: none;
+  position: absolute;
+  top: -110%; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  color: rgb(217, 216, 216);
+  padding: 5px 10px;
+  border-radius: 10px;
+  // border: 0.1px solid rgb(63, 63, 63);
+  font-size: 14px;
+  white-space: nowrap;
+}
+.iconWrapper:hover .hoverText {
+  display: block;
+  z-index: 10;
+}
+
+.search-bar {
+  position: relative;
+  margin: 0 auto;
+  max-width: 650px; /* Increased width from 400px to 500px */
+  display: flex;
+  margin-left: 30px;
+  align-items: center;
+
+  input {
+    width: 650px;
+    padding: 0.5rem 1rem 0.3rem 2.5rem;
+    border: 1px solid #363a42;
+    border-radius: 999px;
+    background-color: rgba(45, 44, 47, 255);
+    color: #fff; /* White text */
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    outline: none;
+
+    &::placeholder {
+      color: #888; /* Placeholder text color */
+    }
+
+    &:focus {
+      border-color: #ababab;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem; /* Adjust icon position relative to the input */
+    color: #fff;
+    font-size: 16px;
+
+    pointer-events: none; /* Icon doesn't interfere with clicking on input */
+  }
+}
+
+.search-results-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  // width: 100%;
+  width: 650px;
+  max-height: 400px; /* Limit height for scrolling */
+  background-color: #252629; /* Black background */
+  color: #fff; /* White text */
+  overflow-y: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+
+  .search-result-item {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Add space between profile picture and name */
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    border-bottom: 1px solid #333;
+
+    &:hover {
+      background-color: #222;
+    }
+  }
+
+  .search-result-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Make the image circular */
+    object-fit: cover; /* Ensure image doesn't stretch */
+  }
+
+  .user-jobrole {
+    color: #888;
+  }
+}
+
+.publish-btn {
+  background-color: #024184;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.publish-btn:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 1280px) {
+  .header1 .contentWrapper .search-bar input {
+    width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header1 {
+    .contentWrapper {
+      flex-direction: row; /* Arrange items in a row */
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0 10px;
+
+      .logo {
+        flex: 0; /* No extra space */
+        margin-right: 10px;
+
+        img {
+          height: 35px; /* Reduce logo size */
+          width: 35px; /* Keep proportions */
+        }
+      }
+      .avatarImage {
+        width: 40px;
+        height: 40px;
+      }
+      .search-results-list {
+        width: 390px;
+        left: -45px;
+      }
+      .search-bar {
+        flex: 1; /* Occupy remaining space */
+        margin: 0;
 
         input {
-            width: 550px;
-            padding: 0.5rem 1rem 0.5rem 2.5rem; /* Added left padding to create more gap from the search icon */
-            border: 1px solid #363a42;
-            border-radius: 999px;
-            background-color: transparent; /* Black background */
-            color: #fff; /* White text */
-            font-family: "Poppins", sans-serif;
-            font-size: 16px;
-            outline: none;
-
-            &::placeholder {
-                color: #888; /* Placeholder text color */
-            }
-
-            &:focus {
-                border-color: #fff;
-                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-            }
+          width: 100%;
+          font-size: 14px;
+          padding: 0.3rem 0.2rem 0.2rem 2rem;
+          max-width: 110%; /* Increase width of the search bar */
         }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem; /* Adjust icon position relative to the input */
-            color: #fff;
-            font-size: 16px;
-            
-            pointer-events: none; /* Icon doesn't interfere with clicking on input */
-        }
+      }
     }
 
-    .search-results-list {
-        position: absolute;
-        top: 110%;
-        left: 0;
-        // width: 100%;
-        width: 650px;
-        max-height: 400px; /* Limit height for scrolling */
-        background-color: #252629; /* Black background */
-        color: #fff; /* White text */
-        overflow-y: auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        z-index: 10;
-
-        .search-result-item {
-            display: flex;
-            align-items: center; /* Align items vertically */
-            gap: 10px; /* Add space between profile picture and name */
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: "Poppins", sans-serif;
-            border-bottom: 1px solid #333;
-        
-            &:hover {
-            background-color: #222;
-            }
-        }
-        
-        .search-result-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%; /* Make the image circular */
-            object-fit: cover; /* Ensure image doesn't stretch */
-        }
-        
-
-        .user-jobrole{
-            color: #888;
-        }
-    }
-
-
-    .publish-btn {
-        background-color: #024184;
-        color: white;
-        border: none;
-        padding: 5px 15px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .publish-btn:hover {
-        background-color: #0056b3;
-    }
-
-    @media(max-width: 1280px) {
-        .header1 .contentWrapper .search-bar input{
-        width: 350px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .header1 {
-            .contentWrapper {
-                flex-direction: row; /* Arrange items in a row */
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                padding: 0 10px;
-
-                .logo {
-                    flex: 0; /* No extra space */
-                    margin-right: 10px;
-
-                    img {
-                        height: 35px; /* Reduce logo size */
-                        width: 35px;  /* Keep proportions */
-                    }
-                }
-                .avatarImage {
-                    width: 40px;
-                    height: 40px;
-                }
-                .search-results-list{
-                    width: 390px;
-                    left: -45px;
-                }
-                .search-bar {
-                    flex: 1; /* Occupy remaining space */
-                    margin: 0;
-
-                    input {
-                        width: 100%;
-                        font-size: 14px;
-                        padding: 0.3rem 0.2rem 0.2rem 2rem;
-                        max-width: 110%; /* Increase width of the search bar */
-                    }
-                    
-                }
-            }
-        
-            .menuIcons {
-                width: 100%;
-                display: flex;
-                justify-content: space-around;
-                margin-top: 10px;
-
-                .icon {
-                    font-size: 1.2em;
-                }
-
-            
-            }
-        
-        }
-        .profile-options{
-            right: 0px;
-        }
-        
-    }
-
-    .profile-container {
-        position: relative; /* Ensure the profile options are positioned relative to this container */
-      
-       }
-       .profile-options.active {
-        display: flex; /* Show only when active class is added */
-    }    
-
-    .profile-options {
-        position: absolute;
-        top: 60px; /* Adjust this depending on your header height */
-        // left: 0px;
-        margin-left: -80px;
-        background-color: #1e1e1e; /* DeviantArt dark background */
-        border-radius: 8px;
-        padding: 5px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5); /* Deeper shadow for more contrast */
-        display: none;
-        &.active {
-            display: flex;
-          }
-        flex-direction: column;
-        z-index: 1000;
-        width: 200px; /* Increased width */
-        font-family: 'Roboto', sans-serif; /* DeviantArt-like font */
-    
-        ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    
-        li {
-            display: flex;
-            align-items: center; /* Ensure icon and text are aligned vertically */
-            padding: 12px 20px;
-            color: #e0e0e0; /* Light gray text for readability */
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border-radius: 4px;
-            
-            &:hover {
-            background-color: #ff4500; /* Use a more consistent orange for hover (Reddit-like) */
-            color: #ffffff; /* White text on hover for better contrast */
-            }
-            
-            /* Styles for the icon */
-            .header-icon {
-            margin-right: 10px; /* Increase spacing between icon and text for better readability */
-            font-size: 20px; /* Slightly larger icon for better visibility */
-            color: #ff4500; /* Use the same orange color for the icon */
-            transition: color 0.3s ease; /* Smooth color transition on hover */
-            }
-        
-            &:hover .header-icon {
-            color: #ffffff; /* Change icon color to match text on hover */
-            }
-        }
-        
-    }
-    }
-
-   
-   // Modal Overlay (Blur Effect)
-.custom-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-  
-  // Modal Box
-  .custom-modal {
-    background: linear-gradient(135deg, #222 0%, #111 100%);
-    padding: 25px;
-    border-radius: 12px;
-    width: 350px;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 0.3s ease-in-out;
-    border: 2px solid #ff9800;
-  
-    h2 {
-      font-size: 20px;
-      color: white;
-      margin-bottom: 15px;
-    }
-  
-    button {
+    .menuIcons {
       width: 100%;
-      padding: 12px;
+      display: flex;
+      justify-content: space-around;
       margin-top: 10px;
-      background: #ff9800;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
+
+      .icon {
+        font-size: 1.2em;
+      }
+    }
+  }
+  .profile-options {
+    right: 0px;
+  }
+}
+
+.profile-container {
+  position: relative; /* Ensure the profile options are positioned relative to this container */
+}
+.profile-options.active {
+  display: flex; /* Show only when active class is added */
+}
+
+.profile-options {
+  position: absolute;
+  top: 60px; /* Adjust this depending on your header height */
+  // left: 0px;
+  margin-left: -80px;
+  background-color: #1e1e1e; /* DeviantArt dark background */
+  border-radius: 8px;
+  padding: 5px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5); /* Deeper shadow for more contrast */
+  display: none;
+  &.active {
+    display: flex;
+  }
+  flex-direction: column;
+  z-index: 1000;
+  width: 200px; /* Increased width */
+  font-family: "Roboto", sans-serif; /* DeviantArt-like font */
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center; /* Ensure icon and text are aligned vertically */
+      padding: 12px 20px;
+      color: #e0e0e0; /* Light gray text for readability */
       cursor: pointer;
-      transition: 0.3s ease-in-out;
-  
+      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 4px;
+
       &:hover {
-        background: #e68900;
+        background-color: #ff4500; /* Use a more consistent orange for hover (Reddit-like) */
+        color: #ffffff; /* White text on hover for better contrast */
       }
-    }
-  
-    .close-btn {
-      background: #ff4d4d;
-      &:hover {
-        background: #cc0000;
+
+      /* Styles for the icon */
+      .header-icon {
+        margin-right: 10px; /* Increase spacing between icon and text for better readability */
+        font-size: 20px; /* Slightly larger icon for better visibility */
+        color: #ff4500; /* Use the same orange color for the icon */
+        transition: color 0.3s ease; /* Smooth color transition on hover */
+      }
+
+      &:hover .header-icon {
+        color: #ffffff; /* Change icon color to match text on hover */
       }
     }
   }
-  
-  // Animation
-  @keyframes fadeIn {
-    from {
-      transform: translateY(-10px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
+}
+
+// Modal Overlay (Blur Effect)
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+// Modal Box
+.custom-modal {
+  background: linear-gradient(135deg, #222 0%, #111 100%);
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease-in-out;
+  border: 2px solid #ff9800;
+
+  h2 {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      background: #e68900;
     }
   }
-  
+
+  .close-btn {
+    background: #ff4d4d;
+    &:hover {
+      background: #cc0000;
+    }
+  }
+}
+
+// Animation
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

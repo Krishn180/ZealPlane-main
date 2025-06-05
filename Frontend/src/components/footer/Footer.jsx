@@ -63,14 +63,104 @@
 
 // export default Footer;
 
+// import React from "react";
+// import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+// import { logoutUser } from "../../store/userAction";
+// import { Link } from "react-router-dom"; // Import Link for routing
+
+// import LogoImage from "../../assets/logoZP.png"; // Your company logo image
+// import "./style.scss";
+
+// const Footer = () => {
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+
+//   const handleLogout = () => {
+//     dispatch(logoutUser());
+//     navigate("/login");
+//   };
+
+//   return (
+//     <footer className="footer">
+//       <div className="footerContainer">
+//         {/* Logo & Brand Name */}
+//         <div className="logoSection">
+//           <img src={LogoImage} alt="Zealplane Logo" className="companyLogo" />
+//           <span className="companyName">ZEALPLANE</span>
+//         </div>
+
+//         {/* Navigation Links */}
+//         <ul className="menuItems">
+//           <li className="menuItem">
+//             <Link to="/terms-of-use">Terms Of Use</Link>
+//           </li>
+//           <li className="menuItem">
+//             <Link to="/privacy-policy">Privacy Policy</Link>
+//           </li>
+//           <li className="menuItem">
+//             <Link to="/about">About</Link> {/* Link to About Page */}
+//           </li>
+//           <li className="menuItem">
+//             <Link to="/faq">FAQ</Link> {/* Link to FAQ Page */}
+//           </li>
+//           <li className="menuItem">Blog</li>
+//         </ul>
+
+//         {/* Social Media Icons */}
+//         <div className="socialIcons">
+//           <a
+//             href="https://www.facebook.com/groups/683526374340078/?ref=share&mibextid=NSMWBT"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="icon facebook"
+//           >
+//             <FaFacebookF />
+//           </a>
+//           <a
+//             href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="icon whatsapp"
+//           >
+//             <FaWhatsapp />
+//           </a>
+//           <a
+//             href="https://x.com/plane38843"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="icon twitter"
+//           >
+//             <FaTwitter />
+//           </a>
+//           <a
+//             href="https://www.linkedin.com/company/zealplane"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="icon linkedin"
+//           >
+//             <FaLinkedin />
+//           </a>
+//         </div>
+
+//         {/* Footer Bottom */}
+//         <div className="footerBottom">
+//           <p>© {new Date().getFullYear()} Zealplane. All rights reserved.</p>
+//         </div>
+//       </div>
+//     </footer>
+//   );
+// };
+
+// export default Footer;
+
 import React from "react";
 import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/userAction";
-import { Link } from "react-router-dom"; // Import Link for routing
-
-import LogoImage from "../../assets/logoZP.png"; // Your company logo image
+import LogoImage from "../../assets/logoZP.png";
 import "./style.scss";
 
 const Footer = () => {
@@ -84,70 +174,62 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="footerContainer">
-        {/* Logo & Brand Name */}
-        <div className="logoSection">
-          <img src={LogoImage} alt="Zealplane Logo" className="companyLogo" />
-          <span className="companyName">ZEALPLANE</span>
+      <div className="footer-container">
+        {/* Left: Logo and Brand */}
+        <div className="footer-brand">
+          <img src={LogoImage} alt="Zealplane Logo" className="logo" />
+          <span className="brand-name">Zealplane</span>
         </div>
 
-        {/* Navigation Links */}
-        <ul className="menuItems">
-          <li className="menuItem">
-            <Link to="/terms-of-use">Terms Of Use</Link>
-          </li>
-          <li className="menuItem">
-            <Link to="/privacy-policy">Privacy Policy</Link>
-          </li>
-          <li className="menuItem">
-            <Link to="/about">About</Link> {/* Link to About Page */}
-          </li>
-          <li className="menuItem">
-            <Link to="/faq">FAQ</Link> {/* Link to FAQ Page */}
-          </li>
-          <li className="menuItem">Blog</li>
-        </ul>
+        {/* Center: Links + Social */}
+        <div className="middle">
+          <div className="footer-links">
+            <a href="#">Terms of Use</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">FAQ</a>
+          </div>
 
-        {/* Social Media Icons */}
-        <div className="socialIcons">
-          <a
-            href="https://www.facebook.com/groups/683526374340078/?ref=share&mibextid=NSMWBT"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon facebook"
-          >
-            <FaFacebookF />
-          </a>
-          <a
-            href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon whatsapp"
-          >
-            <FaWhatsapp />
-          </a>
-          <a
-            href="https://x.com/plane38843"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon twitter"
-          >
-            <FaTwitter />
-          </a>
-          <a
-            href="https://www.linkedin.com/company/zealplane"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="icon linkedin"
-          >
-            <FaLinkedin />
-          </a>
+          <div className="footer-socials">
+            <a
+              href="https://www.facebook.com/groups/683526374340078/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon facebook"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon whatsapp"
+            >
+              <FaWhatsapp />
+            </a>
+            <a
+              href="https://x.com/plane38843"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon twitter"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon linkedin"
+            >
+              <FaLinkedin />
+            </a>
+          </div>
         </div>
+      </div>
 
-        {/* Footer Bottom */}
-        <div className="footerBottom">
-          <p>© {new Date().getFullYear()} Zealplane. All rights reserved.</p>
-        </div>
+      <div className="footer-bottom">
+        <p>© {new Date().getFullYear()} Zealplane. All rights reserved.</p>
       </div>
     </footer>
   );

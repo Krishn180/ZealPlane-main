@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Poppins', sans-serif; /* Modern and clean font */
+  font-family: "Poppins", sans-serif; /* Modern and clean font */
   font-size: 16px; /* Base font size */
   line-height: 1.6; /* Line height for better readability */
   font-weight: 400;
@@ -45,7 +45,7 @@ body {
       color: #d7dadc;
       font-weight: bold;
       border: 1px solid rgb(69, 68, 68);
-      padding: 8px 16px; /* Slightly bigger padding */
+      padding: 5px 16px;
       border-radius: 20px; /* More rounded borders for a sleek look */
 
       &:hover {
@@ -93,7 +93,7 @@ body {
       font-size: 14px;
       width: 190px;
     }
-    
+
     .search-bar .search-icon {
       left: 10px;
       color: #c3c4c5;

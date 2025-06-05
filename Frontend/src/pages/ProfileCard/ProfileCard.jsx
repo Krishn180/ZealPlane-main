@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "../../Auth/Axios";
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 Modal.setAppElement("#root");
 
@@ -20,7 +20,6 @@ const ProfileCard = () => {
   const userId = userIdRedux || userIdLocalStorage;
   const dispatch = useDispatch();
   const [status, setStatus] = useState("");
-  
 
   const [data, setData] = useState({
     username: "",
@@ -174,7 +173,7 @@ const ProfileCard = () => {
             marginLeft: "10px",
             width: "100%",
             overflow: "auto",
-            maxHeight: "270px",
+            maxHeight: "300px",
           }}
         >
           {/* Conditionally render the Edit button */}
@@ -184,17 +183,21 @@ const ProfileCard = () => {
             </Button>
           )}
           <h4>{data.fullName}</h4>
-          <p style={{ color: "#34aadc", fontSize: "15px", marginBottom: "5px" }}>
-  {data.jobRole}
-  <span style={{ color: "#ced4da", marginLeft: "8px" }}>
-    <FaMapMarkerAlt style={{ marginRight: "4px" }} />
-    {data.location}
-  </span>
-</p>
-
+          <p
+            style={{ color: "#34aadc", fontSize: "15px", marginBottom: "5px" }}
+          >
+            {data.jobRole}
+            <br />
+            <span style={{ color: "#ced4da" }}>
+              <FaMapMarkerAlt style={{ marginRight: "4px" }} />
+              {data.location}
+            </span>
+          </p>
 
           <br />
-          <h5 style={{ fontWeight: "200", fontSize: "16px", color: "#d1d1d1" }}>About</h5>
+          <h5 style={{ fontWeight: "200", fontSize: "16px", color: "#d1d1d1" }}>
+            About
+          </h5>
 
           <div className="fade-text-container">
             <span>
