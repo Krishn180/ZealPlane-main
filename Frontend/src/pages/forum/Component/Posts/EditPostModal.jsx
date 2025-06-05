@@ -52,12 +52,6 @@ const EditPostModal = ({ post, onClose, onEdit }) => {
           </div>
           <div className="form-group">
             <label>Description</label>
-            {/* <textarea
-              name="body"
-              value={formData.body}
-              onChange={handleChange}
-              required
-            /> */}
             <ReactQuill
               value={formData.body}
               onChange={handleBodyChange}

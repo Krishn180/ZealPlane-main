@@ -77,6 +77,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0, // Initialize with 0
     },
+    totalViews: {
+      type: Number,
+      default: 0,
+    },
     refreshToken: { type: String }, // Store refresh token here
     level: {
       type: String,

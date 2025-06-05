@@ -209,40 +209,40 @@ const CreatePost = () => {
                 placeholder="Enter the post title"
               />
             </div>
-            <div className="form-group">
-              <label>Description</label>
-              <ReactQuill
-                value={body}
-                theme="snow"
-                onChange={handleBodyChange}
-                required
-                placeholder="Write your post content here..."
-                className="quill"
-                modules={{
-                  toolbar: [
-                    [{ header: [1, 2, false] }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{ list: "ordered" }, { list: "bullet" }],
-                    ["link", "image"],
-                    [{ color: [] }, { background: [] }],
-                    ["clean"],
-                  ],
-                }}
-                formats={[
-                  "header",
-                  "bold",
-                  "italic",
-                  "underline",
-                  "strike",
-                  "list",
-                  "bullet",
-                  "link",
-                  "image",
-                  "color",
-                  "background",
-                ]}
-              />
-            </div>
+              <div className="form-group">
+                <label>Description</label>
+                <ReactQuill
+                  value={body}
+                  theme="snow"
+                  onChange={handleBodyChange}
+                  required
+                  placeholder="Write your post content here..."
+                  className="quill"
+                  modules={{
+                    toolbar: [
+                      [{ header: [1, 2, false] }],
+                      ["bold", "italic", "underline", "strike"],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      ["link", "image"],
+                      [{ color: [] }, { background: [] }],
+                      ["clean"],
+                    ],
+                  }}
+                  formats={[
+                    "header",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strike",
+                    "list",
+                    "bullet",
+                    "link",
+                    "image",
+                    "color",
+                    "background",
+                  ]}
+                />
+              </div>
             <div className="form-group">
               <label>Subreddit</label>
               <input

@@ -21,7 +21,7 @@ const sendOtpEmail = async (email, otp) => {
       service: "gmail",
       auth: {
         user: "teamzealplane@gmail.com",
-        pass: "prra qpoy tzqx urfz", // Use App Password (not Gmail password!)
+        pass: "blma bqhv aken ckiw", // Use App Password (not Gmail password!)
       },
     });
 
