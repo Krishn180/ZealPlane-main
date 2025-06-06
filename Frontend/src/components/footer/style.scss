@@ -192,26 +192,23 @@
   padding: 50px 20px;
   font-family: "Inter", sans-serif;
 
+  @media (max-width: 767px), (min-width: 768px) and (max-width: 1280px) {
+    padding: 20px 20px;
+  }
+
   .footer-container {
     display: flex;
-    // justify-content: space-between;
     align-items: center;
-    // flex-wrap: wrap;
     gap: 200px;
     max-width: 1150px;
     margin: 0 auto;
     padding: 0 20px;
-    @media (max-width: 767px) {
-      .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
 
-      .footer-brand {
-        justify-content: center;
-        margin-bottom: 20px;
-      }
+    @media (max-width: 767px), (min-width: 768px) and (max-width: 1280px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      text-align: center;
     }
   }
 
@@ -221,12 +218,17 @@
     gap: 12px;
     margin-bottom: 20px;
 
+    @media (max-width: 767px), (min-width: 768px) and (max-width: 1280px) {
+      justify-content: center;
+    }
+
     .logo {
       height: 40px;
     }
 
     .brand-name {
-      font-size: 22px;
+      font-size: 19px;
+      font-style: oblique;
       font-weight: 300;
       color: #fff;
       text-transform: uppercase;
@@ -238,7 +240,6 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    // margin-left: auto;
 
     .footer-links {
       display: flex;
@@ -249,8 +250,12 @@
 
       a {
         color: #ccc;
-        font-size: 14px;
+        font-size: 16px;
         text-decoration: none;
+
+        @media (max-width: 767px), (min-width: 768px) and (max-width: 1280px) {
+          font-size: 12px !important;
+        }
 
         &:hover {
           color: #fff;

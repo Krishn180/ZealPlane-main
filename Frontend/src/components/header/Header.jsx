@@ -107,7 +107,7 @@ const Header = () => {
           <Searchbar axiosInstance={axiosInstance} />
 
           <ul className="menuItems">
-            <li className="menuItem1" onClick={handleForumClick}>
+            <li className="menuItem2" onClick={handleForumClick}>
               {window.innerWidth <= 568 ? (
                 <div className="iconWrapper">
                   <FaUsers className="communityIcon" />
