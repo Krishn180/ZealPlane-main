@@ -1,40 +1,42 @@
-html, body {
-    height: 100%;
-    overflow-y: auto;
+html,
+body {
+  height: 100%;
+  overflow-y: auto;
 }
 
 .carouselSection {
-    position: relative;
-    margin-bottom: 70px;
+  position: relative;
+  margin-bottom: 150px;
+  //   margin-top: 20px;
 
-    & > .contentWrapper {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
+  & > .contentWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
 
-    .carouselTitle {
-        font-size: 35px;
-        color: white;
-        font-weight: 800;
-    }
+  .carouselTitle {
+    font-size: 28px;
+    color: white;
+    font-weight: 800;
+  }
 }
 
 @media (max-width: 768px) {
-    .carouselSection .carouselTitle {
-        font-size: 21px;
-    }
+  .carouselSection .carouselTitle {
+    font-size: 21px;
+  }
 }
 .homePage::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .homePage::-webkit-scrollbar-thumb {
-    background: var(--netflix-red);
-    border-radius: 4px;
+  background: var(--netflix-red);
+  border-radius: 4px;
 }
 
 .homePage::-webkit-scrollbar-track {
-    background: var(--black3);
+  background: var(--black3);
 }

@@ -762,27 +762,26 @@ const HeroBanner = ({ selectedPosterUrl }) => {
                     {project.username || "Anonymous User"}
                   </span>
                 </div>
-
-                {/* Like & Share Icons */}
-                <div className="icons">
-                  <div
-                    className="icon-wrapper like"
-                    onClick={() => handleLikeClick(project.projectId)}
-                  >
-                    <FaHeart
-                      className="heart-icon"
-                      style={{ color: project.isLiked ? "red" : "white" }}
-                    />
-                  </div>
-                  <span className="likeCount" style={{ marginTop: "7px" }}>
-                    {project.likes} {project.likes === 1 ? "" : ""}
-                  </span>
-                  <div
-                    className="icon-wrapper share"
-                    onClick={() => handleShareClick(project)}
-                  >
-                    <MdShare />
-                  </div>
+              </div>
+              {/* Like & Share Icons */}
+              <div className="icons">
+                <div
+                  className="icon-wrapper like"
+                  onClick={() => handleLikeClick(project.projectId)}
+                >
+                  <FaHeart
+                    className="heart-icon"
+                    style={{ color: project.isLiked ? "red" : "white" }}
+                  />
+                </div>
+                <span className="likeCount" style={{ marginTop: "7px" }}>
+                  {project.likes} {project.likes === 1 ? "" : ""}
+                </span>
+                <div
+                  className="icon-wrapper share"
+                  onClick={() => handleShareClick(project)}
+                >
+                  <MdShare />
                 </div>
               </div>
             </div>
