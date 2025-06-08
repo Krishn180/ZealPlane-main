@@ -4,6 +4,7 @@ import growth from "../assets/aghori9.jpg";
 import reflecting from "../assets/dehek-eng.jpg";
 import god from "../assets/gameofdeath.jpg";
 import bumba from "../assets/landingimage.jpg";
+import Footer from "../components/footer/Footer";
 
 const AboutCard = () => {
   const [isVisible, setIsVisible] = useState(false);
