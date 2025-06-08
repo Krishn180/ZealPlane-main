@@ -20,15 +20,15 @@ const sendOtpEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "teamzealplane@gmail.com",
-        pass: "blma bqhv aken ckiw", // Use App Password (not Gmail password!)
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,// Use App Password (not Gmail password!)
       },
     });
 
     console.log("Transporter created successfully.");
 
     const mailOptions = {
-      from: "teamzealplane@gmail.com",
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Your OTP for Registration",
       text: `Dear User,  

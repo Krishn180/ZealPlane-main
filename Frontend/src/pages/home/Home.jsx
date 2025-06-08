@@ -66,12 +66,12 @@ const Home = () => {
       <Header />
       <HeroBanner />
       <Curated />
-      <Footer />
-      {/* <Topics/>
+      <Topics/>
             <Trending />
             <Popular />
             <TopRated />
-            <Recommended/> */}
+            {/* <Recommended/> */}
+            <Footer />
     </div>
   );
 };

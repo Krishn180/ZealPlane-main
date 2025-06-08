@@ -5,6 +5,7 @@ import ContentWrapper from "../../../components/contentWrapper/ContentWrapper";
 import SwitchTabs from "../../../components/switchTabs/SwitchTabs";
 
 import useFetch from "../../../hooks/useFetch";
+import DemoCarausel from "../../../components/carousel/DemoCarousel";
 
 const Popular = () => {
     const [endpoint, setEndpoint] = useState("movie");
@@ -24,7 +25,7 @@ const Popular = () => {
                     onTabChange={onTabChange}
                 />
             </ContentWrapper>
-            <Carousel
+            <DemoCarausel
                 data={data?.results}
                 loading={loading}
                 endpoint={endpoint}
