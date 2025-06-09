@@ -553,32 +553,6 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import Anonimous from "../../../../public/anonymous-profile-silhouette-b714qekh29tu1anb.png";
 
-// // TruncatedDescription Component
-// const TruncatedDescription = ({ description, maxLength = 100 }) => {
-//   const [isExpanded, setIsExpanded] = useState(false);
-
-//   const toggleReadMore = () => {
-//     setIsExpanded(!isExpanded);
-//   };
-
-//   return (
-//     <div className="description">
-//       <span
-//         dangerouslySetInnerHTML={{
-//           __html: isExpanded
-//             ? description
-//             : `${description.substring(0, maxLength)}..`,
-//         }}
-//       />
-//       {description.length > maxLength && (
-//         <span className="readMore" onClick={toggleReadMore}>
-//           {isExpanded ? "" : ""}
-//         </span>
-//       )}
-//     </div>
-//   );
-// };
-
 const TruncatedDescription = ({ description, maxLength = 100 }) => {
   return (
     <div className="description">
@@ -662,308 +636,125 @@ const HeroBanner = ({ selectedPosterUrl }) => {
       )
     );
   };
+  const swiperWrappedRef = useRef(null);
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "95vh",
-        position: "relative",
-      }}
+      style={
+        {
+          // display: "flex",
+          // justifyContent: "center",
+          // alignItems: "center",
+          // height: "95vh",
+          // position: "relative",
+        }
+      }
+      className="swiper-slider-container"
     >
-      <div
-        className="swiper-button-prev"
-        style={{ position: "absolute", left: "20px", zIndex: 10 }}
-      ></div>
-      <div
-        className="swiper-button-next"
-        style={{ position: "absolute", right: "20px", zIndex: 10 }}
-      ></div>
-
       <Swiper
+        className="theater-swiper"
         key={datas.length}
-        effect="coverflow"
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={window.innerWidth <= 1124 ? 1 : 3}
-        spaceBetween={window.innerWidth <= 768 ? 10 : -40}
-        coverflowEffect={{
-          rotate: 15,
-          stretch: 80,
-          depth: 300,
-          modifier: 1,
-          slideShadows: false,
-        }}
+        grabCursor
+        centeredSlides
+        // slidesPerView={window.innerWidth <= 1124 ? 1 : 3}
+        // spaceBetween={window.innerWidth <= 768 ? 10 : -40}
+
         navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
+          nextEl: ".custom-swiper-button-next",
+          prevEl: ".custom-swiper-button-prev",
         }}
-        pagination={{
-          el: ".swiper-pagination",
-          clickable: true,
-          dynamicBullets: true,
-          dynamicMainBullets: 5,
-          bulletActiveClass: "active-pagination",
-        }}
+        pagination={{ clickable: true }}
         loop={true}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-        speed={1000}
-        observer={true} // ✅ Observe changes
-        observeParents={true} // ✅ Observe parent changes
-        modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
-        style={{ width: "90%", position: "relative" }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        speed={800}
+        modules={[Pagination, Navigation, Autoplay]}
         onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
-        onMouseEnter={() => {
-          if (swiperRef.current && swiperRef.current.autoplay) {
-            swiperRef.current.autoplay.stop();
-          }
-        }}
-        onMouseLeave={() => {
-          if (swiperRef.current && swiperRef.current.autoplay) {
-            swiperRef.current.autoplay.start();
-          }
+          swiperWrappedRef.current = swiper.wrapperEl;
         }}
       >
         {datas.map((project) => (
-          <SwiperSlide key={project.projectId} className="swiper-slide-custom">
-            <div className="slide-container">
-              {/* Image */}
+          <SwiperSlide key={project.projectId}>
+            <div className="slide-wrapper-top">
+              <div
+                className="slide-bg"
+                style={{ backgroundImage: `url(${project.thumbnailImage})` }}
+                onClick={() => navigate(`/details/${project.projectId}`)}
+              ></div>
+
               <img
                 src={project.thumbnailImage}
                 alt={project.name}
+                className="slide-img"
                 onClick={() => navigate(`/details/${project.projectId}`)}
-                className="slide-image"
               />
 
-              {/* Overlay */}
-              <div
-                className="slide-overlay"
-                onClick={() => navigate(`/details/${project.projectId}`)}
-              >
-                <h3>{project.name}</h3>
-                <TruncatedDescription description={project.description} />
+              <div className="content-slider">
+                <div
+                  className="title-slider"
+                  onClick={() => navigate(`/details/${project.projectId}`)}
+                >
+                  <h1>{project.name}</h1>
+                </div>
 
-                {/* Profile & Username */}
-                <div className="profile-info">
-                  <img
-                    src={project.profilePic ? project.profilePic : Anonimous}
-                    alt={project.username || "Anonymous User"}
-                    className="profile-pic"
-                    onClick={() => onProfileClick(project.uniqueId)}
-                  />
-                  <span
-                    className="username"
-                    onClick={() => onProfileClick(project.uniqueId)}
-                  >
-                    {project.username || "Anonymous User"}
-                  </span>
-                </div>
-              </div>
-              {/* Like & Share Icons */}
-              <div className="icons">
                 <div
-                  className="icon-wrapper like"
-                  onClick={() => handleLikeClick(project.projectId)}
+                  className="description-slider"
+                  onClick={() => navigate(`/details/${project.projectId}`)}
                 >
-                  <FaHeart
-                    className="heart-icon"
-                    style={{ color: project.isLiked ? "red" : "white" }}
-                  />
+                  <TruncatedDescription description={project.description} />
                 </div>
-                <span className="likeCount" style={{ marginTop: "7px" }}>
-                  {project.likes} {project.likes === 1 ? "" : ""}
-                </span>
-                <div
-                  className="icon-wrapper share"
-                  onClick={() => handleShareClick(project)}
-                >
-                  <MdShare />
+
+                <div className="avtar-username">
+                  <div className="avtar-photo">
+                    <img
+                      src={project.profilePic ? project.profilePic : Anonimous}
+                      alt={project.username || "Anonymous User"}
+                      className="avatar"
+                      onClick={() => onProfileClick(project.uniqueId)}
+                    />
+                    <span
+                      className="username"
+                      onClick={() => onProfileClick(project.uniqueId)}
+                    >
+                      {project.username || "Anonymous User"}
+                    </span>
+                  </div>
+
+                  <div className="icons">
+                    <div className="icon-group">
+                      <div
+                        className="icon-wrapper like"
+                        onClick={() => handleLikeClick(project.projectId)}
+                      >
+                        <FaHeart
+                          className="heart-icon"
+                          style={{ color: project.isLiked ? "red" : "white" }}
+                        />
+                      </div>
+                      <span className="likeCount">{project.likes}</span>
+                      <div
+                        className="icon-wrapper share"
+                        onClick={() => handleShareClick(project)}
+                      >
+                        <MdShare />
+                      </div>
+                      <button
+                        className="read"
+                        onClick={() =>
+                          navigate(`/details/${project.projectId}`)
+                        }
+                      >
+                        Read More
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <style>
-        {`
-
-        .swiper{
-        height:630px;
-        margin-top:50px;
-        }
-        .swiper-slide{
-      background:transparent;
-        }
-      
-
-
-          .swiper-slide-custom {
-            display: flex;
-            justify-content: center;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-          }
-
-           
-     
-          .slide-container {
-            position: relative;
-            {/* width: 700px; */}
-            height: 650px;
-            border-radius: 10px;
-            {/* overflow: hidden; */}
-            transition: transform 0.5s ease, filter 0.5s ease;
-          }
-
-          . slide-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-          }
-
-          .slide-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 210px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 1.9), transparent);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 15px;
-            color: #fff;
-            text-align: start;
-          }
-
-          .slide-overlay h3 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
-            padding: 0;
-              margin-bottom: 10px;
-          }
-
-          .slide-overlay p {
-            
-            {/* margin-bottom: 10px; */}
-          }
-
-          /* Profile Info */
-          .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-            margin-bottom:10px;
-          }
-
-          .profile-info img{
-          width:32px;
-          }
-
-          .profile-pic img{
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid white;
-          }
-
-          .username {
-            font-size: 16px;
-            font-weight: bold;
-          }
-
-          /* Like & Share Icons */
-          /* Like & Share Icons */
-.icons {
-  position: absolute;
-  bottom: 20px;
-  right: 5px;
-  display: flex;
-  gap: 10px;
-}
-
-/* Icon Wrapper for Better Hover Effect */
-.icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 38px;  
-  height: 38px;
-  border-radius: 50%;
-  transition: background 0.3s ease-in-out;
-  cursor: pointer;
-}
-
-
-
-/* Hover Effect */
-.icon-wrapper.like:hover .heart-icon {
-  color: red !important;  /* Ensure color changes */
-  transform: scale(1.1); /* Slight zoom effect for better UX */
-  
-}
-
-/* Optional: Change background on hover */
-.icon-wrapper.like:hover {
-  background: rgba(255, 0, 0, 0.3);
-  border-radius: 50%;
-}
-
-
-
-/* Share Icon */
-.icon-wrapper.share:hover {
-  background: rgba(0, 0, 255, 0.3);
-  color: blue;
-}
-
-/* Icon Size */
-.icons svg {
-  font-size: 23px;
-}
-.swiper-pagination {
-  bottom: 10px !important;
-}
-
-.swiper-pagination-bullet {
-  background: white !important;
-  width: 7px;
-  height: 7px;
-  opacity: 0.7;
-}
-
-.swiper-pagination-bullet-active {
-  background: blue !important;
-  opacity: 1 !important;
-}
-
-          .swiper-slide-prev .slide-container {
-            transform: scale(0.9);
-            filter: brightness(0.6);
-          }
-
-          .swiper-slide-next .slide-container {
-            transform: scale(0.9);
-            filter: brightness(0.6);
-          }
-
-          .swiper-slide-prev-prev .slide-container {
-            transform: scale(0.9);
-            filter: brightness(0.6);
-          }
-
-          .swiper-slide-next-next .slide-container {
-            transform: scale(0.7);
-            filter: brightness(0.6);
-          }
-
-        `}
-      </style>
+      <div className="custom-swiper-button-prev">&#8592;</div>
+      <div className="custom-swiper-button-next">&#8594;</div>
 
       {/* Share Modal */}
       {selectedProject && (

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap");
+
 html,
 body {
   height: 100%;
@@ -6,20 +8,21 @@ body {
 
 .carouselSection {
   position: relative;
-  margin-bottom: 150px;
+  // margin-bottom: 150px;
   //   margin-top: 20px;
 
   & > .contentWrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
   }
 
   .carouselTitle {
     font-size: 28px;
     color: white;
     font-weight: 800;
+    font-family: "Sunflower", sans-serif;
   }
 }
 

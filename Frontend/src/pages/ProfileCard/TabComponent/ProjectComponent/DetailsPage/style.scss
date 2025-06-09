@@ -13,15 +13,13 @@
   margin: 0; /* Remove default margin */
 }
 
-
-
 .content1 {
   display: flex;
   justify-content: space-between;
   position: relative;
   // flex-direction: column;
   gap: 20px;
- 
+
   overflow: hidden;
 
   .left1 {
@@ -30,7 +28,6 @@
     overflow: hidden;
     width: fit-content;
 
-    
     .posterImg {
       display: block;
       border-radius: 12px;
@@ -39,32 +36,32 @@
   }
 
   .right1 {
-    width: 48vh; /* Fixed width */
-    height: 100%; /* Full height of the viewport */
-    overflow-y: auto; /* Allow scrolling if content overflows */
-    background-color: #1c1c1c; /* Dark background for a DeviantArt-like appearance */
-    padding: 18px; /* Add padding for spacing */
+    width: 48vh;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #1c1c1c;
+    padding: 18px;
     box-sizing: border-box;
-    position: fixed; /* Fixed position relative to the viewport */
-    top: 60px; /* Align to the top of the viewport */
-    right: 0; /* Align to the right of the viewport */
-    color: #e0e0e0; /* Light text color for contrast against dark background */
+    position: fixed;
+    top: 60px;
+    right: 0;
+    color: #e0e0e0;
     transition: all 0.3s ease;
   }
-  
+
   .project-container {
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap to the next line if needed */
+    flex-wrap: wrap;
   }
-  
+
   .row-layout {
-    flex-direction: row; /* Arrange items in a row */
+    flex-direction: row;
   }
-  
+
   .column-layout {
-    flex-direction: column; /* Arrange items in a column */
+    flex-direction: column;
   }
-  
+
   .project-item {
     position: relative;
     margin: 10px; /* Space between items */
@@ -73,26 +70,31 @@
     width: calc(50% - 20px); /* Adjust width for row layout */
     transition: transform 0.3s ease, box-shadow 0.2s ease;
   }
-  
+
   .project-item:hover {
     transform: scale(1.05);
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); /* Add a shadow effect on hover */
   }
-  
+
   .project-image {
     width: 100%; /* Full width of the container */
     height: 150px; /* Adjust height as needed */
     object-fit: cover; /* Cover the area while maintaining aspect ratio */
     border-radius: 8px 8px 0 0; /* Rounded top corners */
   }
-  
+
   .project-content {
     position: absolute; /* Position content over the image */
     top: 0; /* Align content to the top */
     left: 0; /* Align content to the left */
     right: 0; /* Align content to the right */
     bottom: 0; /* Align content to the bottom */
-    background-color: rgba(0, 0, 0, 0.3 ); /* Semi-transparent background for better visibility */
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.3
+    ); /* Semi-transparent background for better visibility */
     color: #fffcfc; /* Lighter text color for visibility */
     display: flex;
     flex-direction: column;
@@ -103,11 +105,11 @@
     padding: 10px; /* Add padding for content */
     text-align: start; /* Center text within content */
   }
-  
+
   .project-item:hover .project-content {
     opacity: 1; /* Show content on hover */
   }
-  
+
   .project-content h4 {
     margin: 0 0 10px;
     font-size: 13px;
@@ -115,34 +117,34 @@
     color: white;
     font-weight: 600;
   }
-  
+
   .project-content p {
     margin: 0;
     font-size: 15px;
   }
-  
+
   .avatarContainer2 {
     position: absolute;
     bottom: 10px; /* Position it near the bottom */
-    left: 10px;   /* Position it near the left */
+    left: 10px; /* Position it near the left */
     display: flex;
     align-items: center;
   }
-  
+
   .profileIcon2 img {
     border-radius: 50%;
     width: 25px;
     height: 25px;
     margin-right: 5px; /* Add space between the image and the text */
   }
-  
+
   .profileIcon2 span {
     color: white;
     font-size: 10px;
     font-weight: bold;
     white-space: nowrap;
   }
-  
+
   .iconsContainer2 {
     position: absolute;
     bottom: 10px;
@@ -151,10 +153,10 @@
     flex-direction: column;
     gap: 6px;
   }
-  
+
   .icons2 {
     margin-left: 120px;
-  
+
     .icon {
       color: #fff;
       font-size: 14px;
@@ -173,69 +175,68 @@
     cursor: pointer;
     transition: transform 0.2s ease, background-color 0.2s ease;
   }
-  
+
   .plus-icon:hover {
     color: #1dbf73;
     border: 1px solid #1dbf73;
   }
-  
+
   .plus-icon-inner {
     font-size: 21px;
   }
-  
-  
+
   /* Media Queries for responsive design */
   @media (max-width: 768px) {
     .project-item {
       width: calc(100% - 20px); /* Full width for smaller screens */
     }
-  
+
     .avatarContainer2 {
       bottom: 5px; /* Adjust position for smaller screens */
-      left: 5px;   /* Adjust position for smaller screens */
+      left: 5px; /* Adjust position for smaller screens */
     }
-  
+
     .iconsContainer2 {
       bottom: 5px;
       right: 5px; /* Adjust for smaller screens */
       flex-direction: row; /* Display icons in a row for better fit */
     }
   }
-  
+
   @media (max-width: 480px) {
-    .content1 .right1{
+    .content1 .right1 {
       display: none;
     }
     .project-item {
       width: calc(100% - 20px); /* Full width for very small screens */
     }
-  
+
     .project-image {
       height: 120px; /* Adjust height for small screens */
     }
-  
+
     .project-content h4 {
       font-size: 12px; /* Smaller font size for small screens */
     }
-  
+
     .project-content p {
       font-size: 14px; /* Smaller font size for small screens */
     }
-  
+
     .profileIcon2 img {
       width: 20px;
       height: 20px; /* Adjust icon size for small screens */
     }
-  
+
     .profileIcon2 span {
       font-size: 9px; /* Adjust text size for small screens */
     }
-  
+
     .iconsContainer2 {
       gap: 4px; /* Reduce gap for small screens */
     }
   }
-}  
+}
 // style.scss
 
 @keyframes scrollUp {
@@ -252,10 +253,6 @@
 // .project-item:hover .iconsContainer2 {
 //   transform: scale(1.05); /* Slight zoom in on hover */
 // }
-
-
-
-
 
 .buttons {
   display: flex;
@@ -321,18 +318,18 @@
 }
 
 .tags:hover {
-  background-color: rgba(var(--pink-rgb), 0.9); /* Hover background with increased opacity */
+  background-color: rgba(
+    var(--pink-rgb),
+    0.9
+  ); /* Hover background with increased opacity */
   cursor: pointer; /* Pointer cursor on hover */
 }
-
-
 
 @media only screen and (min-width: 768px) {
   .detailsBanner .content .left .posterImg {
     max-width: 600px;
   }
 }
-
 
 .User-Profile {
   display: flex;
@@ -408,20 +405,16 @@
   width: 60vw;
   height: 65vh; // Decrease height as needed for main Swiper container
   overflow: auto;
-  margin-left: 0;
+  // margin-left: 0;
   position: relative;
 
-
   .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #000 !important;
-      // width: 100%; 
-      height: 100%; // Ensure each slide has a fixed height
-      
-
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000 !important;
+    // width: 100%;
+    height: 100%; // Ensure each slide has a fixed height
 
     .TitleImg {
       // top: 100px;
@@ -431,38 +424,30 @@
       object-fit: cover;
       object-position: center;
       position: relative;
-      
     }
   }
 
-  
+  /* Custom styles for Swiper navigation buttons */
+  // .swiper-button-next,
+  // .swiper-button-prev {
 
-/* Custom styles for Swiper navigation buttons */
-// .swiper-button-next,
-// .swiper-button-prev {
+  //   color: #fff; /* Set the color of the navigation arrows */
+  // }
 
-//   color: #fff; /* Set the color of the navigation arrows */
-// }
+  // /* Additional styling if you want the buttons to be more prominent */
+  // .swiper-button-next::after,
+  // .swiper-button-prev::after {
+  //   font-size: 35px; /* Adjust the arrow icon size */
+  // }
 
-// /* Additional styling if you want the buttons to be more prominent */
-// .swiper-button-next::after,
-// .swiper-button-prev::after {
-//   font-size: 35px; /* Adjust the arrow icon size */
-// }
-
-// .swiper-button-next {
-//   right: 10px; /* Adjust position from the right */
-// }
-
-
-
+  // .swiper-button-next {
+  //   right: 10px; /* Adjust position from the right */
+  // }
 }
-
 
 .swiper-container {
   position: relative;
   width: 100%;
-
 }
 
 .swiper-main-wrapper {
@@ -500,38 +485,30 @@
   z-index: 10;
 }
 
-
-
-
-@media  (max-width: 1106px) {
+@media (max-width: 1106px) {
   .swiper-nav-buttons {
     width: 80%; /* Arrows will stay inside swiper */
-    
+
     position: absolute;
   }
 
- 
-
-  .custom-next {
-    right: -76px;
-  }
+  // .custom-next {
+  //   // right: -76px;
+  // }
 }
-
 
 // @media  (min-width: 1180px) {
 //   .swiper-nav-buttons {
 //     width: 90%; /* Arrows will stay inside swiper */
-    
+
 //     position: absolute;
 //   }
 
 //  }
 
-
-
 // thumbanil
 
-.thumbImg{
+.thumbImg {
   width: 100%;
 }
 
@@ -543,8 +520,6 @@
 
   margin-left: 0px;
 }
-
-
 
 /* More specific styles for the active thumbnail */
 .mySwiper-thumbs .swiper-slide.swiper-slide-thumb-active {
@@ -560,14 +535,12 @@
   transition: opacity 0.3s ease; /* Smooth transition for opacity change */
 }
 
-
 .mySwiper-thumbs .swiper-slide img {
   max-width: 100%;
   // border-radius: 10px;
   max-height: 100%;
   object-fit: cover; /* Ensures the image covers the slide */
 }
-
 
 .menu {
   list-style: none;
@@ -579,7 +552,7 @@
 .menuItem {
   margin-right: 10px;
   cursor: pointer;
-  gap:10px
+  gap: 10px;
 }
 
 .iconBox {
@@ -602,7 +575,7 @@
   display: flex;
   align-items: center;
   padding: 5px 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   font-size: 14px;
   color: #62646a;
 
@@ -620,7 +593,7 @@
     }
 
     &::after {
-      content: '>';
+      content: ">";
       margin: 0 8px;
       color: #b0b1b4;
     }
@@ -636,7 +609,7 @@
   }
 
   .breadcrumb-link:last-of-type::after {
-    content: '';
+    content: "";
   }
 
   .chip-container {
@@ -665,7 +638,6 @@
   gap: 10px;
   list-style: none;
   padding: 0;
-  
 }
 
 .menuItem {
@@ -721,9 +693,7 @@
   text-decoration: none; /* Underline remove on hover */
 }
 
-
-
-.project-description{
+.project-description {
   border-radius: 3px;
   padding: 5px;
   text-decoration: none;
@@ -731,12 +701,10 @@
 }
 
 @media (max-width: 1224px) {
-  .content1 .right1{
+  .content1 .right1 {
     width: 45vh;
   }
 }
-
-
 
 /* Media Query for Tablet Screens */
 @media (max-width: 1105px) {
@@ -744,70 +712,67 @@
     display: flex;
     flex-direction: column; /* Ensure vertical stacking if required */
   }
-  .mySwiper{
+  .mySwiper {
     height: 490px;
     width: 75vw;
+    margin-left: 0;
   }
-  .content1 .left1 {
-    margin-right: 20px; /* Add spacing between .left1 and .right1 */
-    width: 90vw;
-  }
+  // .content1 .left1 {
+  //   // margin-right: 20px;
+  //   // width: 90vw;
+  // }
 
-  .content1 .right1{
+  .content1 .right1 {
     width: 15vh;
     padding: 10px;
-    
-  
   }
-  .content1 .project-item{
+  .content1 .project-item {
     margin: 2px;
     width: calc(100% - 20px);
   }
-  .mySwiper-thumbs{
+  .mySwiper-thumbs {
     width: 400px;
   }
-  .description1{
-    width: 80%;
+  .description1 {
+    width: 79%;
   }
-  .User-Profile{
+  .User-Profile {
     width: 80vw;
     display: contents;
   }
-  .plus-icon{
+  .plus-icon {
     margin-right: 130px;
   }
-  
 }
 
 @media (max-width: 768px) {
-  
   .content1 .right1 {
     display: none;
   }
-  .description1{
-    width: 90%;
+  .description1 {
+    width: 97%;
     font-size: 13px;
   }
-  .mySwiper{
+  .mySwiper {
     width: 92vw;
   }
-  .title h1{
+  .title h1 {
     font-size: 22px;
   }
-  .User-Profile .user-details .username{
+  .User-Profile .user-details .username {
     font-size: 20px;
   }
-  .avatarImage{
+  .avatarImage {
     width: 30px;
     height: 30px;
   }
-  .menuItem{
+  .menuItem {
     font-size: 13px;
   }
-  .badge{
+  .badge {
     font-size: 9px;
   }
-  .menuItems{
+  .menuItems {
     gap: 0;
   }
 
@@ -818,23 +783,20 @@
   .project-content h4 {
     font-size: 12px; /* Adjust font size */
   }
-  .User-Profile{
+  .User-Profile {
     display: flex;
     width: 77vw;
   }
-  .plus-icon{
+  .plus-icon {
     margin-right: 1px;
   }
-  .mySwiper-thumbs{
+  .mySwiper-thumbs {
     width: 290px;
   }
 }
 
-
-
 /* Media Query for Desktop Screens */
 @media (min-width: 1025px) {
-  
   // .content1 .right1 {
   //   width: 45vh;
   // }
@@ -880,5 +842,5 @@
 }
 
 .swiper-wrapper {
-  height: auto ;
+  height: auto;
 }
