@@ -58,6 +58,7 @@ import { Link } from "react-router-dom";
 import ReportModal from "./Report/Report";
 import { FaEye } from "react-icons/fa";
 import linkifyHtml from "linkify-html";
+import { Footer } from "antd/es/layout/layout";
 
 const DetailsPage = () => {
   const { projectId } = useParams();
@@ -427,12 +428,14 @@ const DetailsPage = () => {
                     <Swiper
                       style={{
                         "--swiper-navigation-color": "#fff",
-                        "--swiper-pagination-color": "#fff",
+                        "--swiper-pagination-color": "green",
                       }}
                       lazy={true}
                       pagination={{
-                        el: ".custom-pagination", // ✅ Use custom selector
+                        el: ".custom-pagination",
                         clickable: true,
+                        dynamicBullets: true,
+                        dynamicMainBullets: 3,
                       }}
                       thumbs={{ swiper: thumbsSwiper }}
                       navigation={{

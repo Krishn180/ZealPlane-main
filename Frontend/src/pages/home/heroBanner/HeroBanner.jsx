@@ -663,7 +663,11 @@ const HeroBanner = ({ selectedPosterUrl }) => {
           nextEl: ".custom-swiper-button-next",
           prevEl: ".custom-swiper-button-prev",
         }}
-        pagination={{ clickable: true }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+          dynamicMainBullets: 3,
+        }}
         loop={true}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         speed={800}

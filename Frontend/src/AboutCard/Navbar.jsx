@@ -19,7 +19,13 @@ const Navbar = () => {
     <div className="nav-top">
       <div className="logo-img">
         <img src={logozp} alt="ZealPlane Logo" className="logo-img" />
-        <span style={{ color: "red", fontWeight: "900", fontSize: "19px" }}>
+        <span
+          style={{
+            color: "red",
+            fontWeight: "900",
+            fontSize: window.innerWidth <= 768 ? "17px" : "19px",
+          }}
+        >
           ZEALPLANE
         </span>
       </div>

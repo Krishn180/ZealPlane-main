@@ -594,7 +594,7 @@ $netflix-font-family: "Helvetica Neue", sans-serif; // Consistent font
   transition: none;
 }
 
-.swiper-pagination-bullet {
+.theater-swiper .swiper-pagination-bullet {
   width: 46px !important;
   height: 16px !important;
   background-color: #fff !important;
@@ -602,15 +602,15 @@ $netflix-font-family: "Helvetica Neue", sans-serif; // Consistent font
   border-radius: 14px !important;
 }
 
-.swiper-pagination-bullet-active {
+.theater-swiper .swiper-pagination-bullet-active {
   width: 48px !important;
   border-radius: 14px !important;
   background-color: #ae3c68 !important;
   transition: all 0.8s ease-in-out !important;
 }
-.swiper-pagination-bullet:nth-child(n + 11) {
-  display: none !important;
-}
+// .swiper-pagination-bullet:nth-child(n + 11) {
+//   display: none !important;
+// }
 
 .read {
   // position: absolute;
@@ -875,14 +875,8 @@ $netflix-font-family: "Helvetica Neue", sans-serif; // Consistent font
       transparent 37%
     );
   }
-  .swiper-pagination-bullet {
-    width: 25px;
-    height: 13px;
-  }
-  .swiper-pagination-bullet:nth-child(n + 7) {
-    display: none !important;
-  }
-  .swiper-pagination-bullet {
+
+  .theater-swiper .swiper-pagination-bullet {
     width: 22px !important;
     height: 10px !important;
   }
