@@ -65,11 +65,12 @@ const Home = () => {
     <div className="homePage">
       <Header />
       <HeroBanner />
-      <Curated />
+      {/* <Curated /> */}
+       <Trending />
       <Topics/>
             <Trending />
-            <Popular />
-            <TopRated />
+            {/* <Popular />
+            <TopRated /> */}
             {/* <Recommended/> */}
             <Footer />
     </div>

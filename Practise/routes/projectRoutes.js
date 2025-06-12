@@ -50,7 +50,7 @@ router.put(
 
 router.delete("/id/:projectId", ValidateToken, deleteProject);
 
-router.post("/id/:projectId", projectUpload.singleThumbnail, addThumbnailImage);
+router.post("/id/:projectId", projectUpload.singleThumbnailOrPdf, addThumbnailImage);
 
 router.post("/:projectId", ValidateToken, commentOnProject); // This will map to /api/comments/:projectId
 

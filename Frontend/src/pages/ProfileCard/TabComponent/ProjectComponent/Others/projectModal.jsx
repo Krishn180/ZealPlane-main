@@ -12,6 +12,9 @@ import {
   IconButton,
   CircularProgress,
   FormHelperText,
+   Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import ContentWrapper from "../../../../../components/contentWrapper/ContentWrapper";
@@ -270,40 +273,85 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
             </FormHelperText>
           )}
         </FormControl>
-        <TextField
-          margin="dense"
-          placeholder="Add Tags"
-          type="text"
-          fullWidth
-          value={tagInput}
-          onChange={(e) => setTagInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleTagAdd()}
-          helperText={`Press Enter to add tags (Max ${MAX_TAGS})`}
-          sx={{
-            marginBottom: 2,
-            input: { color: "#fff" },
-            "& .MuiFormHelperText-root": { color: "#aaa" },
-          }}
-        />
-        <div style={{ marginBottom: "16px" }}>
-          {formData.tags.map((tag, index) => (
-            <Chip
-              key={index}
-              label={tag}
-              onDelete={() => handleTagDelete(tag)}
-              sx={{
-                margin: "4px",
-                backgroundColor: "#555",
-                color: "#fff",
-              }}
-            />
-          ))}
-          {errors.tags && (
-            <FormHelperText sx={{ color: "#e57373" }}>
-              {errors.tags}
-            </FormHelperText>
-          )}
-        </div>
+  {/* Tag Selector */}
+<FormControl fullWidth sx={{ marginBottom: 2 }}>
+  <InputLabel sx={{ color: "#aaa" }}>Tags</InputLabel>
+  <Select
+    multiple
+    value={formData.tags || []}
+    onChange={(e) =>
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        tags: e.target.value,
+      }))
+    }
+    renderValue={(selected) => (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+        {selected.map((value) => (
+          <Chip key={value} label={value} sx={{ backgroundColor: "#444", color: "#fff" }} />
+        ))}
+      </div>
+    )}
+    sx={{
+      color: "#fff",
+      backgroundColor: "#272729",
+      "& .MuiSvgIcon-root": { color: "#fff" },
+    }}
+  >
+    <MenuItem value="Graphic Novel">Graphic Novel</MenuItem>
+    <MenuItem value="Comic Book">Comic Book</MenuItem>
+    <MenuItem value="Manga">Manga</MenuItem>
+  </Select>
+</FormControl>
+
+
+{/* Subtag Selector */}
+<FormControl fullWidth sx={{ marginBottom: 2 }}>
+  <InputLabel sx={{ color: "#aaa" }}>Subtag / Genre</InputLabel>
+  <Select
+    value={formData.subtag || ""}
+    onChange={(e) =>
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        subtag: e.target.value,
+      }))
+    }
+    displayEmpty
+    inputProps={{ "aria-label": "Select subtag" }}
+    sx={{
+      color: "#fff",
+      backgroundColor: "#272729",
+      "& .MuiSvgIcon-root": { color: "#fff" },
+    }}
+  >
+    <MenuItem value="Fanmade">Fanmade</MenuItem>
+    <MenuItem value="Fantasy">Fantasy</MenuItem>
+    <MenuItem value="Sci-Fi">Sci-Fi</MenuItem>
+    <MenuItem value="Horror">Horror</MenuItem>
+    <MenuItem value="Comedy">Comedy</MenuItem>
+    <MenuItem value="Drama">Drama</MenuItem>
+    <MenuItem value="Action">Action</MenuItem>
+  </Select>
+</FormControl>
+
+{/* Publisher Input */}
+<TextField
+  margin="dense"
+  name="publisher"
+  placeholder="Publisher Name"
+  type="text"
+  fullWidth
+  value={formData.publisher || ""}
+  onChange={handleChange}
+  sx={{
+    marginBottom: 2,
+    input: { color: "#fff" },
+    "& .MuiFormHelperText-root": {
+      color: "#aaa",
+    },
+  }}
+/>
+
         <input
           type="file"
           onChange={handleFileChange}

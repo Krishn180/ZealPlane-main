@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const Project = require("../models/projectModel");
 const Notification = require("../models/notificationModel");
 const User = require("../models/userModel");
+const convertPdfToImages = require("../utils/convertPdfToImages");
+
 
 const getAllProjects = async (req, res) => {
   try {
@@ -188,28 +190,44 @@ const addThumbnailImage = async (req, res) => {
   try {
     const { projectId } = req.body;
 
-    console.log("Received request to add a thumbnail image.");
+    console.log("Received request to add a thumbnail image or comic PDF.");
     console.log("Request body:", req.body);
     console.log("Request file:", req.file);
 
-    const newThumbnail = req.file ? req.file.path : null;
-    console.log("New thumbnail path:", newThumbnail);
-
-    if (!newThumbnail) {
-      console.log("No thumbnail image uploaded.");
-      return res.status(400).json({ message: "No thumbnail image uploaded." });
+    if (!req.file) {
+      console.log("No file uploaded.");
+      return res.status(400).json({ message: "No file uploaded." });
     }
 
-    // Ensure the projectId is provided
     if (!projectId) {
       console.log("No projectId provided.");
       return res.status(400).json({ message: "Project ID is required." });
     }
 
-    // Convert projectId to ObjectId and attempt to find and update the project with the new thumbnail image
+    const uploadedFile = req.file.path;
+    const fileType = req.file.mimetype;
+
+    let updateData = {};
+
+    if (fileType === "application/pdf") {
+      console.log("PDF file detected. Converting to images...");
+      const imageUrls = await convertPdfToImages(uploadedFile, cloudinary);
+      updateData = {
+        comicPdf: uploadedFile,
+        $push: { thumbnailImages: { $each: imageUrls } },
+      };
+      console.log("PDF converted to images and URLs obtained:", imageUrls);
+    } else if (fileType.startsWith("image/")) {
+      updateData = { $push: { thumbnailImages: uploadedFile } };
+      console.log("Image file detected. Pushing to thumbnailImages.");
+    } else {
+      console.log("Unsupported file type:", fileType);
+      return res.status(400).json({ message: "Unsupported file type." });
+    }
+
     const updatedProject = await Project.findOneAndUpdate(
       { projectId: new mongoose.Types.ObjectId(projectId) },
-      { $push: { thumbnailImages: newThumbnail } }, // Use $push to add the new thumbnail image to the array
+      updateData,
       { new: true }
     );
 
@@ -219,12 +237,18 @@ const addThumbnailImage = async (req, res) => {
     }
 
     console.log("Project updated successfully:", updatedProject);
-    res.status(200).json(updatedProject);
+    res.status(200).json({
+      message: "File uploaded and project updated successfully.",
+      fileUrl: uploadedFile,
+      fileType,
+      updatedProject,
+    });
   } catch (err) {
     console.error("Error occurred while updating the project:", err.message);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Internal server error", error: err.message });
   }
 };
+
 
 const updateProject = async (req, res) => {
   const { name, description, tags, subtags, publisher, teammates, ratings } =

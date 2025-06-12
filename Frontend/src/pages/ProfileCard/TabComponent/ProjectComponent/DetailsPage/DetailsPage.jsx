@@ -557,6 +557,28 @@ const DetailsPage = () => {
                         <span>No tags available</span>
                       )}
                     </div>
+                      <div className="subtags">
+    <strong>Subtags:</strong>{" "}
+    {projectData.subtags && projectData.subtags.length > 0 ? (
+      projectData.subtags.map((subtag, index) => (
+        <span key={index} className="tag-item">
+          {subtag}
+        </span>
+      ))
+    ) : (
+      <span>None</span>
+    )}
+  </div>
+
+  {/* Publisher */}
+  <div className="publisher">
+    <strong>Publisher:</strong>{" "}
+    {projectData.publisher ? (
+      <span className="tag-item">{projectData.publisher}</span>
+    ) : (
+      <span>None</span>
+    )}
+  </div>
                     <div className="views">
                       <FaEye style={{ marginRight: "8px", color: "#7f8c8d" }} />{" "}
                       {view} views
