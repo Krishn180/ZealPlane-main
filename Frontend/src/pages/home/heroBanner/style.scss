@@ -567,7 +567,7 @@ $netflix-font-family: "Helvetica Neue", sans-serif; // Consistent font
 }
 
 .description-slider {
-  border-left: 4px solid #ae3c68;
+  border-left: 4px solid red;
   padding-left: 10px;
   // margin-bottom: 8px;
   opacity: 1;
@@ -605,7 +605,7 @@ $netflix-font-family: "Helvetica Neue", sans-serif; // Consistent font
 .theater-swiper .swiper-pagination-bullet-active {
   width: 48px !important;
   border-radius: 14px !important;
-  background-color: #ae3c68 !important;
+  background-color: red !important;
   transition: all 0.8s ease-in-out !important;
 }
 // .swiper-pagination-bullet:nth-child(n + 11) {

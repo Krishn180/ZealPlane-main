@@ -10,6 +10,7 @@ body {
   position: relative;
   // margin-bottom: 150px;
   //   margin-top: 20px;
+  margin: 10px 40px;
 
   & > .contentWrapper {
     display: flex;
@@ -29,6 +30,10 @@ body {
 @media (max-width: 768px) {
   .carouselSection .carouselTitle {
     font-size: 21px;
+  }
+
+  .carouselSection {
+    margin: 1px;
   }
 }
 .homePage::-webkit-scrollbar {
