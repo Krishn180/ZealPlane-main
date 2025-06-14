@@ -45,15 +45,18 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
 
   const MAX_TAGS = 5; // Maximum allowed tags
 
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    thumbnailImage: "",
-    tags: [],
-    profilePic: profilePic || "",
-    username: localStorage.getItem("username"),
-    id: Date.now(),
-  });
+ const [formData, setFormData] = useState({
+  name: "",
+  description: "",
+  thumbnailImage: "",
+  tags: [],
+  subtag: "",             // ✅ Added
+  publisher: "",          // ✅ Added
+  profilePic: profilePic || "",
+  username: localStorage.getItem("username"),
+  id: Date.now(),
+});
+
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -133,15 +136,18 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     setLoading(true);
     try {
       await onSubmit(formData);
-      setFormData({
-        name: "",
-        description: "",
-        thumbnailImage: "",
-        tags: [],
-        profilePic: profilePic || "",
-        username: localStorage.getItem("username"),
-        id: Date.now(),
-      });
+     setFormData({
+  name: "",
+  description: "",
+  thumbnailImage: "",
+  tags: [],
+  subtag: "",             // ✅ Reset
+  publisher: "",          // ✅ Reset
+  profilePic: profilePic || "",
+  username: localStorage.getItem("username"),
+  id: Date.now(),
+});
+
       onClose();
     } catch (error) {
       console.error("Error submitting the form:", error);

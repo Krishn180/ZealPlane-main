@@ -26,8 +26,7 @@ export default function LoginComponent() {
       toast.success("Signed In to ZealPlane!");
 
       const response = await axios.post(
-        // `http://localhost:5000/api/users/login`,
-        `https://api.comicplane.site/api/users/login`,
+        `${apiBaseUrl}/users/login`,
         {
           email: credentials.email,
           password: credentials.password,
@@ -65,8 +64,7 @@ export default function LoginComponent() {
 
       // Send the Google token to your backend for verification
       const response = await axios.post(
-        // `http://localhost:5000/api/users/google-login`,
-        `https://api.comicplane.site/api/users/google-login`,
+        `${apiBaseUrl}/users/google-login`,
         {
           token: googleToken,
         }

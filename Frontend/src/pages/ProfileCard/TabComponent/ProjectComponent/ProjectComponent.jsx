@@ -64,6 +64,8 @@ const ProjectComponent = () => {
         data.append("description", formData.description);
         data.append("category", formData.category);
         data.append("tags", formData.tags.join(","));
+        data.append("subtag", formData.subtag.join(",")); // assuming it's an array
+        data.append("publisher", formData.publisher);
         data.append("username", formData.username);
         data.append("id", formData.id);
         data.append("uniqueId", uniqueId);
