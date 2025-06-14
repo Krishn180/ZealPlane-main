@@ -50,7 +50,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
   description: "",
   thumbnailImage: "",
   tags: [],
-  subtag: "",             // ✅ Added
+  subtags: [],  // instead of subtag: ""           // ✅ Added
   publisher: "",          // ✅ Added
   profilePic: profilePic || "",
   username: localStorage.getItem("username"),
@@ -141,7 +141,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
   description: "",
   thumbnailImage: "",
   tags: [],
-  subtag: "",             // ✅ Reset
+  subtags: [], // ✅ correct             // ✅ Reset
   publisher: "",          // ✅ Reset
   profilePic: profilePic || "",
   username: localStorage.getItem("username"),
@@ -315,15 +315,21 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
 <FormControl fullWidth sx={{ marginBottom: 2 }}>
   <InputLabel sx={{ color: "#aaa" }}>Subtag / Genre</InputLabel>
   <Select
-    value={formData.subtag || ""}
+    multiple
+    value={formData.subtags || []}
     onChange={(e) =>
       setFormData((prevFormData) => ({
         ...prevFormData,
-        subtag: e.target.value,
+        subtags: e.target.value,
       }))
     }
-    displayEmpty
-    inputProps={{ "aria-label": "Select subtag" }}
+    renderValue={(selected) => (
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+        {selected.map((value) => (
+          <Chip key={value} label={value} sx={{ backgroundColor: "#444", color: "#fff" }} />
+        ))}
+      </div>
+    )}
     sx={{
       color: "#fff",
       backgroundColor: "#272729",
@@ -339,6 +345,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     <MenuItem value="Action">Action</MenuItem>
   </Select>
 </FormControl>
+
 
 {/* Publisher Input */}
 <TextField

@@ -558,11 +558,11 @@ const DetailsPage = () => {
                       )}
                     </div>
                       <div className="subtags">
-    <strong>Subtags:</strong>{" "}
+     <strong>Subtags:</strong>{" "}
     {projectData.subtags && projectData.subtags.length > 0 ? (
-      projectData.subtags.map((subtag, index) => (
+      projectData.subtags.map((Subtags, index) => (
         <span key={index} className="tag-item">
-          {subtag}
+          {Subtags}
         </span>
       ))
     ) : (
