@@ -675,9 +675,7 @@ const DetailsPage = () => {
           </div>
         </ContentWrapper>
       ) : (
-        <p>
-          <Spinner />
-        </p>
+         <Spinner initial />
       )}
       <UpdateProjectModal
         open={open}

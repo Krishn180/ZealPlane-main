@@ -32,6 +32,7 @@ import About from "./components/footer/about";
 import FAQ from "./components/footer/faq";
 
 import "./App.scss";
+import { initGA, trackPageView } from "./Analytics";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +44,19 @@ function App() {
   // Use location to check the current path
   const location = useLocation();
 
+   // Check if the current path is in the list of paths to hide footer
+  const shouldHideFooter = hideFooterPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
+
+    useEffect(() => {
+    initGA();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
   // List of paths where the footer should be hidden
   const hideFooterPaths = [
     "/login",
@@ -52,10 +66,7 @@ function App() {
     "/forum/create-post", // ✅ Added this line
   ];
 
-  // Check if the current path is in the list of paths to hide footer
-  const shouldHideFooter = hideFooterPaths.some((path) =>
-    location.pathname.startsWith(path)
-  );
+ 
 
   return (
     <div>
