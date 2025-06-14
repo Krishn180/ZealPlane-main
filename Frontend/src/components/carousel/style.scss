@@ -116,6 +116,7 @@
     @include md {
       gap: 2px;
       overflow: hidden;
+      // padding: 3px;
       margin: 0;
       padding: 0;
     }
@@ -143,6 +144,7 @@
       }
       @include md {
         width: calc(25% - 15px);
+        padding: 3px;
       }
       @include lg {
         width: calc(15% - 16px);
@@ -305,6 +307,9 @@
 @media (max-width: 768px) {
   .swiper-slide img {
     width: 100%;
+  }
+  .carousel .contentWrapper {
+    padding: 13px;
   }
 }
 
