@@ -40,33 +40,29 @@ function App() {
   const userId = userIdLocalStorage;
   const { url } = useSelector((state) => state.home);
 
-  // Use location to check the current path
-  // Use location to check the current path
   const location = useLocation();
 
-   // Check if the current path is in the list of paths to hide footer
+  // ✅ Define this BEFORE using it below
+  const hideFooterPaths = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/details/",
+    "/forum/create-post",
+  ];
+
+  // ✅ Now safe to use
   const shouldHideFooter = hideFooterPaths.some((path) =>
     location.pathname.startsWith(path)
   );
 
-    useEffect(() => {
+  useEffect(() => {
     initGA();
   }, []);
 
   useEffect(() => {
     trackPageView(location.pathname + location.search);
   }, [location]);
-
-  // List of paths where the footer should be hidden
-  const hideFooterPaths = [
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/details/",
-    "/forum/create-post", // ✅ Added this line
-  ];
-
- 
 
   return (
     <div>
@@ -98,11 +94,12 @@ function App() {
         </Routes>
       </main>
 
-      {/* Conditionally render Footer based on the current path */}
+      {/* ✅ Uncomment this when ready */}
       {/* {!shouldHideFooter && <Footer />} */}
     </div>
   );
 }
+
 
 function AppWrapper() {
   return (
