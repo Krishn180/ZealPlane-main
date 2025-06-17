@@ -8,66 +8,61 @@ const {
   updateProject,
   addThumbnailImage,
   getCommentById,
-  updateComment,
-  deleteComment,
+  updateComment, // Add missing functions
+  deleteComment, // Add missing functions
   likeProject,
   commentOnProject,
   deleteProject,
 } = require("../controllers/projectController");
-
 const ValidateToken = require("../midleware/validateTokenHandler");
 
-// ✅ Import individual middleware functions
-const {
-  singleThumbnail,
-  multipleImages,
-  singleThumbnailOrPdf,
-} = require("../midleware/projectUpload");
+// Middleware for handling file uploads
+const projectUpload = require("../midleware/projectUpload");
 
 // Route to get all projects
 router.get("/", getAllProjects);
 
-// Route to get project by ID (optional token)
+// Route to get project by projectId
 router.get(
   "/id/:projectId",
   (req, res, next) => {
     if (req.headers.authorization) {
-      ValidateToken(req, res, next);
+      ValidateToken(req, res, next); // Apply the ValidateToken middleware if a token is provided
     } else {
-      next();
+      next(); // Skip the ValidateToken if no token is provided
     }
   },
   getProjectById
 );
 
-// Get projects by username
+// Route to get projects by username
 router.get("/username/:username", getProjectsByUsername);
 
-// Create new project
-router.post("/", singleThumbnail, createProject);
+// Route to create a new project
+router.post("/", projectUpload.singleThumbnail, createProject);
 
-// Update project
-router.put("/id/:projectId", [singleThumbnail, multipleImages], updateProject);
+// Route to update project by projectId
+router.put(
+  "/id/:projectId",
+  [projectUpload.singleThumbnail, projectUpload.multipleImages],
+  updateProject
+);
 
-// Delete project
 router.delete("/id/:projectId", ValidateToken, deleteProject);
 
-// ✅ Upload PDF or image thumbnail
-router.post("/id/:projectId", singleThumbnailOrPdf, addThumbnailImage);
+router.post("/id/:projectId", projectUpload.singleThumbnail, addThumbnailImage);
 
-// Comment on project
-router.post("/:projectId", ValidateToken, commentOnProject);
+router.post("/:projectId", ValidateToken, commentOnProject); // This will map to /api/comments/:projectId
 
-// Update comment
+// Update a comment in a project
 router.put("/:projectId/comments/:commentId", ValidateToken, updateComment);
 
-// Delete comment
-router.delete("/:projectId/:commentId", deleteComment);
+// Delete a comment from a project
+router.delete("/:projectId/:commentId", deleteComment); // This will map to /api/comments/:projectId/:commentId
 
-// Like/unlike
+// Like/Unlike routes
 router.post("/:projectId/like", ValidateToken, likeProject);
 
-// Get specific comment
 router.get("/:projectId/:commentId", getCommentById);
 
 module.exports = router;

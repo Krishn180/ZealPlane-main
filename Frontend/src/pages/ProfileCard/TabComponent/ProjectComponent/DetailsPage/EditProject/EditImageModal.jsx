@@ -61,9 +61,9 @@ const handleFileChange = (event) => {
     setConfirmDialogOpen(false);
   };
 
-  const handleUpdateImage = async () => {
+ const handleUpdateImage = async () => {
   if (!thumbnailImage) {
-    toast.error("Please select an image or PDF to upload.");
+    toast.error("Please select an image to upload.");
     return;
   }
 
@@ -72,7 +72,7 @@ const handleFileChange = (event) => {
   try {
     const formData = new FormData();
     formData.append("projectId", projectId);
-    formData.append("file", thumbnailImage); // <-- updated field name
+    formData.append("thumbnailImage", thumbnailImage); // ✅ Correct field name
 
     await axios.post(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
       headers: {
@@ -81,16 +81,17 @@ const handleFileChange = (event) => {
       },
     });
 
-    toast.success("File uploaded successfully!");
+    toast.success("Image uploaded successfully!");
     onProjectUpdate();
     handleImageClose();
   } catch (error) {
-    console.error("Error uploading file:", error);
-    toast.error("Error uploading file. Please try again.");
+    console.error("Error uploading image:", error);
+    toast.error("Error uploading image. Please try again.");
   } finally {
     setLoading(false);
   }
 };
+
 
 
   return (

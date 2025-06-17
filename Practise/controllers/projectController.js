@@ -190,44 +190,28 @@ const addThumbnailImage = async (req, res) => {
   try {
     const { projectId } = req.body;
 
-    console.log("Received request to add a thumbnail image or comic PDF.");
+    console.log("Received request to add a thumbnail image.");
     console.log("Request body:", req.body);
     console.log("Request file:", req.file);
 
-    if (!req.file) {
-      console.log("No file uploaded.");
-      return res.status(400).json({ message: "No file uploaded." });
+    const newThumbnail = req.file ? req.file.path : null;
+    console.log("New thumbnail path:", newThumbnail);
+
+    if (!newThumbnail) {
+      console.log("No thumbnail image uploaded.");
+      return res.status(400).json({ message: "No thumbnail image uploaded." });
     }
 
+    // Ensure the projectId is provided
     if (!projectId) {
       console.log("No projectId provided.");
       return res.status(400).json({ message: "Project ID is required." });
     }
 
-    const uploadedFile = req.file.path;
-    const fileType = req.file.mimetype;
-
-    let updateData = {};
-
-    if (fileType === "application/pdf") {
-      console.log("PDF file detected. Converting to images...");
-      const imageUrls = await convertPdfToImages(uploadedFile, cloudinary);
-      updateData = {
-        comicPdf: uploadedFile,
-        $push: { thumbnailImages: { $each: imageUrls } },
-      };
-      console.log("PDF converted to images and URLs obtained:", imageUrls);
-    } else if (fileType.startsWith("image/")) {
-      updateData = { $push: { thumbnailImages: uploadedFile } };
-      console.log("Image file detected. Pushing to thumbnailImages.");
-    } else {
-      console.log("Unsupported file type:", fileType);
-      return res.status(400).json({ message: "Unsupported file type." });
-    }
-
+    // Convert projectId to ObjectId and attempt to find and update the project with the new thumbnail image
     const updatedProject = await Project.findOneAndUpdate(
       { projectId: new mongoose.Types.ObjectId(projectId) },
-      updateData,
+      { $push: { thumbnailImages: newThumbnail } }, // Use $push to add the new thumbnail image to the array
       { new: true }
     );
 
@@ -237,18 +221,12 @@ const addThumbnailImage = async (req, res) => {
     }
 
     console.log("Project updated successfully:", updatedProject);
-    res.status(200).json({
-      message: "File uploaded and project updated successfully.",
-      fileUrl: uploadedFile,
-      fileType,
-      updatedProject,
-    });
+    res.status(200).json(updatedProject);
   } catch (err) {
     console.error("Error occurred while updating the project:", err.message);
-    res.status(500).json({ message: "Internal server error", error: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
-
 
 const updateProject = async (req, res) => {
   const { name, description, tags, subtags, publisher, teammates, ratings } =
