@@ -184,12 +184,17 @@ const Footer = () => {
         {/* Center: Links + Social */}
         <div className="middle">
           <div className="footer-links">
-            <a href="#">Terms of Use</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">About</a>
-            <a href="#">Blog</a>
-            <a href="#">FAQ</a>
-          </div>
+  <a href="#">Terms of Use</a>
+  <a href="#">Privacy Policy</a>
+  <span onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
+    About
+  </span>
+  <a href="#">Blog</a>
+  <span onClick={() => navigate("/faq")} style={{ cursor: "pointer" }}>
+    FAQ
+  </span>
+</div>
+
 
           <div className="footer-socials">
             <a
