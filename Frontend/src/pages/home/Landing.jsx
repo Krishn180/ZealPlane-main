@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import HeroBanner from "./heroBanner/HeroBanner";
 import AboutCard from "../../AboutCard/AboutCard";
@@ -9,8 +10,54 @@ import LandingHeroSection from "../../AboutCard/LandingHeroSection";
 import Curated from "./curated/Curated";
 import SubmitForm from "../../AboutCard/SubmitForm";
 import Footer from "../../components/footer/Footer";
+import axios from "axios";
+
+import { useDispatch } from "react-redux";
+import { setUserId } from "../../store/userAction";
 
 const Landing = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // Already logged in, no need to refresh
+      navigate("/home");
+      return;
+    }
+
+    const checkRefreshToken = async () => {
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) return; // No token, show landing page
+
+      try {
+        const response = await axios.post(
+          "https://api.comicplane.site/api/refresh-token",
+          { refreshToken }
+        );
+        const { token, userId, username: directUsername, user } = response.data;
+        const username = directUsername || user?.username || "Guest";
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("Id", userId);
+        localStorage.setItem("username", username);
+
+        dispatch(setUserId(userId));
+        navigate("/home");
+      } catch (error) {
+        // Token invalid or expired
+        console.log("Refresh token invalid:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+      }
+    };
+
+    checkRefreshToken();
+  }, [dispatch, navigate]);
+
   return (
     <div>
       <Navbar />
