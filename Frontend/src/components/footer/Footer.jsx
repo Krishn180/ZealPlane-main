@@ -178,7 +178,13 @@ const Footer = () => {
         {/* Left: Logo and Brand */}
         <div className="footer-brand">
           <img src={LogoImage} alt="Zealplane Logo" className="logo" />
-          <span className="brand-name">Zealplane</span>
+
+          <span
+            className="brand-name"
+            style={{ color: "red", fontWeight: "900", fontSize: "18px" }}
+          >
+            ZEAL<span className="plane">PLANE</span>
+          </span>
         </div>
 
         {/* Center: Links + Social */}

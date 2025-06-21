@@ -103,6 +103,12 @@ const Header = () => {
         <ContentWrapper>
           <div className="logo" onClick={() => navigate("/home")}>
             <img src={logozp} alt="Logo" />
+            <span
+              className="logo-text"
+              style={{ color: "red", fontWeight: "900", fontSize: "18px" }}
+            >
+              ZEAL<span className="plane">PLANE</span>
+            </span>
           </div>
           <Searchbar axiosInstance={axiosInstance} />
 

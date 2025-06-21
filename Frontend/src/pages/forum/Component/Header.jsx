@@ -92,8 +92,18 @@ const Header = () => {
           <Sidebar />
         </div>
         <div className="header-logo">
-          <Link to="/home">
+          <Link to="/home" style={{ textDecoration: "none" }}>
             <img src={logozp} alt="Logo" className="logo" />{" "}
+            <span
+              className="logo-text"
+              style={{
+                color: "red",
+                fontWeight: "900",
+                fontSize: "18px",
+              }}
+            >
+              ZEAL<span className="plane">PLANE</span>
+            </span>
             {/* Add the logo here */}
           </Link>
         </div>
