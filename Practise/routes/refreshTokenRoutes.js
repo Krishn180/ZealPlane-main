@@ -36,7 +36,16 @@ router.post("/", async (req, res) => {
     );
 
     // Send the new access token to the frontend
-    res.json({ accessToken: newAccessToken });
+    res.status(200).json({
+      token: newAccessToken, // renamed to `token` for frontend compatibility
+      userId: user._id,
+      username: user.username,
+      user: {
+        username: user.username,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
   } catch (err) {
     console.error("Error refreshing token:", err);
     res.status(403).json({ message: "Invalid refresh token." });
