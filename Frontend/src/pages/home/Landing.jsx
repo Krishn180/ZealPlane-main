@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import HeroBanner from "./heroBanner/HeroBanner";
@@ -18,6 +18,7 @@ import { setUserId } from "../../store/userAction";
 const Landing = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,7 +32,10 @@ const Landing = () => {
     const checkRefreshToken = async () => {
       const refreshToken = localStorage.getItem("refreshToken");
 
-      if (!refreshToken) return; // No token, show landing page
+      if (!refreshToken) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const response = await axios.post(
@@ -52,11 +56,20 @@ const Landing = () => {
         console.log("Refresh token invalid:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
+        setLoading(false);
       }
     };
 
     checkRefreshToken();
   }, [dispatch, navigate]);
+
+  if (loading) {
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <div>

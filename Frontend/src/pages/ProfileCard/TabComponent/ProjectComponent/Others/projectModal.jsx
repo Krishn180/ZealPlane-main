@@ -207,6 +207,11 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
           sx={{
             marginBottom: 2,
             input: { color: "#fff" }, // White text color for input
+            "& .MuiOutlinedInput-root": {
+              "&.Mui-focused fieldset": {
+                borderColor: "red", // 🔴 Red border when focused
+              },
+            },
             "& .MuiFormHelperText-root": {
               color: "#e57373", // Red helper text color
             },
@@ -282,6 +287,11 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
           sx={{
             marginBottom: 2,
             input: { color: "#fff" },
+            "& .MuiOutlinedInput-root": {
+              "&.Mui-focused fieldset": {
+                borderColor: "red", // 🔴 Red border when focused
+              },
+            },
             "& .MuiFormHelperText-root": { color: "#aaa" },
           }}
         />
