@@ -70,7 +70,10 @@ const Searchbar = ({ axiosInstance }) => {
   };
 
   return (
-    <form className="search-bar">
+    <form
+      className="search-bar"
+      style={{ marginLeft: window.innerWidth <= 768 ? "1px" : "30px" }}
+    >
       <span className="search-icon">
         <FaSearch />
       </span>

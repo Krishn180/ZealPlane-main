@@ -26,7 +26,7 @@ const Navbar = () => {
             fontSize: window.innerWidth <= 768 ? "17px" : "19px",
           }}
         >
-          ZEALPLANE
+          ZEAL<span className="plane">PLANE</span>
         </span>
       </div>
       <div className="nav-menu">

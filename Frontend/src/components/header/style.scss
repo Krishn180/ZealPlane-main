@@ -35,10 +35,13 @@
 
     img {
       // height: 40px;
-      width: 43px;
+      width: 40px;
       border-radius: 100%;
       object-fit: cover;
     }
+  }
+  .logo-text {
+    display: inline;
   }
 
   .menuItems {
@@ -264,6 +267,9 @@
           height: 33px; /* Reduce logo size */
           width: 33px; /* Keep proportions */
         }
+      }
+      .logo-text {
+        display: none;
       }
       .avatarImage {
         width: 38px;

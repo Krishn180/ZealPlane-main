@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
 const { get } = require("../contactsRoutes");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Temporary storage for OTPs
 const otpStore = new Map();
@@ -21,7 +21,7 @@ const sendOtpEmail = async (email, otp) => {
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,// Use App Password (not Gmail password!)
+        pass: process.env.EMAIL_PASS, // Use App Password (not Gmail password!)
       },
     });
 
@@ -57,7 +57,6 @@ The ZealPlane Team`,
     console.error("Error sending OTP email:", error);
   }
 };
-
 
 const registerUser = asynchandler(async (req, res) => {
   try {
@@ -305,6 +304,50 @@ const googleLoginUser = asynchandler(async (req, res) => {
 
 module.exports = { googleLoginUser };
 
+// reefresh token for autologin
+
+const refreshAccessToken = async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Refresh token missing" });
+  }
+
+  try {
+    // Verify refresh token
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate new access token
+    const newAccessToken = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        uniqueId: user.uniqueId,
+        username: user.username,
+        profilePic: user.profilePic,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      token: newAccessToken,
+      userId: user._id,
+      username: user.username,
+    });
+  } catch (error) {
+    console.error("Error verifying refresh token:", error);
+    return res
+      .status(401)
+      .json({ message: "Invalid or expired refresh token" });
+  }
+};
+
 const loginUser = asynchandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -533,7 +576,7 @@ const toggleFollow = async (req, res) => {
   console.log("Received receiverId:", receiverId);
 
   if (!senderId || !receiverId) {
-    return res.status(400).json({ msg: 'Missing user ID(s)' });
+    return res.status(400).json({ msg: "Missing user ID(s)" });
   }
 
   if (senderId === receiverId) {
@@ -545,27 +588,33 @@ const toggleFollow = async (req, res) => {
     const targetUser = await User.findOne({ uniqueId: receiverId });
 
     if (!user || !targetUser) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: "User not found" });
     }
 
-    const isFollowing = user.following.some(follow => follow.uniqueId === receiverId);
+    const isFollowing = user.following.some(
+      (follow) => follow.uniqueId === receiverId
+    );
 
     if (isFollowing) {
       // Unfollow: Remove the user from both following and followers arrays
-      user.following = user.following.filter(follow => follow.uniqueId !== receiverId);
-      targetUser.followers = targetUser.followers.filter(follow => follow.uniqueId !== senderId);
+      user.following = user.following.filter(
+        (follow) => follow.uniqueId !== receiverId
+      );
+      targetUser.followers = targetUser.followers.filter(
+        (follow) => follow.uniqueId !== senderId
+      );
     } else {
       // Follow: Add the user to both following and followers arrays
       user.following.push({
         uniqueId: targetUser.uniqueId,
         username: targetUser.username,
-        profilePic: targetUser.profilePic
+        profilePic: targetUser.profilePic,
       });
 
       targetUser.followers.push({
         uniqueId: user.uniqueId,
         username: user.username,
-        profilePic: user.profilePic
+        profilePic: user.profilePic,
       });
     }
 
@@ -573,19 +622,18 @@ const toggleFollow = async (req, res) => {
     await targetUser.save();
 
     return res.status(200).json({
-      msg: `Successfully ${isFollowing ? 'unfollowed' : 'followed'} user.`,
+      msg: `Successfully ${isFollowing ? "unfollowed" : "followed"} user.`,
       user: {
         uniqueId: targetUser.uniqueId,
         username: targetUser.username,
-        profilePic: targetUser.profilePic
-      }
+        profilePic: targetUser.profilePic,
+      },
     });
   } catch (error) {
     console.error("Error toggling follow:", error);
-    return res.status(500).json({ msg: 'Server error', error });
+    return res.status(500).json({ msg: "Server error", error });
   }
 };
-
 
 const getFollowing = async (req, res) => {
   try {
@@ -594,10 +642,10 @@ const getFollowing = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Directly return the following data from the array
-    const followingData = user.following.map(followingUser => ({
+    const followingData = user.following.map((followingUser) => ({
       uniqueId: followingUser.uniqueId,
       username: followingUser.username,
-      profilePic: followingUser.profilePic
+      profilePic: followingUser.profilePic,
     }));
 
     res.json(followingData);
@@ -618,23 +666,23 @@ const getFollowers = async (req, res) => {
     const followerData = await Promise.all(
       user.followers.map(async (followerUniqueId) => {
         // Fetch the follower's data from the User collection using the uniqueId
-        const followerUser = await User.findOne({ uniqueId: followerUniqueId }).select('uniqueId username profilePic');
+        const followerUser = await User.findOne({
+          uniqueId: followerUniqueId,
+        }).select("uniqueId username profilePic");
         return followerUser;
       })
     );
 
     // Filter out any null or undefined values (in case any follower is not found)
-    res.json(followerData.filter(follower => follower !== null && follower !== undefined));
+    res.json(
+      followerData.filter(
+        (follower) => follower !== null && follower !== undefined
+      )
+    );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-
-
-
-
 
 module.exports = {
   registerUser,
@@ -647,5 +695,6 @@ module.exports = {
   getUserByUsername,
   toggleFollow,
   getFollowers,
-  getFollowing
+  getFollowing,
+  refreshAccessToken,
 };

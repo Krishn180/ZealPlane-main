@@ -23,7 +23,7 @@ body {
   gap: 10px;
   background-color: #1a1a1b;
   width: 100%;
-  padding: 8px 25px;
+  padding: 6px 25px;
   border-bottom: 1px solid #343536;
   position: fixed;
   top: 0;
@@ -86,6 +86,9 @@ body {
     gap: 0;
     .left-menu {
       gap: 0;
+    }
+    .logo-text {
+      display: none;
     }
 
     .search-bar input {
