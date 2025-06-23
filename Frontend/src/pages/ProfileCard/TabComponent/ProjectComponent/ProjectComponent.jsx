@@ -201,19 +201,7 @@ const ProjectComponent = () => {
       {error && <p>Error: {error.message}</p>}
 
       <div className="project-cards-container">
-        {status !== "visitor" && (
-          <Button
-            variant="contained"
-            onClick={handleOpen}
-            style={{
-              background: " #ff4f00",
-              marginBottom: "5px",
-              display: "flex",
-            }}
-          >
-            Add Project
-          </Button>
-        )}
+        
         {submittedData && submittedData.length > 0 ? (
           submittedData.map((project, index) => (
             <Card
@@ -259,6 +247,19 @@ const ProjectComponent = () => {
           ))
         ) : (
           <p>No projects found.</p>
+        )}
+        {status !== "visitor" && (
+          <Button
+            variant="contained"
+            onClick={handleOpen}
+            style={{
+              background: " #ff4f00",
+              marginBottom: "5px",
+              display: "flex",
+            }}
+          >
+            Add Project
+          </Button>
         )}
       </div>
     </div>
