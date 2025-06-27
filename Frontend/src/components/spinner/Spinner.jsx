@@ -1,10 +1,10 @@
 import React from "react";
-
 import "./style.scss";
 
 const Spinner = ({ initial }) => {
     return (
-        <div className={`loadingSpinner ${initial ? "initial" : ""}`}>
+        <div className={`loadingSpinner comic-style ${initial ? "initial" : ""}`}>
+            <div className="comicText">Loading...</div>
             <svg className="spinner" viewBox="0 0 50 50">
                 <circle
                     className="path"

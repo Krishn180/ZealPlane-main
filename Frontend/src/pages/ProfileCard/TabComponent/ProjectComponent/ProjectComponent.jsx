@@ -64,6 +64,8 @@ const ProjectComponent = () => {
         data.append("description", formData.description);
         data.append("category", formData.category);
         data.append("tags", formData.tags.join(","));
+        data.append("subtags", formData.subtags.join(",")); // assuming it's an array
+        data.append("publisher", formData.publisher);
         data.append("username", formData.username);
         data.append("id", formData.id);
         data.append("uniqueId", uniqueId);
@@ -199,19 +201,7 @@ const ProjectComponent = () => {
       {error && <p>Error: {error.message}</p>}
 
       <div className="project-cards-container">
-        {status !== "visitor" && (
-          <Button
-            variant="contained"
-            onClick={handleOpen}
-            style={{
-              background: " #ff4f00",
-              marginBottom: "5px",
-              display: "flex",
-            }}
-          >
-            Add Project
-          </Button>
-        )}
+        
         {submittedData && submittedData.length > 0 ? (
           submittedData.map((project, index) => (
             <Card
@@ -257,6 +247,19 @@ const ProjectComponent = () => {
           ))
         ) : (
           <p>No projects found.</p>
+        )}
+        {status !== "visitor" && (
+          <Button
+            variant="contained"
+            onClick={handleOpen}
+            style={{
+              background: " #ff4f00",
+              marginBottom: "5px",
+              display: "flex",
+            }}
+          >
+            Add Project
+          </Button>
         )}
       </div>
     </div>

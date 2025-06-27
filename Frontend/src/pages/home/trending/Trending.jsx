@@ -13,14 +13,23 @@ const Trending = () => {
 
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
+    const shuffleArray = (array) => {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 const res = await axios.get(`${apiBaseUrl}/projects`);
                 console.log("data is", res.data);
-                
-                setData(res.data); // or res.data.results if applicable
+                const shuffledData = shuffleArray(res.data);
+                setData(shuffledData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {

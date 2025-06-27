@@ -59,5 +59,7 @@ router.get("/username/:username", ValidateToken, getUserByUsername);
 router.post("/toggle-follow", toggleFollow);
 router.get("/:id/following", getFollowing);
 router.get("/:id/followers", getFollowers);
+router.post("/refreshtoken", refreshAccessToken);
+console.log("refresh:", refreshAccessToken);
 
 module.exports = router;

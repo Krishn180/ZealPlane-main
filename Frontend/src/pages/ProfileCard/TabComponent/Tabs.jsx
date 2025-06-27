@@ -32,10 +32,10 @@ const TabComponent = () => {
     //   key: "feedback",
     //   label: "Feedback",
     // },
-    {
-      key: "products",
-      label: "Products",
-    }
+    // {
+    //   key: "products",
+    //   label: "Products",
+    // }
     
   ];
 

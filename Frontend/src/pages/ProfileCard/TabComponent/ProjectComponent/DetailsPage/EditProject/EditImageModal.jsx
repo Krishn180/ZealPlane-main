@@ -40,10 +40,20 @@ const EditImageUpdate = ({
     }
   }, [thumbnailImage]);
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setThumbnailImage(file || null);
-  };
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  setThumbnailImage(file || null);
+
+  if (file && file.type.startsWith("image/")) {
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  } else {
+    setImagePreview(null); // No preview for PDF
+  }
+};
+
 
   const handleRemovePreview = () => {
     setThumbnailImage(null);
@@ -51,36 +61,38 @@ const EditImageUpdate = ({
     setConfirmDialogOpen(false);
   };
 
-  const handleUpdateImage = async () => {
-    if (!thumbnailImage) {
-      toast.error("Please select an image to update.");
-      return;
-    }
+ const handleUpdateImage = async () => {
+  if (!thumbnailImage) {
+    toast.error("Please select an image to upload.");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const formData = new FormData();
-      formData.append("projectId", projectId);
-      formData.append("thumbnailImage", thumbnailImage);
+  try {
+    const formData = new FormData();
+    formData.append("projectId", projectId);
+    formData.append("thumbnailImage", thumbnailImage); // ✅ Correct field name
 
-      await axios.post(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    await axios.post(`${apiBaseUrl}/projects/id/${projectId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      toast.success("Image updated successfully!");
-      onProjectUpdate();
-      handleImageClose();
-    } catch (error) {
-      console.error("Error updating image:", error);
-      toast.error("Error updating image. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    toast.success("Image uploaded successfully!");
+    onProjectUpdate();
+    handleImageClose();
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    toast.error("Error uploading image. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <Modal open={imageModalOpen} onClose={handleImageClose}>
@@ -168,11 +180,13 @@ const EditImageUpdate = ({
         )}
 
         {/* File input for selecting a new image */}
-        <input
-          type="file"
-          onChange={handleFileChange}
-          style={{ margin: "10px 0", color: "#818384" }}
-        />
+       <input
+  type="file"
+  accept="image/*,.pdf"
+  onChange={handleFileChange}
+  style={{ margin: "10px 0", color: "#818384" }}
+/>
+
 
         <Button
           variant="contained"

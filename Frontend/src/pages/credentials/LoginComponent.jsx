@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
@@ -21,13 +21,45 @@ export default function LoginComponent() {
     setShowPassword(!showPassword);
   };
 
+  // added this code for autologin
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      if (!refreshToken) return;
+
+      try {
+        const response = await axios.post(
+          "https://api.comicplane.site/api/users/refresh",
+          { refreshToken }
+        );
+
+        const { token, userId, username } = response.data;
+
+        // Save new token
+        localStorage.setItem("token", token);
+        localStorage.setItem("Id", userId);
+        localStorage.setItem("username", username);
+
+        dispatch(setUserId(userId));
+        navigate("/home");
+      } catch (err) {
+        console.log("Auto-login failed:", err);
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("token");
+      }
+    };
+
+    autoLogin();
+  }, []);
+
   const login = async () => {
     try {
       toast.success("Signed In to ZealPlane!");
 
       const response = await axios.post(
-        // `http://localhost:5000/api/users/login`,
-        `https://api.comicplane.site/api/users/login`,
+        `${apiBaseUrl}/users/login`,
         {
           email: credentials.email,
           password: credentials.password,
@@ -65,8 +97,7 @@ export default function LoginComponent() {
 
       // Send the Google token to your backend for verification
       const response = await axios.post(
-        // `http://localhost:5000/api/users/google-login`,
-        `https://api.comicplane.site/api/users/google-login`,
+        `${apiBaseUrl}/users/google-login`,
         {
           token: googleToken,
         }

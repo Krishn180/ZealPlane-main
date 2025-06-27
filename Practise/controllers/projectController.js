@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const Project = require("../models/projectModel");
 const Notification = require("../models/notificationModel");
 const User = require("../models/userModel");
+const convertPdfToImages = require("../utils/convertPdfToImages");
+
 
 const getAllProjects = async (req, res) => {
   try {
