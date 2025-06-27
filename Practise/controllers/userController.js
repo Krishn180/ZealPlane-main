@@ -304,6 +304,50 @@ const googleLoginUser = asynchandler(async (req, res) => {
 
 module.exports = { googleLoginUser };
 
+// reefresh token for autologin
+
+const refreshAccessToken = async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "Refresh token missing" });
+  }
+
+  try {
+    // Verify refresh token
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate new access token
+    const newAccessToken = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        uniqueId: user.uniqueId,
+        username: user.username,
+        profilePic: user.profilePic,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      token: newAccessToken,
+      userId: user._id,
+      username: user.username,
+    });
+  } catch (error) {
+    console.error("Error verifying refresh token:", error);
+    return res
+      .status(401)
+      .json({ message: "Invalid or expired refresh token" });
+  }
+};
+
 const loginUser = asynchandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -652,4 +696,5 @@ module.exports = {
   toggleFollow,
   getFollowers,
   getFollowing,
+  refreshAccessToken,
 };
