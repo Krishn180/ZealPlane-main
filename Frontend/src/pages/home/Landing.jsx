@@ -9,6 +9,8 @@ import LandingHeroSection from "../../AboutCard/LandingHeroSection";
 import Curated from "./curated/Curated";
 import SubmitForm from "../../AboutCard/SubmitForm";
 import Footer from "../../components/footer/Footer";
+import Trending from "./trending/Trending";
+import Topics from "./curated/Topics";
 
 const Landing = () => {
   return (
@@ -33,7 +35,7 @@ const Landing = () => {
           },
         }}
       >
-        <Curated />
+        <Topics/>
       </div>
 
       {/* <AboutCard /> */}

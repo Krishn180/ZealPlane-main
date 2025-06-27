@@ -24,7 +24,7 @@ const Logout = ({ onLogoutComplete }) => {
     }
 
     // Redirect the user to the login page
-    navigate("/login");
+    navigate("/");
   };
 
   return (
