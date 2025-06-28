@@ -26,13 +26,8 @@ const Landing = () => {
           position: "relative",
           zIndex: "2",
 
-          // Responsive Styling
-          "@media screen and (max-width: 850px)": {
-            marginTop: "10px",
-          },
-          "@media screen and (max-width: 600px)": {
-            marginTop: "20px",
-          },
+          // Note: Inline media queries like these don't work in React.
+          // Use CSS or styled-components for responsive styles instead.
         }}
       >
         <Topics/>

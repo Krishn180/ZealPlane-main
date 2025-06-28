@@ -2,7 +2,6 @@
   max-width: 900px;
   margin: auto;
   padding: 20px;
-  
 
   .slick-dots {
     bottom: 10px;
@@ -17,6 +16,7 @@
       }
       &.slick-active button:before {
         color: #ffcc00;
+        // color: red;
         opacity: 1;
       }
     }
@@ -31,7 +31,7 @@
   color: #fff;
   border-radius: 10px;
   padding: 60px;
-  
+
   transition: transform 0.3s ease-in-out;
 
   &:hover {
@@ -59,16 +59,17 @@
   font-size: 3rem;
   font-weight: bold;
   color: #ffcc00;
+  // color: red;
   text-transform: uppercase;
   letter-spacing: 3px;
   background: linear-gradient(90deg, #ff4d00, #ffcc00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   padding: 10px 0;
+  // border-bottom: 3px solid #ffcc00;
   border-bottom: 3px solid #ffcc00;
   display: inline-block;
 }
-
 
 .imagebox {
   width: 250px;
@@ -96,6 +97,7 @@
     font-weight: 700;
     margin-bottom: 10px;
     color: #ffcc00;
+    // color: red;
   }
 
   p {
@@ -115,13 +117,13 @@
     width: 120px;
     height: 120px;
   }
-  .creator-card{
+  .creator-card {
     padding: 20px;
   }
 
-   .headtag{
+  .headtag {
     font-size: 2rem;
-   }
+  }
   .discribox {
     h3 {
       font-size: 22px;

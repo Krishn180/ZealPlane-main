@@ -79,7 +79,9 @@ body {
       object-fit: cover;
     }
   }
-
+  .logo-text {
+    display: inline;
+  }
   /* Responsive Design */
   @media (max-width: 768px) {
     padding: 10px 5px;
