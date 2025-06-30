@@ -294,13 +294,25 @@ const TopicCarousel = ({ title }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Function to generate custom links based on ID
+    const getCustomLink = (id) => {
+          const customLinks = {
+        "10003": "https://comicplane.site/details/67c4765dadc64b57787ae6a3",
+        "10004": "https://comicplane.site/details/6862177c99fa95d08709ecb1",
+        "10005": "https://comicplane.site/details/6862054388b4ebf35001fba8",
+    };
+        return customLinks[id] || `/home/${id}`; // fallback to internal route
+    };
+
     useEffect(() => {
-        // Simulate fetching data from the provided array
-        setData(projectsData.map(item => ({
-            ...item,
-            thumbnailLink: item.ThumnailLink || PosterFallback,
-            userName: item.name
-        })));
+        setData(
+            projectsData.map((item) => ({
+                ...item,  
+                thumbnailLink: item.ThumnailLink || PosterFallback,
+                userName: item.name,
+                link: getCustomLink(item.id),
+            }))
+        );
         setLoading(false);
     }, []);
 
@@ -349,14 +361,22 @@ const TopicCarousel = ({ title }) => {
                                     key={item.id}
                                     className="carouselItem"
                                     onClick={() =>
-                                        navigate(
-                                            `/home/${item.id}`
-                                        )
+                                        item.link.startsWith("http")
+                                            ? window.open(item.link, "_blank")
+                                            : navigate(item.link)
                                     }
                                 >
                                     <div className="posterBlock">
                                         <Img src={item.thumbnailLink} />
-                                        <img src={item.userProfilePic} alt="" className="avatarImage" onClick={() => navigate("/profile")} />
+                                        <img
+                                            src={item.userProfilePic}
+                                            alt=""
+                                            className="avatarImage"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate("/profile");
+                                            }}
+                                        />
                                     </div>
                                     <div className="textBlock">
                                         <span className="title">
