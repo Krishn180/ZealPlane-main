@@ -114,14 +114,14 @@ const projectsData = [
     teamMembers: [
       {
         id: "5",
-        name: "Marie Curie",
-        role: "Project Manager",
-        email: "marie.curie@example.com"
+        name: "Arvind",
+        role: "writer",
+        email: "null"
       },
       {
         id: "6",
-        name: "Louis Pasteur",
-        role: "Developer",
+        name: "Mohit Arya",
+        role: "Artist",
         email: "louis.pasteur@example.com"
       }
     ],
@@ -149,25 +149,25 @@ const projectsData = [
   },
   {
     id: "10004",
-    name: "Chullu aur Lutera Bhoot",
-    Publisher: "Swapnil Publication",
-    description: "A mobile application designed to help users manage their health and wellness routines.",
+    name: "Pagla Dadu",
+    Publisher: "Fiction Publication",
+    description: "join the goofiness of Dadu, Fiction studio's leading designer cum destroyer.",
     startDate: "2023-05-01",
     endDate: "2024-01-01",
     status: "Completed",
     genre: "Comedy",
-    ThumnailLink: "https://i.ibb.co/CBhPhB1/Whats-App-Image-2023-09-13-at-6-36-27-PM.jpg",
+    ThumnailLink: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjhJzJzTjjN8Qc9Hkvom-1V4YiWUXCg59NCJ-i41BQ30ILmNRysafY8aBxdcidFQmoIzNLyy-7wP_9Q4rOXR-93Rz2TrJAEJbICbnMBSG-y0YtMUu9O2xwiSCyTwmnB2z0BohexJhZ5FEQ/s1600/70.jpg",
     teamMembers: [
       {
-        id: "5",
-        name: "Marie Curie",
-        role: "Project Manager",
-        email: "marie.curie@example.com"
+        id: "7",
+        name: "Sushant Panda",
+        role: "Creative head",
+        email: "null"
       },
       {
-        id: "6",
-        name: "Louis Pasteur",
-        role: "Developer",
+        id: "8",
+        name: "Santosh Kushwaha",
+        role: "Artist",
         email: "louis.pasteur@example.com"
       }
     ],
@@ -195,25 +195,25 @@ const projectsData = [
   },
   {
     id: "10005",
-    name: "Chullu aur Lutera Bhoot",
-    Publisher: "Swapnil Publication",
+    name: "Sando ki duniya",
+    Publisher: "Fiction Publication",
     description: "A mobile application designed to help users manage their health and wellness routines.",
     startDate: "2023-05-01",
     endDate: "2024-01-01",
     status: "Completed",
     genre: "Comedy",
-    ThumnailLink: "https://i.ibb.co/CBhPhB1/Whats-App-Image-2023-09-13-at-6-36-27-PM.jpg",
+    ThumnailLink: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWrnkP1cijFOdNjn3uoVshmIeCsO6J7eCOkLjS4GCGQ3tlkDKBWTRhuDKuLQHdJWibxHa30jJ0u9NIHl90U87SvjZmIyCYtTdIwv7WLxObkDM1MHIMb4LNJoHL_FcP6oaNYTVVHhUp5vI/s1600/17.jpg",
     teamMembers: [
       {
-        id: "5",
-        name: "Marie Curie",
-        role: "Project Manager",
+        id: "9",
+        name: "Sushant Panda",
+        role: "Writer",
         email: "marie.curie@example.com"
       },
       {
-        id: "6",
-        name: "Louis Pasteur",
-        role: "Developer",
+        id: "10",
+        name: "Santosh Kushwaha",
+        role: "Artist",
         email: "louis.pasteur@example.com"
       }
     ],
@@ -240,15 +240,15 @@ const projectsData = [
     }
   },
   {
-    id: "10003",
-    name: "Chullu aur Lutera Bhoot",
-    Publisher: "Swapnil Publication",
+    id: "10006",
+    name: "Mausaji ke karname",
+    Publisher: "Fiction Publication",
     description: "A mobile application designed to help users manage their health and wellness routines.",
     startDate: "2023-05-01",
     endDate: "2024-01-01",
     status: "Completed",
     genre: "Comedy",
-    ThumnailLink: "https://i.ibb.co/CBhPhB1/Whats-App-Image-2023-09-13-at-6-36-27-PM.jpg",
+    ThumnailLink: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHIzJgcRxkUQBf4H4DSqu-uKYXKlVhW_3KxxjXqIn1-VfjOa3xMt301uIL6QidpzKQSs5zcMFOjPgOPCImIZ0SPu-RT7ParZ8euP41QYuVDSrxKaYtjaeQMrE44fD3N6FWRX14sue6YUk/s1600/42.jpg",
     teamMembers: [
       {
         id: "5",

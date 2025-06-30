@@ -280,6 +280,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
           )}
         </FormControl>
   {/* Tag Selector */}
+{/* Tag Selector */}
 <FormControl fullWidth sx={{ marginBottom: 2 }}>
   <InputLabel sx={{ color: "#aaa" }}>Tags</InputLabel>
   <Select
@@ -287,7 +288,7 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     value={formData.tags || []}
     onChange={(e) =>
       setFormData((prevFormData) => ({
-        ...prevFormData,
+        ...formData,
         tags: e.target.value,
       }))
     }
@@ -308,8 +309,12 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     <MenuItem value="Comic Book">Comic Book</MenuItem>
     <MenuItem value="Manga">Manga</MenuItem>
   </Select>
+  {errors.tags && (
+    <FormHelperText sx={{ color: "#e57373" }}>
+      {errors.tags}
+    </FormHelperText>
+  )}
 </FormControl>
-
 
 {/* Subtag Selector */}
 <FormControl fullWidth sx={{ marginBottom: 2 }}>
@@ -345,7 +350,6 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     <MenuItem value="Action">Action</MenuItem>
   </Select>
 </FormControl>
-
 
 {/* Publisher Input */}
 <TextField
