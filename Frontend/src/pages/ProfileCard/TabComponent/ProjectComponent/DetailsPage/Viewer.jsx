@@ -3,7 +3,7 @@ import { PacmanLoader } from "react-spinners";
 import ProductCard from "../../../../../components/product/ProductCard";
 import products from "../../../../../assets/product";
 import { FaChevronDown } from "react-icons/fa";
-import { initGA, trackPageView } from "../../../../../analytics"; // Adjust path as needed
+import { initGA, trackPageView } from "../../../../../Analytics"; // Adjust path as needed
 import "./Viewer.scss";
 
 const Viewer = () => {
