@@ -3,6 +3,7 @@ import { PacmanLoader } from "react-spinners";
 import ProductCard from "../../../../../components/product/ProductCard";
 import products from "../../../../../assets/product";
 import { FaChevronDown } from "react-icons/fa";
+import { initGA, logPageView } from ".././../../../../Analytics"; // Adjust path
 import "./Viewer.scss";
 
 const Viewer = () => {
@@ -20,8 +21,11 @@ const Viewer = () => {
   const resetZoom = () => setScale(1);
 
   useEffect(() => {
+    initGA();
+    logPageView(); // Track page view on mount
+
     const timer = setTimeout(() => setLoading(false), 1000);
-    const hintTimer = setTimeout(() => setShowScrollHint(false), 5000); // auto-hide scroll hint
+    const hintTimer = setTimeout(() => setShowScrollHint(false), 5000);
     return () => {
       clearTimeout(timer);
       clearTimeout(hintTimer);
@@ -36,15 +40,14 @@ const Viewer = () => {
         </div>
       )}
 
-    {showScrollHint && (
-  <div className="scroll-hint">
-    <div className="scroll-icon">
-      <FaChevronDown className="chevron" />
-      <span className="scroll-text">Scroll down to read</span>
-    </div>
-  </div>
-)}
-
+      {showScrollHint && (
+        <div className="scroll-hint">
+          <div className="scroll-icon">
+            <FaChevronDown className="chevron" />
+            <span className="scroll-text">Scroll down to read</span>
+          </div>
+        </div>
+      )}
 
       <div className="scroll-wrapper vertical">
         {images.map((img, index) => (
