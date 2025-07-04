@@ -7,21 +7,22 @@ import a1 from "./man.jpg";
 import a2 from "./stan.jpg";
 import a3 from "./arati.jpg";
 import a4 from "./krishna.jpg";
-import a5 from "./prince.jpeg";
+import a5 from "./prnc.jpg";
 
 const creators = [
-  {
-    name: "Krishna Kumar",
-    description:
-      "Krishna Kumar is a skilled engineer, as well as a talented artist and writer. His unique blend of technical expertise and creativity allows him to excel in both fields.",
-    image: a4,
-  },
   {
     name: "Aarti Prasad",
     description:
       "Arati Prasad is a full-stack developer and a banker. She excels in modern web technologies and financial management. Her diverse expertise allows her to thrive in both fields.",
     image: a3,
   },
+  {
+    name: "Krishna Kumar",
+    description:
+      "Krishna Kumar is a skilled engineer, as well as a talented artist and writer. His unique blend of technical expertise and creativity allows him to excel in both fields.",
+    image: a4,
+  },
+
   {
     name: "Prince",
     description:
