@@ -3,7 +3,7 @@ import { PacmanLoader } from "react-spinners";
 import ProductCard from "../../../../../components/product/ProductCard";
 import products from "../../../../../assets/product";
 import { FaChevronDown } from "react-icons/fa";
-import { initGA, logPageView } from ".././../../../../Analytics"; // Adjust path
+import { initGA, trackPageView } from "../../../../../analytics"; // Adjust path as needed
 import "./Viewer.scss";
 
 const Viewer = () => {
@@ -21,8 +21,9 @@ const Viewer = () => {
   const resetZoom = () => setScale(1);
 
   useEffect(() => {
+    // Initialize and track the view
     initGA();
-    logPageView(); // Track page view on mount
+    trackPageView(window.location.pathname + window.location.search);
 
     const timer = setTimeout(() => setLoading(false), 1000);
     const hintTimer = setTimeout(() => setShowScrollHint(false), 5000);
