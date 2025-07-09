@@ -14,6 +14,7 @@ import axios from "axios";
 
 import { useDispatch } from "react-redux";
 import { setUserId } from "../../store/userAction";
+import Topics from "./curated/Topics";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const Landing = () => {
           },
         }}
       >
-        <Curated />
+        <Topics/>
       </div>
 
       {/* <AboutCard /> */}
