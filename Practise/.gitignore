@@ -1,2 +1,4 @@
-node_modules
 .env
+node_modules
+git-filter-repo
+ACEES_TOKEN_SECRET
