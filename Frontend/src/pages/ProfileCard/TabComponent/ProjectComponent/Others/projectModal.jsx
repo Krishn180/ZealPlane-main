@@ -281,75 +281,101 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
         </FormControl>
   {/* Tag Selector */}
 {/* Tag Selector */}
+{/* Tag Selector */}
 <FormControl fullWidth sx={{ marginBottom: 2 }}>
   <InputLabel sx={{ color: "#aaa" }}>Tags</InputLabel>
   <Select
-    multiple
-    value={formData.tags || []}
+    value={formData.tags[0] || ""}
     onChange={(e) =>
       setFormData((prevFormData) => ({
-        ...formData,
-        tags: e.target.value,
+        ...prevFormData,
+        tags: [e.target.value],
       }))
     }
-    renderValue={(selected) => (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-        {selected.map((value) => (
-          <Chip key={value} label={value} sx={{ backgroundColor: "#444", color: "#fff" }} />
-        ))}
-      </div>
-    )}
+    MenuProps={{
+      disableScrollLock: true,
+      PaperProps: {
+        style: {
+          maxHeight: 200,
+          overflowY: "auto", // Adds scroll
+          backgroundColor: "#2a2a2a",
+          color: "#fff",
+        },
+      },
+    }}
     sx={{
       color: "#fff",
       backgroundColor: "#272729",
       "& .MuiSvgIcon-root": { color: "#fff" },
     }}
   >
-    <MenuItem value="Graphic Novel">Graphic Novel</MenuItem>
-    <MenuItem value="Comic Book">Comic Book</MenuItem>
-    <MenuItem value="Manga">Manga</MenuItem>
+    {[
+      "Graphic Novel", "Comic Book", "Manga", "Webtoon", "One-Shot",
+      "Zine", "Anthology", "Motion Comic", "Strip", "Mini Comic",
+      "Light Novel", "Illustrated Novel", "Indie", "Digital Comic"
+    ].map((tag) => (
+      <MenuItem key={tag} value={tag}>
+        {tag}
+      </MenuItem>
+    ))}
   </Select>
-  {errors.tags && (
-    <FormHelperText sx={{ color: "#e57373" }}>
-      {errors.tags}
-    </FormHelperText>
-  )}
 </FormControl>
+
 
 {/* Subtag Selector */}
 <FormControl fullWidth sx={{ marginBottom: 2 }}>
   <InputLabel sx={{ color: "#aaa" }}>Subtag / Genre</InputLabel>
   <Select
-    multiple
-    value={formData.subtags || []}
+    value={formData.subtags[0] || ""} // Only one value allowed
     onChange={(e) =>
       setFormData((prevFormData) => ({
         ...prevFormData,
-        subtags: e.target.value,
+        subtags: [e.target.value],  // Replace array with selected genre
       }))
     }
-    renderValue={(selected) => (
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
-        {selected.map((value) => (
-          <Chip key={value} label={value} sx={{ backgroundColor: "#444", color: "#fff" }} />
-        ))}
-      </div>
-    )}
+    MenuProps={{
+  disableScrollLock: true, // Prevent body scroll lock
+  PaperProps: {
+    style: {
+      maxHeight: 200,
+      backgroundColor: "#2a2a2a",
+      color: "#fff",
+      zIndex: 1302 // slightly less than modal so it doesn’t over-shadow
+    },
+  },
+}}
+
     sx={{
       color: "#fff",
       backgroundColor: "#272729",
       "& .MuiSvgIcon-root": { color: "#fff" },
     }}
   >
-    <MenuItem value="Fanmade">Fanmade</MenuItem>
-    <MenuItem value="Fantasy">Fantasy</MenuItem>
-    <MenuItem value="Sci-Fi">Sci-Fi</MenuItem>
-    <MenuItem value="Horror">Horror</MenuItem>
-    <MenuItem value="Comedy">Comedy</MenuItem>
-    <MenuItem value="Drama">Drama</MenuItem>
-    <MenuItem value="Action">Action</MenuItem>
+    {[
+      "Action",
+      "Adventure",
+      "Horror",
+      "Drama",
+      "Fantasy",
+      "Sci-Fi",
+      "Comedy",
+      "Mystery",
+      "Historical",
+      "Romance",
+      "Slice of Life",
+      "Thriller",
+      "Fanmade",
+      "Psychological",
+      "Post-Apocalyptic",
+      "Crime"
+    ].map((genre) => (
+      <MenuItem key={genre} value={genre}>
+        {genre}
+      </MenuItem>
+    ))}
   </Select>
 </FormControl>
+
 
 {/* Publisher Input */}
 <TextField
