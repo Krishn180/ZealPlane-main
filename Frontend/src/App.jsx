@@ -69,7 +69,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/viewer" element={<Viewer />} />
+        <Route path="/viewer/:projectSlug" element={<Viewer />} />
           <Route path="/blank" element={<BlankPage />} />
           <Route path="/home/notification" element={<Notification />} />
           <Route path="/details/:projectId" element={<DetailsPage />} />

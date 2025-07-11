@@ -96,6 +96,8 @@ const DetailsPage = () => {
   const [view, setView] = useState(false);
   const [userDetails, setUserDetails] = useState("");
   const hasFetched = useRef(false);
+ 
+  
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -295,12 +297,20 @@ const DetailsPage = () => {
     setSnackbarOpen(false);
   };
 
-  const openViewer = (images, startIndex) => {
-    const viewerUrl = `/viewer?images=${encodeURIComponent(
-      JSON.stringify(images)
-    )}&start=${startIndex}`;
-    window.open(viewerUrl, "_blank");
-  };
+const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+
+const openViewer = (projectId, projectName, startIndex) => {
+  const slug = slugify(projectName);
+  const viewerUrl = `/viewer/${projectId}-${slug}?start=${startIndex}`;
+  window.open(viewerUrl, "_blank");
+};
+
+
 
   const handleDeleteClick = () => {
     const token = localStorage.getItem("token");
@@ -450,9 +460,8 @@ const DetailsPage = () => {
                         projectData.thumbnailImages.map((image, index) => (
                           <SwiperSlide
                             key={index}
-                            onClick={() =>
-                              openViewer(projectData.thumbnailImages, index)
-                            }
+                           onClick={() => openViewer(projectData.projectId, projectData.name, index)}
+
                           >
                             <Img
                               className="thumbImg"
