@@ -204,45 +204,63 @@ const ProjectComponent = () => {
         
         {submittedData && submittedData.length > 0 ? (
           submittedData.map((project, index) => (
-            <Card
-            className="card"
-            key={index}
-            style={{
-              width: window.innerWidth <= 768 ? "155px" : "320px",
-              height: window.innerWidth <= 768 ? "180px" : "260px",
-              margin: "5px",
-              flex: "0 0 auto",
-              cursor: "pointer",
-              display: "inline-flex",
-              flexDirection: "column",
-              borderRadius: "3px",
-              backgroundImage: project.thumbnailImage
-                ? `url(${project.thumbnailImage})`
-                : "none",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              position: "relative",
-              overflow: "hidden",
-              transition: "filter 0.3s ease-in-out",
-            }}
-            onClick={() => navigate(`/details/${project.projectId}`)}
-          >
-            <div
-              style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                background: "rgba(0, 0, 0, 0.5)",
-                padding: "10px",
-                color: "white",
-              }}
-            >
-              <Typography variant="h6" className="tab-title">
-                {project.name}
-              </Typography>
-            </div>
-          </Card>
+           <Card
+  className="card"
+  key={index}
+  style={{
+    width: window.innerWidth <= 768 ? "44vw" : "240px", // responsive width
+    aspectRatio: "2 / 3", // typical comic book format
+    margin: "10px",
+    flex: "0 0 auto",
+    cursor: "pointer",
+    borderRadius: "8px",
+    overflow: "hidden",
+    backgroundColor: "#1a1a1a",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+    display: "flex",
+    flexDirection: "column",
+  }}
+  onClick={() => navigate(`/details/${project.projectId}`)}
+>
+  {/* Comic Image */}
+  <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    <Img
+      src={project.thumbnailImage}
+      alt={project.name}
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover", // fills the card like a comic cover
+      }}
+    />
+  </div>
+
+  {/* Title Overlay */}
+  <div
+    style={{
+      position: "absolute",
+      bottom: 0,
+      width: "100%",
+      background: "rgba(0, 0, 0, 0.6)",
+      padding: "8px",
+      textAlign: "center",
+    }}
+  >
+    <Typography
+      variant="subtitle2"
+      style={{
+        color: "#fff",
+        fontWeight: 600,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      }}
+    >
+      {project.name}
+    </Typography>
+  </div>
+</Card>
+
           
           ))
         ) : (

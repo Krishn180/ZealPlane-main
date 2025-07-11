@@ -214,7 +214,7 @@ const About = () => {
           <div className="member-info">
             <h2>Arati Prasad</h2>
             <p>
-              <strong>Founder & Co-Founder</strong>
+              <strong>Founder & COO</strong>
             </p>
             <br />
             <p className="bio-text">

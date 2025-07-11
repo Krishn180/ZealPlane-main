@@ -873,3 +873,17 @@
 .swiper-wrapper {
   height: auto;
 }
+.swiper-main-wrapper {
+  overflow-x: auto;
+  scrollbar-color: #888 transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+}

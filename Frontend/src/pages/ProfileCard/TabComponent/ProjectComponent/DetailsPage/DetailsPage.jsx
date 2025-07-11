@@ -434,116 +434,127 @@ const openViewer = (projectId, projectName, startIndex) => {
             <div className="content1">
               <div className="left1">
                 <div className="swiper-container">
-                  <div className="swiper-main-wrapper">
-                    <Swiper
-                      style={{
-                        "--swiper-navigation-color": "#fff",
-                        "--swiper-pagination-color": "green",
-                      }}
-                      lazy={true}
-                      pagination={{
-                        el: ".custom-pagination",
-                        clickable: true,
-                        dynamicBullets: true,
-                        dynamicMainBullets: 3,
-                      }}
-                      thumbs={{ swiper: thumbsSwiper }}
-                      navigation={{
-                        nextEl: ".custom-next", // ✅ Use custom selectors
-                        prevEl: ".custom-prev",
-                      }}
-                      modules={[Pagination, Navigation, Thumbs]}
-                      className="mySwiper"
-                    >
-                      {projectData.thumbnailImages &&
-                      projectData.thumbnailImages.length > 0 ? (
-                        projectData.thumbnailImages.map((image, index) => (
-                          <SwiperSlide
-                            key={index}
-                           onClick={() => openViewer(projectData.projectId, projectData.name, index)}
+  <div className="swiper-main-wrapper" style={{ overflowX: "auto" }}>
+    <Swiper
+      style={{
+        "--swiper-navigation-color": "#fff",
+        "--swiper-pagination-color": "green",
+      }}
+      lazy={true}
+      pagination={{
+        el: ".custom-pagination",
+        clickable: true,
+        dynamicBullets: true,
+        dynamicMainBullets: 3,
+      }}
+      thumbs={{ swiper: thumbsSwiper }}
+      navigation={{
+        nextEl: ".custom-next",
+        prevEl: ".custom-prev",
+      }}
+      modules={[Pagination, Navigation, Thumbs]}
+      className="mySwiper"
+    >
+      {projectData.thumbnailImages?.length > 0 ? (
+        projectData.thumbnailImages.map((image, index) => (
+          <SwiperSlide
+            key={index}
+            onClick={() =>
+              openViewer(projectData.projectId, projectData.name, index)
+            }
+          >
+            <Img
+              className="thumbImg"
+              src={image || PosterFallback}
+              alt={`Thumbnail ${index + 1}`}
+            />
+          </SwiperSlide>
+        ))
+      ) : (
+        <SwiperSlide>
+          <Img
+            className="thumbImg"
+            src={PosterFallback}
+            alt="Thumbnail"
+          />
+        </SwiperSlide>
+      )}
+    </Swiper>
 
-                          >
-                            <Img
-                              className="thumbImg"
-                              src={image || PosterFallback}
-                              alt={`Thumbnail ${index + 1}`}
-                            />
-                          </SwiperSlide>
-                        ))
-                      ) : (
-                        <SwiperSlide>
-                          <Img
-                            className="thumbImg"
-                            src={PosterFallback}
-                            alt="Thumbnail"
-                          />
-                        </SwiperSlide>
-                      )}
-                    </Swiper>
+    <div className="swiper-nav-buttons">
+      <div className="swiper-button-prev custom-prev"></div>
+      <div className="swiper-button-next custom-next"></div>
+    </div>
 
-                    <div className="swiper-nav-buttons">
-                      <div className="swiper-button-prev custom-prev"></div>
-                      <div className="swiper-button-next custom-next"></div>
-                    </div>
+    <div className="swiper-pagination custom-pagination"></div>
+  </div>
 
-                    {/* ✅ Custom Pagination (Now inside `.swiper-main-wrapper`) */}
-                    <div className="swiper-pagination custom-pagination"></div>
-                  </div>
+  {/* 👇 User Instruction */}
+  <p
+    style={{
+      textAlign: "center",
+      color: "#aaa",
+      marginTop: "10px",
+      fontSize: "14px",
+    }}
+  >
+    Click on an image to view in full screen
+  </p>
 
-                  <div className="swiper-thumbs-wrapper">
-                    {/* Thumbnail Swiper */}
-                    <Swiper
-                      onSwiper={setThumbsSwiper}
-                      spaceBetween={10}
-                      slidesPerView={4}
-                      freeMode={true}
-                      watchSlidesProgress={true}
-                      modules={[Navigation, Thumbs]}
-                      className="mySwiper-thumbs"
-                    >
-                      {projectData.thumbnailImages &&
-                      projectData.thumbnailImages.length > 0 ? (
-                        projectData.thumbnailImages.map((image, index) => (
-                          <SwiperSlide key={index}>
-                            <Img
-                              className="thumbImg"
-                              src={image || PosterFallback}
-                              alt={`Thumbnail ${index + 1}`}
-                            />
-                          </SwiperSlide>
-                        ))
-                      ) : (
-                        <SwiperSlide>
-                          <Img
-                            className="thumbImg"
-                            src={projectData.thumbnailImages || PosterFallback}
-                            alt="Thumbnail"
-                          />
-                        </SwiperSlide>
-                      )}
-                    </Swiper>
-                    {status !== "visitor" && (
-                      <div
-                        className="plus-icon"
-                        style={{
-                          position: "absolute",
-                          right: "10px", // Adjust as needed
-                          padding: "10px",
-                          marginTop: "-60px",
-                          borderRadius: "10%",
-                        }}
-                      >
-                        <FaPlus
-                          title="Add Image"
-                          className="plus-icon-inner"
-                          style={{ fontSize: "21px" }}
-                          onClick={handleImageOpen}
-                          onTouchStart={handleImageOpen}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
+  <div className="swiper-thumbs-wrapper">
+    <Swiper
+      onSwiper={setThumbsSwiper}
+      spaceBetween={10}
+      slidesPerView={4}
+      freeMode={true}
+      watchSlidesProgress={true}
+      modules={[Navigation, Thumbs]}
+      className="mySwiper-thumbs"
+    >
+      {projectData.thumbnailImages?.length > 0 ? (
+        projectData.thumbnailImages.map((image, index) => (
+          <SwiperSlide key={index}>
+            <Img
+              className="thumbImg"
+              src={image || PosterFallback}
+              alt={`Thumbnail ${index + 1}`}
+            />
+          </SwiperSlide>
+        ))
+      ) : (
+        <SwiperSlide>
+          <Img
+            className="thumbImg"
+            src={PosterFallback}
+            alt="Thumbnail"
+          />
+        </SwiperSlide>
+      )}
+    </Swiper>
+
+    {status !== "visitor" && (
+      <div
+        className="plus-icon"
+        style={{
+          position: "absolute",
+          right: "10px",
+          padding: "10px",
+          marginTop: "-60px",
+          borderRadius: "10%",
+        }}
+      >
+        <FaPlus
+          title="Add Image"
+          className="plus-icon-inner"
+          style={{ fontSize: "21px" }}
+          onClick={handleImageOpen}
+          onTouchStart={handleImageOpen}
+        />
+      </div>
+    )}
+  </div>
+</div>
+
 
                 <div className="description-container">
                   <div

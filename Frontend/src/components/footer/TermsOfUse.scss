@@ -1,0 +1,32 @@
+.terms-of-use {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #111;
+
+  h1, h2 {
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  p, li {
+    color: #ccc;
+    line-height: 1.6;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    color: #66b2ff;
+    text-decoration: underline;
+
+    &:hover {
+      color: #3399ff;
+    }
+  }
+}

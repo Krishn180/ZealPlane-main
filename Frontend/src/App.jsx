@@ -30,9 +30,11 @@ import BlankPage from "./pages/ProfileCard/TabComponent/ProjectComponent/Details
 import Checkout from "./components/checkout/Checkout";
 import About from "./components/footer/about";
 import FAQ from "./components/footer/faq";
+import TermsOfUse from "./components/footer/TermsOfUse";
 
 import "./App.scss";
 import { initGA, trackPageView } from "./Analytics";
+import PrivacyPolicy from "./components/footer/privacy_policy";
 
 function App() {
   const dispatch = useDispatch();
@@ -91,6 +93,8 @@ function App() {
           <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
         </Routes>
       </main>
 

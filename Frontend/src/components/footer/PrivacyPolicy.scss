@@ -1,0 +1,54 @@
+.terms-of-use {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #fff; // Main text color
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #111; // Optional: dark background
+  border-radius: 8px;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+    color: #ddd;
+  }
+
+  p, li {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    color: #ccc;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    color: #66b2ff;
+    text-decoration: underline;
+
+    &:hover {
+      color: #3399ff;
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
+}
