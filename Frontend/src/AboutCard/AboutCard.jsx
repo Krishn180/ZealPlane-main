@@ -8,13 +8,12 @@ import Footer from "../components/footer/Footer";
 
 const AboutCard = () => {
   const [isVisible, setIsVisible] = useState(false);
+
   const handleScroll = () => {
-    const scrollY = window.scrollY;
     const elementPosition = document
       .querySelector(".left-banka")
       .getBoundingClientRect().top;
 
-    // Check if the element is in the viewport
     if (elementPosition <= window.innerHeight && elementPosition >= 0) {
       setIsVisible(true);
     }
@@ -22,34 +21,31 @@ const AboutCard = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Clean up the event listener
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      <div className="head-top" id="about">
+      <section className="head-top" id="about">
         <hr
           style={{
-            border: "0.1px solid #1d325f", // Thin border color
+            border: "0.1px solid #1d325f",
             boxShadow:
               "0px 0px 50px 20px rgba(46, 9, 54, 0.3), 0px 0px 100px 40px rgba(6, 25, 51, 0.2), 0px 0px 200px 80px rgba(5, 46, 33, 0.1)",
-            width: "100%", // Full-width horizontal line
+            width: "100%",
           }}
         />
 
         <div className="backa-comic-design">
           <div className="backa-comic-main">
-            <div className="left-banka">
+            <article className="left-banka">
               <p
                 className={`adventure-text ${isVisible ? "visible" : ""}`}
                 style={{ fontSize: "16px", textAlign: "center" }}
               >
-                ADVENTURE: DARK FANTASY: MARTIAL ARTS;
+                Adventure • Dark Fantasy • Martial Arts
               </p>
-              <h1
+            <h1
                 className={`demon-slayer-title ${isVisible ? "visible" : ""}`}
                 style={{ fontSize: "40px" }}
               >
@@ -57,60 +53,76 @@ const AboutCard = () => {
                 <br />
                 Our Vibrant Community
               </h1>
-            </div>
-            <div className="right-banka adventure-text">
+              <meta
+                name="description"
+                content="Discover and discuss dark fantasy comics, martial arts adventures, and original stories in our vibrant comic community."
+              />
+            </article>
+
+            <article className="right-banka adventure-text">
               <p>
-                <b>
+                <strong>
                   <i>Engage with our Community</i>
-                </b>{" "}
+                </strong>{" "}
                 by{" "}
-                <b>
+                <strong>
                   <i>Rating and Reviewing</i>
-                </b>{" "}
+                </strong>{" "}
                 the latest comics,{" "}
-                <b>
+                <strong>
                   <i>Sharing your thoughts</i>
-                </b>{" "}
-                to help others Discover new Favorites,{" "}
-                <b>
+                </strong>{" "}
+                to help others discover new favorites,{" "}
+                <strong>
                   <i>Participating in lively forum discussions</i>
-                </b>{" "}
+                </strong>{" "}
                 with fellow fans, and{" "}
-                <b>
-                  <i>testing your comic book knowledge</i>
-                </b>{" "}
-                through exciting
-                <b>
+                <strong>
+                  <i>Testing your comic book knowledge</i>
+                </strong>{" "}
+                through exciting{" "}
+                <strong>
                   <i>polls and quizzes!</i>
-                </b>
+                </strong>
               </p>
-            </div>
+              <p>
+                Sign up today and explore exclusive indie comics, original series, and connect with a passionate fanbase that shares your love for storytelling.
+              </p>
+            </article>
           </div>
+        </div>
+      </section>
 
-          {/* <div className="backa-image">
-            <img src={bumba} alt="" />
-          </div> */}
-        </div>
-
-        {/* <h1 className={`demon-slayer-title ${isVisible ? "visible" : ""}`}>
-          Many Great Features
-        </h1> */}
-      </div>
-
-      <div className="cardBox">
+      <section className="cardBox" aria-label="Comic Showcase Gallery">
         <div className="card1">
-          <img src={growth} alt="About feature" className="featureImage" />
+          <img
+            src={growth}
+            alt="Dark fantasy warrior character from ComicPlane universe"
+            className="featureImage"
+          />
         </div>
         <div className="card1">
-          <img src={reflecting} alt="About feature" className="featureImage" />
+          <img
+            src={reflecting}
+            alt="A reflective protagonist from ComicPlane exploring inner power"
+            className="featureImage"
+          />
         </div>
         <div className="card1">
-          <img src={bumba} alt="About feature" className="featureImage" />
+          <img
+            src={bumba}
+            alt="Colorful comic poster featuring multiple heroes from ComicPlane"
+            className="featureImage"
+          />
         </div>
         <div className="card1">
-          <img src={god} alt="About feature" className="featureImage" />
+          <img
+            src={god}
+            alt="An action-packed comic featuring a deadly tournament"
+            className="featureImage"
+          />
         </div>
-      </div>
+      </section>
     </>
   );
 };

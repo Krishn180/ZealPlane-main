@@ -28,29 +28,37 @@ const LandingHeroSection = () => {
   }, []);
 
   return (
-    <div className="landing-hero-section">
+    <section className="landing-hero-section" aria-label="Comic Homepage Hero">
       <div className="image-wrapper-landing">
         <div className="new-release-badge">New Release</div>
-        <img src={currentImage} alt="Hero" className="hero-image" />
+        <img
+          src={currentImage}
+          alt="Featured comic from ComicPlane platform"
+          className="hero-image"
+        />
       </div>
 
-      <div className="text-content">
+      <article className="text-content">
         <h1>Enter the World of Comics!</h1>
         <p>
-          Welcome to <strong>ComicPlane</strong>! The ultimate destination for
-          comic lovers, artists, and dreamers. Explore thrilling stories,
-          discuss your favorite characters, and connect with fellow fans.
+          Discover bold stories, indie heroes, and fantastical adventures on{" "}
+          <strong>ComicPlane</strong> — a place where creators and fans come
+          together. Whether you're into dark fantasy, action thrillers, or
+          heartwarming tales, there's something waiting just for you.
         </p>
         <div className="cta-buttons">
           <button className="start-reading" onClick={() => navigate("/home")}>
             Start Reading
           </button>
-          <button className="join-community" onClick={() => navigate("/forum")}>
+          <button
+            className="join-community"
+            onClick={() => navigate("/forum")}
+          >
             Join Community
           </button>
         </div>
-      </div>
-    </div>
+      </article>
+    </section>
   );
 };
 
