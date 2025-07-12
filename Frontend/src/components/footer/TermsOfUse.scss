@@ -1,24 +1,41 @@
 .terms-of-use {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 2rem;
-  color: #fff;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #111;
+  background-color: #111; // Matches ComicPlane's dark theme
+  color: #e0e0e0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 8px;
 
-  h1, h2 {
-    color: #fff;
-    margin-bottom: 1rem;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    color: #ffffff;
+    text-align: center;
   }
 
-  p, li {
-    color: #ccc;
+  h2 {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.3rem;
+    text-align: start;
+  }
+
+  p,
+  li {
+    font-size: 1rem;
     line-height: 1.6;
+    margin-bottom: 1rem;
+    color: #cccccc;
   }
 
   ul {
     padding-left: 1.5rem;
     margin-bottom: 1.5rem;
+    list-style-type: disc;
   }
 
   a {
@@ -27,6 +44,18 @@
 
     &:hover {
       color: #3399ff;
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
     }
   }
 }
