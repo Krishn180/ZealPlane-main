@@ -1,34 +1,96 @@
-.terms-of-use {
+// .terms-of-use {
+//   max-width: 800px;
+//   margin: 0 auto;
+//   padding: 2rem;
+//   color: #fff; // Main text color
+//   font-family: 'Segoe UI', sans-serif;
+//   background-color: #111; // Optional: dark background
+//   border-radius: 8px;
+
+//   h1 {
+//     font-size: 2rem;
+//     margin-bottom: 1rem;
+//     color: #fff;
+//   }
+
+//   h2 {
+//     font-size: 1.4rem;
+//     margin-top: 1.5rem;
+//     color: #ddd;
+//   }
+
+//   p, li {
+//     font-size: 1rem;
+//     line-height: 1.6;
+//     margin-bottom: 0.8rem;
+//     color: #ccc;
+//   }
+
+//   ul {
+//     padding-left: 1.5rem;
+//     margin-bottom: 1.5rem;
+//   }
+
+//   a {
+//     color: #66b2ff;
+//     text-decoration: underline;
+
+//     &:hover {
+//       color: #3399ff;
+//     }
+//   }
+
+//   @media (max-width: 600px) {
+//     padding: 1rem;
+
+//     h1 {
+//       font-size: 1.5rem;
+//     }
+
+//     h2 {
+//       font-size: 1.2rem;
+//     }
+//   }
+// }
+
+.privacy-policy {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 2rem auto;
   padding: 2rem;
-  color: #fff; // Main text color
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #111; // Optional: dark background
+  background-color: #111; // Dark background to match site
+  color: #e0e0e0; // Light gray for text readability
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 8px;
 
   h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #fff;
+    color: #ffffff; // Bright white headings
+    text-align: center;
   }
 
   h2 {
     font-size: 1.4rem;
-    margin-top: 1.5rem;
-    color: #ddd;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+    border-bottom: 1px solid #222;
+    padding-bottom: 0.4rem;
+    text-align: start;
   }
 
-  p, li {
+  p,
+  li {
     font-size: 1rem;
     line-height: 1.6;
-    margin-bottom: 0.8rem;
-    color: #ccc;
+    margin-bottom: 1rem;
+    color: #cccccc;
   }
 
   ul {
     padding-left: 1.5rem;
     margin-bottom: 1.5rem;
+    list-style-type: disc;
   }
 
   a {
@@ -41,10 +103,10 @@
   }
 
   @media (max-width: 600px) {
-    padding: 1rem;
+    padding: 1.5rem;
 
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
 
     h2 {

@@ -1,6 +1,7 @@
 import React from "react";
 import "./FAQ.scss"; // Make sure you create this SCSS file
 import Navbar from "../../AboutCard/Navbar";
+import Footer from "./Footer";
 
 const FAQ = () => {
   return (
@@ -50,6 +51,7 @@ const FAQ = () => {
           </p>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

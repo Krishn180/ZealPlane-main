@@ -162,8 +162,12 @@
         h2 {
           margin: 0 0 10px;
           font-size: 1.5rem;
+
           color: #fff;
           text-align: start;
+        }
+        p strong {
+          color: #dddddd;
         }
 
         p {
@@ -223,7 +227,7 @@
       cursor: pointer;
 
       &:hover {
-        background: #e6453e;
+        background: #d51106;
       }
     }
   }

@@ -83,6 +83,7 @@ import background from "./../../assets/back.jpeg";
 import Arti from "./../../assets/arati.jpg";
 import krishna from "./../../assets/krishna.jpg";
 import Navbar from "../../AboutCard/Navbar";
+import Footer from "./Footer";
 
 const About = () => {
   return (
@@ -236,6 +237,7 @@ const About = () => {
 
         <button className="join-btn">Join ComicPlane</button>
       </section>
+      <Footer />
     </div>
   );
 };

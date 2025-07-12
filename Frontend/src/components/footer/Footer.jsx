@@ -190,23 +190,33 @@ const Footer = () => {
         {/* Center: Links + Social */}
         <div className="middle">
           <div className="footer-links">
- <span onClick={() => navigate("/terms-of-use")} style={{ cursor: "pointer" }}>
-  Terms of Use
-</span>
+            <span
+              onClick={() => navigate("/terms-of-use")}
+              style={{ cursor: "pointer" }}
+            >
+              Terms of Use
+            </span>
 
-  <span onClick={() => navigate("/privacy-policy")} style={{ cursor: "pointer" }}>
-  Privacy Policy
-</span>
-  <span onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
-    About
-  </span>
-  <a href="#">Blog</a>
-  <span onClick={() => navigate("/faq")} style={{ cursor: "pointer" }}>
-    FAQ
-  </span>
-
-</div>
-
+            <span
+              onClick={() => navigate("/privacy-policy")}
+              style={{ cursor: "pointer" }}
+            >
+              Privacy Policy
+            </span>
+            <span
+              onClick={() => navigate("/about")}
+              style={{ cursor: "pointer" }}
+            >
+              About
+            </span>
+            <a href="#">Blog</a>
+            <span
+              onClick={() => navigate("/faq")}
+              style={{ cursor: "pointer" }}
+            >
+              FAQ
+            </span>
+          </div>
 
           <div className="footer-socials">
             <a
