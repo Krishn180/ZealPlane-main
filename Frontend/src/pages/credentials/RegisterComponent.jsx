@@ -230,7 +230,8 @@ export default function RegisterComponent({ showModal, handleClose }) {
       <div className="login-wrapper">
         <ToastContainer />
         <div className="login-wrapper-inner">
-          <h1 className="heading">Make the most of your professional life</h1>
+         <h1 className="heading">Whether You Draw or Just Love Comics — This Is Your New Home.</h1>
+
           <div className="auth-inputs">
             <input
               onChange={(event) =>
