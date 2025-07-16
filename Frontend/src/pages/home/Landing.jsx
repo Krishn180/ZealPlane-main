@@ -94,7 +94,7 @@ const Landing = () => {
           },
         }}
       >
-        <Topics/>
+        <Topics />
       </div>
 
       {/* <AboutCard /> */}
@@ -104,7 +104,7 @@ const Landing = () => {
       <br />
 
       {/* <Section2 /> */}
-      <Ourcreator />
+      <AboutCard />
 
       <br />
       <br />
@@ -112,7 +112,7 @@ const Landing = () => {
       <br />
       <br />
       <br />
-      <AboutCard />
+      <Ourcreator />
       <br />
       <br />
       <br />

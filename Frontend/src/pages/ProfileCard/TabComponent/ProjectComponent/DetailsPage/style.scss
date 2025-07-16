@@ -491,8 +491,8 @@
 }
 
 .custom-pagination .swiper-pagination-bullet {
-  width: 32px !important;
-  height: 14px !important;
+  width: 30px !important;
+  height: 10px !important;
   background-color: #fff !important;
   /* border-radius: 50%; */
   border-radius: 14px !important;
@@ -500,7 +500,7 @@
 }
 
 .custom-pagination .swiper-pagination-bullet-active {
-  width: 42px !important;
+  width: 40px !important;
   border-radius: 14px !important;
   background-color: red !important;
   transition: all 0.8s ease-in-out !important;

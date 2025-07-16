@@ -43,28 +43,46 @@ const MeetOurCreator = () => {
   };
 
   return (
-    <div className="container">
-      <div className="title-box">
-        <h1 className="headtag">Our Creators</h1>
+    <div className="our-creator-section">
+      {/* 🔒 Trusted Section */}
+      <div className="trusted-section">
+        <h2>Trusted by 4,000+ Readers Worldwide </h2>
+        <p>
+          <strong>4,000 readers</strong> have already joined our journey,
+          exploring thought-provoking stories and engaging artwork. We proudly
+          feature <strong>original content from verified publishers</strong>,
+          ensuring every panel you read is authentic, inspiring, and one of a
+          kind.
+        </p>
+        <p>
+          Join a growing community that believes in creativity, trust, and the
+          power of storytelling.
+        </p>
       </div>
-      <br />
 
-      <br />
-      <Slider {...settings}>
-        {creators.map((creator, index) => (
-          <div key={index} className="creator-card">
-            <div className="mainbox">
-              <div className="imagebox">
-                <img src={creator.image} alt={creator.name} />
-              </div>
-              <div className="discribox">
-                <h3>{creator.name}</h3>
-                <p>{creator.description}</p>
+      <div className="container">
+        <div className="title-box">
+          <h1 className="headtag">Our Creators</h1>
+        </div>
+        <br />
+
+        <br />
+        <Slider {...settings}>
+          {creators.map((creator, index) => (
+            <div key={index} className="creator-card">
+              <div className="mainbox">
+                <div className="imagebox">
+                  <img src={creator.image} alt={creator.name} />
+                </div>
+                <div className="discribox">
+                  <h3>{creator.name}</h3>
+                  <p>{creator.description}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };
