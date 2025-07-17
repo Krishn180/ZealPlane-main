@@ -31,7 +31,7 @@ const PostSchema = new mongoose.Schema({
   image: { type: String },
 
   // Post Type (image, text, quiz)
-  postType: { type: String, enum: ["image", "text", "quiz"], default: [] },
+  // postType: { type: String, enum: ["image", "text", "quiz"], default: [] },
 
   // Quiz-specific fields (optional, used only if postType === 'quiz')
   question: { type: String },
