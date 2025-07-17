@@ -1,8 +1,40 @@
+.trusted-section {
+  background: linear-gradient(135deg, #141414, #1f1f1f);
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 60px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  margin: 0 auto 60px;
+
+  h2 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+  }
+
+  p {
+    font-size: 1.3rem;
+    color: #cccccc;
+    max-width: 800px;
+    margin: 0 auto 10px;
+    line-height: 1.6;
+  }
+
+  // strong {
+  //   color: #ffffff;
+  //   font-weight: 600;
+  // }
+}
+
 .container {
   max-width: 900px;
   margin: auto;
   padding: 20px;
-  
 
   .slick-dots {
     bottom: 10px;
@@ -27,11 +59,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(42, 39, 39);
+  background: rgb(29, 27, 27);
   color: #fff;
   border-radius: 10px;
   padding: 60px;
-  
+
   transition: transform 0.3s ease-in-out;
 
   &:hover {
@@ -68,7 +100,6 @@
   border-bottom: 3px solid #ffcc00;
   display: inline-block;
 }
-
 
 .imagebox {
   width: 250px;
@@ -115,13 +146,13 @@
     width: 120px;
     height: 120px;
   }
-  .creator-card{
+  .creator-card {
     padding: 20px;
   }
 
-   .headtag{
+  .headtag {
     font-size: 2rem;
-   }
+  }
   .discribox {
     h3 {
       font-size: 22px;
@@ -129,6 +160,19 @@
 
     p {
       font-size: 14px;
+    }
+  }
+  .trusted-section {
+    padding: 5px;
+    width: 95%;
+  }
+  .trusted-section {
+    h2 {
+      font-size: 25px;
+    }
+
+    p {
+      font-size: 16px;
     }
   }
 }
