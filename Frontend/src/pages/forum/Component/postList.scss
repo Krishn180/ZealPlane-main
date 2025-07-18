@@ -1,7 +1,7 @@
 .post-list {
   padding: 15px; /* Reduced padding */
   background-color: #2a2a2a;
-  border-radius:  2px;
+  border-radius: 2px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
   .post-link {
@@ -34,7 +34,7 @@
         border-radius: 50%;
         margin-right: 20px;
         object-fit: cover;
-        border: 3px solid #ff5500;
+        border: 2px solid #ff5500;
       }
     }
 
@@ -138,17 +138,16 @@
       }
     }
 
-   .post-image-container {
-  margin: 15px auto; /* Center the image horizontally */
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #383838;
-  width: 90%;        /* Make image container responsive */
-  max-width: 100%;   /* Ensure no stretching */
-  display: flex;     /* Optional: make sure content inside is centered */
-  justify-content: center; /* Center the image inside the container */
-}
-
+    .post-image-container {
+      margin: 15px auto; /* Center the image horizontally */
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #383838;
+      width: 90%; /* Make image container responsive */
+      max-width: 100%; /* Ensure no stretching */
+      display: flex; /* Optional: make sure content inside is centered */
+      justify-content: center; /* Center the image inside the container */
+    }
 
     .post-image {
       width: 100%; /* Makes the image take full width */

@@ -43,7 +43,12 @@ const PostInfo = ({ post, onEdit, onDelete, status }) => {
         </div>
       )}
 
-      <h2 className="post-title">{post.title}</h2>
+      <div className="post-title-container-2">
+        {post.profilePic && (
+          <img src={post.profilePic} alt="Profile" className="profile-pic" />
+        )}
+        <h2 className="post-title">{post.title}</h2>
+      </div>
 
       <div className="post-meta">
         {/* <span className="subreddit">r/{post.subreddit}</span> • */}

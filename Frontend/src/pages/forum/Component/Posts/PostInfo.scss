@@ -1,89 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 .post-header {
-    position: relative; /* Enable absolute positioning for the edit icon */
-    background-color: #1e1e1e;
-    padding: 10px;
-    border-radius: 8px;
-    color: #ffffff;
-  
-    .icon-container {
+  position: relative; /* Enable absolute positioning for the edit icon */
+  background-color: #1e1e1e;
+  padding: 10px;
+  border-radius: 8px;
+  color: #ffffff;
+
+  .icon-container {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 14px;
+    gap: 10px; // Space between icons
+  }
+
+  .edit-icon,
+  .trash-icon {
+    cursor: pointer;
+    color: #818384; // Default color
+    transition: color 0.2s ease-in-out;
+  }
+
+  .edit-icon:hover {
+    color: #2d91f0; // Hover color for edit
+  }
+
+  .trash-icon:hover {
+    color: #e63946; // Hover color for delete
+  }
+
+  .post-title {
+    margin: 10px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff4500;
+    text-align: start;
+  }
+
+  .post-meta {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 15px;
+
+    .subreddit {
+      color: #62a4ff;
+    }
+
+    .author {
+      color: #cccccc;
+    }
+  }
+  .post-title-container-2 {
+    display: flex;
+    align-items: start;
+    gap: 10px; // space between image and title
+    margin-bottom: 8px;
+  }
+
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff5500;
+    margin: 10px 0;
+  }
+
+  .post-body {
+    text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    p {
+      // font-size: 14px;
+      // line-height: 1.6;
+      // color: #cccccc;
+
+      color: rgb(216, 216, 216);
+      margin-top: 30px;
+      font-family: "Nunito Sans", sans-serif;
+      font-size: 17px;
+      width: 60vw;
+      letter-spacing: 0.6px;
+    }
+    .post-body a:hover {
+      text-decoration: none; /* Underline remove on hover */
+    }
+
+    .post-image {
       display: flex;
-      justify-content: flex-end;
-      font-size: 14px;
-      gap: 10px; // Space between icons
-    }
-    
-    .edit-icon,
-    .trash-icon {
-      cursor: pointer;
-      color: #818384; // Default color
-      transition: color 0.2s ease-in-out;
-    }
-    
-    .edit-icon:hover {
-      color: #2d91f0; // Hover color for edit
-    }
-    
-    .trash-icon:hover {
-      color: #e63946; // Hover color for delete
-    }
-    
-  
-    .post-title {
-      margin: 10px 0;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #ff4500;
-    }
-  
-    .post-meta {
-      font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 15px;
-  
-      .subreddit {
-        color: #62a4ff;
-      }
-  
-      .author {
-        color: #cccccc;
-      }
-    }
-  
-    .post-body {
-      text-align: justify;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-      p {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #cccccc;
-      }
-      .post-body a:hover {
-        text-decoration: none; /* Underline remove on hover */
-      }
-      
-  
-      .post-image {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 20px 0;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
         background-color: #2c2c2c;
-        border-radius: 8px;
-        overflow: hidden; 
-  
-        img {
-          width: 100%; 
-          max-width: 600px;
-          height: auto; 
-          max-height: 400px; 
-          object-fit: cover; 
-          background-color: #2c2c2c;
-          padding: 0;
-          border: 1px solid #444; 
-        }
+        padding: 0;
+        border: 1px solid #444;
       }
     }
   }
-  
+}

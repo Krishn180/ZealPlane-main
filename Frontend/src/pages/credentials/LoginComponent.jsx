@@ -60,6 +60,7 @@ export default function LoginComponent() {
 
       const response = await axios.post(
         `${apiBaseUrl}/users/login`,
+        // `http://localhost:5000/api/users/login`,
         {
           email: credentials.email,
           password: credentials.password,
@@ -96,12 +97,9 @@ export default function LoginComponent() {
       console.log("Google Token:", googleToken);
 
       // Send the Google token to your backend for verification
-      const response = await axios.post(
-        `${apiBaseUrl}/users/google-login`,
-        {
-          token: googleToken,
-        }
-      );
+      const response = await axios.post(`${apiBaseUrl}/users/google-login`, {
+        token: googleToken,
+      });
 
       console.log(
         "Response Data from backend after Google login:",
