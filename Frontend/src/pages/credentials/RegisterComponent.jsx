@@ -221,98 +221,120 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
   return (
     <>
-      <div className="logo-img">
-        <img src={logozp} alt="ZealPlane Logo" className="logo-img" />
-        <span style={{ color: "red", fontWeight: "900", fontSize: "19px" }}>
-          ZEALPLANE
-        </span>
-      </div>
-      <div className="login-wrapper">
-        <ToastContainer />
-        <div className="login-wrapper-inner">
-          <h1 className="heading">
-            Whether You Draw or Just Love Comics — This Is Your New Home.
-          </h1>
+  <div className="logo-img">
+    <img src={logozp} alt="ZealPlane Logo" className="logo-img" />
+    <span style={{ color: "red", fontWeight: "900", fontSize: "19px" }}>
+      ZEALPLANE
+    </span>
+  </div>
 
-          <div className="auth-inputs">
-            <input
-              onChange={(event) =>
-                setCredentials((prev) => ({
-                  ...prev,
-                  username: event.target.value,
-                }))
-              }
-              type="text"
-              className="common-input"
-              placeholder="Your Unique Name"
-            />
-            <input
-              onChange={(event) =>
-                setCredentials((prev) => ({
-                  ...prev,
-                  email: event.target.value,
-                }))
-              }
-              type="email"
-              className="common-input"
-              placeholder="Email"
-            />
-            <input
-              onChange={(event) =>
-                setCredentials((prev) => ({
-                  ...prev,
-                  password: event.target.value,
-                }))
-              }
-              type="password"
-              className="common-input"
-              placeholder="Password (6 or more characters)"
-            />
-            <input
-              onChange={(event) => setConfirmPassword(event.target.value)}
-              type="password"
-              className="common-input"
-              placeholder="Confirm Password"
-            />
-            {otpSent && (
-              <input
-                onChange={(event) => setOtp(event.target.value)}
-                type="text"
-                className="common-input"
-                placeholder="Enter OTP"
-              />
-            )}
-          </div>
-          {!otpSent ? (
-            <button onClick={sendOtp} className="login-btn" disabled={loading}>
-              {loading ? <span className="spinner"></span> : "Send OTP"}
-            </button>
-          ) : (
-            <button onClick={register} className="login-btn">
-              Verify OTP & Join
-            </button>
-          )}
-          <div className="google-btn-container">
-            <p className="go-to-signup">
-              Already on ZealPlane?{" "}
-              <span className="join-now" onClick={() => navigate("/login")}>
-                Sign in
-              </span>
-            </p>
-          </div>
-          <p className="go-to-signup">Or you can join through Google Login</p>
-          <div className="google-btn-container">
-            <GoogleLogin
-              onSuccess={(credentialResponse) =>
-                handleGoogleRegister(credentialResponse)
-              }
-              onError={() =>
-                toast.error("Google Sign-in failed. Please try again.")
-              }
-            />
-          </div>
-        </div>
+  <div className="login-wrapper">
+    <ToastContainer />
+    <div className="login-wrapper-inner">
+      <h1 className="heading">
+        Unlock a World of Hidden Comics & Fellow Creators
+      </h1>
+      <div className="auth-inputs">
+        <input
+          onChange={(event) =>
+            setCredentials((prev) => ({
+              ...prev,
+              username: event.target.value,
+            }))
+          }
+          type="text"
+          className="common-input"
+          placeholder="Choose a Unique Username"
+        />
+        <input
+          onChange={(event) =>
+            setCredentials((prev) => ({
+              ...prev,
+              email: event.target.value,
+            }))
+          }
+          type="email"
+          className="common-input"
+          placeholder="Email"
+        />
+        <input
+          onChange={(event) =>
+            setCredentials((prev) => ({
+              ...prev,
+              password: event.target.value,
+            }))
+          }
+          type="password"
+          className="common-input"
+          placeholder="Password (min 6 characters)"
+        />
+        <input
+          onChange={(event) => setConfirmPassword(event.target.value)}
+          type="password"
+          className="common-input"
+          placeholder="Confirm Password"
+        />
+        {otpSent && (
+          <input
+            onChange={(event) => setOtp(event.target.value)}
+            type="text"
+            className="common-input"
+            placeholder="Enter the OTP sent to your email"
+          />
+        )}
       </div>
-    </>
+
+      {!otpSent ? (
+        <>
+          <button onClick={sendOtp} className="login-btn" disabled={loading}>
+            {loading ? <span className="spinner"></span> : "Get Access Code"}
+          </button>
+          <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
+            🔒 We respect your privacy. The code keeps ComicPlane safe from bots.
+          </p>
+        </>
+      ) : (
+        <>
+          <button onClick={register} className="login-btn">
+            Verify & Enter the World
+          </button>
+          <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
+            You’re one step away from unlocking fan-favorite content.
+          </p>
+        </>
+      )}
+
+      <div className="google-btn-container">
+        <p className="go-to-signup">
+          Already on ZealPlane?{" "}
+          <span className="join-now" onClick={() => navigate("/login")}>
+            Sign in
+          </span>
+        </p>
+      </div>
+// <<<<<<< main
+//       <div className="login-wrapper">
+//         <ToastContainer />
+//         <div className="login-wrapper-inner">
+//           <h1 className="heading">
+//             Whether You Draw or Just Love Comics — This Is Your New Home.
+//           </h1>
+// =======
+// >>>>>>> main
+
+      <p className="go-to-signup">Prefer instant access with your Google ID?</p>
+      <div className="google-btn-container">
+        <GoogleLogin
+          onSuccess={(credentialResponse) =>
+            handleGoogleRegister(credentialResponse)
+          }
+          onError={() =>
+            toast.error("Google Sign-in failed. Please try again.")
+          }
+        />
+      </div>
+    </div>
+  </div>
+</>
   );
 }
