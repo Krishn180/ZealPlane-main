@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 .post-header {
-  position: relative; /* Enable absolute positioning for the edit icon */
+  position: relative;
   background-color: #1e1e1e;
   padding: 10px;
   border-radius: 8px;
@@ -11,7 +11,7 @@
     display: flex;
     justify-content: flex-end;
     font-size: 14px;
-    gap: 10px; // Space between icons
+    gap: 10px;
   }
 
   .edit-icon,
@@ -22,11 +22,11 @@
   }
 
   .edit-icon:hover {
-    color: #2d91f0; // Hover color for edit
+    color: #2d91f0;
   }
 
   .trash-icon:hover {
-    color: #e63946; // Hover color for delete
+    color: #e63946;
   }
 
   .post-title {
@@ -56,6 +56,9 @@
     gap: 10px; // space between image and title
     margin-bottom: 8px;
   }
+  .post-detail-container .post-header .post-title {
+    font-size: 22px;
+  }
 
   .profile-pic {
     width: 40px;
@@ -76,11 +79,11 @@
       // line-height: 1.6;
       // color: #cccccc;
 
-      color: rgb(216, 216, 216);
+      color: #ddd;
       margin-top: 30px;
-      font-family: "Nunito Sans", sans-serif;
-      font-size: 17px;
-      width: 60vw;
+      // font-family: "Nunito Sans", sans-serif;
+      font-size: 15px;
+      // width: 60vw;
       letter-spacing: 0.6px;
     }
     .post-body a:hover {
