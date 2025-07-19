@@ -81,7 +81,7 @@ function App() {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/home" element={<Home />} />
           <Route path="/forum" element={<ForumHome />} />
-          <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/post/:slug" element={<PostDetail />} />
           <Route path="/forum/create-post" element={<CreatePost />} />
           <Route path="/profile/:id" element={<AvatarComponent />} />
           <Route path="/p" element={<MyComponent />} />

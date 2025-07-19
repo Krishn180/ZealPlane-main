@@ -8,6 +8,14 @@ import linkifyHtml from "linkify-html";
 import { toast } from "react-toastify";
 import "./postList.scss";
 
+const slugify = (title) =>
+  title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "") // special chars hatao
+    .replace(/\s+/g, "-"); // space ko dash me badlo
+
+
 const PostList = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts || []);
   const token = localStorage.getItem("token");
@@ -60,7 +68,11 @@ const PostList = ({ initialPosts }) => {
         const voteCount = post.votes.length || 0;
 
         return (
-          <Link to={`/post/${post._id}`} key={post._id} className="post-link">
+           <Link
+          to={`/post/${slugify(post.title)}-${post._id}`}
+          key={post._id}
+          className="post-link"
+        >
             <div className="post">
               <div className="post-header">
                 {post.profilePic && (

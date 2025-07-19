@@ -312,7 +312,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
           </span>
         </p>
       </div>
-// <<<<<<< main
+{/* // <<<<<<< main
 //       <div className="login-wrapper">
 //         <ToastContainer />
 //         <div className="login-wrapper-inner">
@@ -320,7 +320,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
 //             Whether You Draw or Just Love Comics — This Is Your New Home.
 //           </h1>
 // =======
-// >>>>>>> main
+// >>>>>>> main */}
 
       <p className="go-to-signup">Prefer instant access with your Google ID?</p>
       <div className="google-btn-container">

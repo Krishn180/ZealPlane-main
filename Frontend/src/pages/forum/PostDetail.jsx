@@ -14,7 +14,8 @@ import { jwtDecode } from "jwt-decode";
 import PostList from "./Component/PostList";
 
 const PostDetail = () => {
-  const { id } = useParams(); // Get the post ID from the URL
+  const { slug } = useParams();
+const id = slug.split("-").pop(); // Extract the ID from the slug
   const navigate = useNavigate(); // Initialize navigate for redirection
   const [post, setPost] = useState(null); // State to store the post data
   const [comments, setComments] = useState([]); // State to store comments
@@ -57,41 +58,39 @@ const PostDetail = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        // Check if the token exists
-        if (!token) {
-          toast.error(
-            "You are not authorized to view this post. Please log in again."
-          );
-          navigate("/login"); // Redirect to login page
-          return;
-        }
+ useEffect(() => {
+  const fetchPost = async () => {
+    try {
+      const config = token
+        ? {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        : {}; // No headers if no token
 
-        const response = await axios.get(`${apiBaseUrl}/posts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const response = await axios.get(`${apiBaseUrl}/posts/${id}`, config);
 
-        console.log("post is", response.data);
+      console.log("post is", response.data);
 
-        setPost({
-          ...response.data.post,
-          votes: response.data.post.votes || [],
-        });
-        setStatus(response.data.status);
-        setComments(response.data.post.comments || []);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-        toast.error("Failed to fetch post details!");
-      }
-    };
+      setPost({
+        ...response.data.post,
+        votes: response.data.post.votes || [],
+      });
+      setStatus(response.data.status);
+      setComments(response.data.post.comments || []);
+    } catch (error) {
+      console.error("Error fetching post:", error);
+      toast.error("Failed to fetch post details!");
+    }
+  };
 
-    fetchPost();
-    fetchUserVote(); // Call fetchUserVote from within useEffect
-  }, [id, token]); // Make sure `id` and `token` are part of the dependency array
+  fetchPost();
+
+  if (token) {
+    fetchUserVote(); // Only fetch vote if token exists
+  }
+}, [id, token]);
 
   const handleVote = async (voteType) => {
     try {
