@@ -50,7 +50,7 @@ const Home = () => {
           </main>
         </div>
         <div className="curated-sidebar">
-          <CuratedSidebar /> {/* New CuratedSidebar */}
+          <CuratedSidebar /> 
         </div>
       </div>
     </div>
