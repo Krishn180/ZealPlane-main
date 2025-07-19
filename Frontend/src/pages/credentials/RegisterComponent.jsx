@@ -312,6 +312,15 @@ export default function RegisterComponent({ showModal, handleClose }) {
           </span>
         </p>
       </div>
+// <<<<<<< main
+//       <div className="login-wrapper">
+//         <ToastContainer />
+//         <div className="login-wrapper-inner">
+//           <h1 className="heading">
+//             Whether You Draw or Just Love Comics — This Is Your New Home.
+//           </h1>
+// =======
+// >>>>>>> main
 
       <p className="go-to-signup">Prefer instant access with your Google ID?</p>
       <div className="google-btn-container">
