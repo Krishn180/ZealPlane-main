@@ -13,6 +13,8 @@ const {
   getFollowers,
   getFollowing,
   refreshAccessToken,
+  sendOtpForReset,
+  verifyOtpAndResetPassword
 } = require("./controllers/userController");
 const upload = require("./midleware/upload"); // Import the configured multer instance
 const ValidateToken = require("./midleware/validateTokenHandler");
@@ -61,5 +63,7 @@ router.get("/:id/following", getFollowing);
 router.get("/:id/followers", getFollowers);
 router.post("/refreshtoken", refreshAccessToken);
 console.log("refresh:", refreshAccessToken);
+router.post("/send-otp", sendOtpForReset);      // ✅ Send OTP to user (e.g., via email or phone)
+router.post("/verify-otp", verifyOtpAndResetPassword);
 
 module.exports = router;

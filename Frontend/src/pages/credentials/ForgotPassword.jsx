@@ -2,124 +2,114 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import './ForgotPassword.scss';
 
 function ForgotPassword() {
-  const [formData, setFormData] = useState({
-    email: '',
-    favoriteColor: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
-
+  const [email, setEmail] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${apiBaseUrl}/users/send-otp`, {
+        email,
+      });
+
+      if (response.data.success) {
+        toast.success('OTP sent to your email!');
+        setOtpSent(true);
+      } else {
+        toast.error(response.data.message || 'Failed to send OTP.');
+      }
+    } catch (error) {
+      toast.error('Error sending OTP. Try again.');
+      console.error('Error:', error);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handlePasswordReset = async (e) => {
     e.preventDefault();
-    const { email, favoriteColor, newPassword, confirmPassword } = formData;
 
     if (newPassword !== confirmPassword) {
-      toast.error('New password and confirmation password do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/users/reset-password',
-        { email, favoriteColor, newPassword }
-      );
+      const response = await axios.post(`${apiBaseUrl}/users/verify-otp`, {
+        email,
+        otp,
+        newPassword,
+      });
 
       if (response.data.success) {
-        toast.success('Password has been updated successfully!');
+        toast.success('Password successfully updated!');
         navigate('/login');
       } else {
-        toast.error(response.data.message || 'Failed to update password.');
+        toast.error(response.data.message || 'Failed to reset password.');
       }
     } catch (error) {
-      toast.error('Error updating password. Please try again.');
+      toast.error('Error resetting password.');
       console.error('Error:', error);
     }
   };
 
   return (
-    <div className="forgot-password-wrapper">
-      <h1 className="heading">Reset Your Password</h1>
-      <form className="forgot-password-form" onSubmit={handleSubmit}>
-        <div className="form-group">
+    <div className="forgot-password-wrapper-comic">
+      <h1 className="comic-heading">🦸 Reset Your Secret Identity</h1>
+      <p className="comic-subtext">We’ll send a one-time code to your inbox.</p>
+
+      {!otpSent ? (
+        <form className="forgot-password-form-comic" onSubmit={handleEmailSubmit}>
           <label>Email Address</label>
           <input
             type="email"
-            name="email"
-            className="form-control"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleInputChange}
+            placeholder="e.g., clark@dailyplanet.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-
-        <div className="form-group">
-          <label>Favorite Color</label>
+          <button type="submit" className="comic-btn">✉️ Send OTP</button>
+        </form>
+      ) : (
+        <form className="forgot-password-form-comic" onSubmit={handlePasswordReset}>
+          <label>OTP</label>
           <input
             type="text"
-            name="favoriteColor"
-            className="form-control"
-            placeholder="Enter your favorite color"
-            value={formData.favoriteColor}
-            onChange={handleInputChange}
+            placeholder="Enter the code from email"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
             required
           />
-        </div>
 
-        <div className="form-group">
           <label>New Password</label>
           <input
             type="password"
-            name="newPassword"
-            className="form-control"
             placeholder="Enter your new password"
-            value={formData.newPassword}
-            onChange={handleInputChange}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             required
           />
-        </div>
 
-        <div className="form-group">
           <label>Confirm New Password</label>
           <input
             type="password"
-            name="confirmPassword"
-            className="form-control"
             placeholder="Confirm your new password"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </div>
 
-        <button type="submit" className="btn btn-primary">
-          Update Password
-        </button>
-      </form>
+          <button type="submit" className="comic-btn">⚡ Update Password</button>
+        </form>
+      )}
     </div>
   );
 }
 
 export default ForgotPassword;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

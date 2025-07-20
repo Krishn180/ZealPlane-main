@@ -1,241 +1,100 @@
-// /* Home.scss or Layout.scss */
-// .home-container {
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .main-layout {
-//   display: flex;
-//   justify-content: space-between;
-//   margin-top: 55px; /* Adjust to avoid overlap with header */
-//   gap: 20px; /* Space between sidebar, main content, and right sidebar */
-// }
-
-// .sidebar-component {
-//   width: 350px; /* Width of the left sidebar */
-//   flex-shrink: 0;
-// }
-
-// .main-content {
-//   flex-grow: 1;
-//   margin-right: 350px; /* Ensure space is left for the fixed right sidebar */
-// }
-
-// /* Fixed Right Sidebar */
-// .curated-sidebar {
-//   width: 350px; /* Width of the right sidebar */
-//   flex-shrink: 0;
-//   background-color: #1a1a1a; /* Dark background */
-//   padding: 20px;
-//   border-radius: 10px;
-//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Shadow for the sidebar */
-//   position: fixed; /* Fix the sidebar on the right */
-//   right: 0;
-//   top: 55px; /* Start the sidebar below the header */
-//   bottom: 0; /* Make the sidebar stretch to the bottom */
-//   z-index: 1;
-//   overflow-y: auto; /* Make sure the content is scrollable if it's too long */
-// }
-
-// @media (max-width: 768px) {
-//   .main-layout {
-//     flex-direction: column;
-//   }
-
-//   .sidebar-component,
-//   .curated-sidebar {
-//     width: 100%;
-//     margin-bottom: 20px; /* Space between sections on mobile */
-//   }
-
-//   .main-content {
-//     margin-right: 0;
-//   }
-
-//   .curated-sidebar {
-//     margin-top: 20px; /* Add space between content and right sidebar */
-//     position: relative; /* Make it not fixed on small screens */
-//   }
-// }
-
-// .curated-sidebar-container {
-//   background-color: #1c1c1c;
-//   padding: 20px;
-//   border-radius: 10px;
-//   color: #fff;
-//   font-family: "Comic Neue", cursive;
-//   box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
-// }
-
-// .curated-sidebar-container h3 {
-//   color: #ff4757;
-//   margin-bottom: 15px;
-// }
-
-// .curated-benefits-list {
-//   list-style-type: none;
-//   padding-left: 0;
-// }
-
-// .curated-post-item {
-//   margin: 10px 0;
-//   font-size: 14px;
-//   line-height: 1.5;
-// }
-
-// .register-now-button {
-//   margin-top: 20px;
-//   text-align: center;
-// }
-
-// .bold-register-button {
-//   background-color: #ff4757;
-//   color: #fff;
-//   font-weight: bold;
-//   padding: 10px 15px;
-//   border-radius: 6px;
-//   text-decoration: none;
-//   transition: background-color 0.3s ease;
-//   display: inline-block;
-// }
-
-// .bold-register-button:hover {
-//   background-color: #e84118;
-// }
-
-// @media (max-width: 768px) {
-//   .curated-sidebar-container {
-//     width: 100%;
-//   }
-
-//   h3 {
-//     font-size: 1.1rem;
-//   }
-
-//   .curated-post-item {
-//     font-size: 0.9rem;
-//     padding: 8px;
-//   }
-// }
-
-/* Home.scss or Layout.scss */
-.home-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.main-layout {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 55px; /* Adjust to avoid overlap with header */
-  gap: 20px; /* Space between sidebar, main content, and right sidebar */
-}
-
-.sidebar-component {
-  width: 350px; /* Width of the left sidebar */
-  flex-shrink: 0;
-}
-
-.main-content {
-  flex-grow: 1;
-  margin-right: 350px; /* Ensure space is left for the fixed right sidebar */
-}
-
-/* Fixed Right Sidebar */
-.curated-sidebar {
-  width: 350px; /* Width of the right sidebar */
-  flex-shrink: 0;
-  background-color: #1a1a1a; /* Dark background */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Shadow for the sidebar */
+/* Curated Sidebar Styling */
+.curated-sidebar-container {
+  background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
+  padding: 24px;
+  color: #ffffff;
+  font-family: "Comic Neue", cursive;
+  animation: glowPulse 6s ease-in-out infinite;
+  text-align: center;
   position: fixed; /* Fix the sidebar on the right */
   right: 0;
   top: 55px; /* Start the sidebar below the header */
-  bottom: 0; /* Make the sidebar stretch to the bottom */
+  // bottom: 0; /* Make the sidebar stretch to the bottom */
   z-index: 1;
   overflow-y: auto; /* Make sure the content is scrollable if it's too long */
+   width: 350px;
+   top: 55px;
 }
 
-@media (max-width: 768px) {
-  .main-layout {
-    flex-direction: column;
-  }
 
-  .sidebar-component,
-  .curated-sidebar {
-    width: 100%;
-    margin-bottom: 20px; /* Space between sections on mobile */
-  }
-
-  .main-content {
-    margin-right: 0;
-  }
-
-  .curated-sidebar {
-    margin-top: 20px; /* Add space between content and right sidebar */
-    position: relative; /* Make it not fixed on small screens */
-  }
+.curated-sidebar-container h3 {
+  color: #ff4757;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-/* Curated Sidebar Styling */
-.curated-sidebar-container {
-  background-color: #1c1c1c;
-  padding: 20px;
-  border-radius: 10px;
-  color: #fff;
-  font-family: "Comic Neue", cursive;
-  box-shadow: 0 4px 10px rgba(33, 54, 73, 0.4);
-}
-
-h3 {
-  color: #ffffff; /* White color for header */
+.curated-sidebar-container p {
+  font-size: 1rem;
+  color: #f0f0f0;
+  line-height: 1.6;
   margin-bottom: 20px;
-  font-size: 1.5rem;
-  font-weight: 700;
 }
 
-ul {
+.curated-benefits-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-.curated-post-item {
-  background-color: #333333; /* Slightly darker background for each item */
-  margin-bottom: 10px;
+.curated-benefits-list li {
+  background-color: #292c34;
+  margin: 10px 0;
+  padding: 10px 12px;
   border-radius: 8px;
-  padding: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.curated-post-item a {
-  color: #64b5f6; /* Light blue color for links */
+  font-size: 0.95rem;
   font-weight: 500;
-  text-decoration: none;
+  color: #fce38a;
+  transition: background 0.3s ease;
+}
+
+.curated-benefits-list li:hover {
+  background-color: #343742;
+}
+
+.register-now-button {
+  margin-top: 24px;
+}
+
+.bold-register-button {
+  background: linear-gradient(135deg, #ff6b81, #ff4757);
+  color: #fff;
+  font-weight: bold;
   font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.6);
 }
 
-.curated-post-item a:hover {
-  color: #42a5f5; /* Darker blue when hovered */
-  text-decoration: underline;
+.bold-register-button:hover {
+  background: linear-gradient(135deg, #ff3e53, #e84118);
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(255, 71, 87, 0.8);
 }
 
-.curated-post-item:hover {
-  background-color: #444444; /* Slightly lighter background on hover */
-  cursor: pointer;
-}
-
+/* Mobile Tweaks */
 @media (max-width: 768px) {
   .curated-sidebar-container {
     width: 100%;
+    text-align: center;
+    padding: 20px;
   }
 
-  h3 {
-    font-size: 1.1rem;
+  .curated-sidebar-container h3 {
+    font-size: 1.3rem;
   }
 
-  .curated-post-item {
+  .curated-benefits-list li {
     font-size: 0.9rem;
-    padding: 8px;
+  }
+
+  .bold-register-button {
+    font-size: 0.9rem;
+    padding: 10px 16px;
   }
 }

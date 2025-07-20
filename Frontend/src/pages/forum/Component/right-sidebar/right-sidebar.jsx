@@ -1,26 +1,25 @@
 import React from "react";
+import { FaGift, FaStar, FaUserPlus } from "react-icons/fa";
 import "./right-sidebar.scss";
 
 const CuratedSidebar = () => {
-  // Example curated content (you can replace this with dynamic data)
-  const curatedPosts = [
-    { title: "DC vs Marvel: Which Universe Reigns Supreme?", link: "#" },
-    { title: "Superman vs Goku: Who Would Win?", link: "#" },
-    { title: "Top 10 Most Powerful Superheroes of All Time", link: "#" },
-    { title: "Is Batman Really Prepared for Anything?", link: "#" },
-    { title: "The Best Villains from DC and Marvel", link: "#" },
-  ];
-
   return (
     <div className="curated-sidebar-container">
-      <h3>Curated Posts & Projects</h3>
-      <ul>
-        {curatedPosts.map((post, index) => (
-          <li key={index} className="curated-post-item">
-            <a href={post.link}>{post.title}</a>
-          </li>
-        ))}
+      <h3>🎁 Win Free Comic Books!</h3>
+      <p>
+        Register now to enter our exclusive <strong>monthly giveaway</strong>!
+        First-time users stand a chance to get <strong>free physical comic copies</strong> delivered to their door!
+      </p>
+      <ul className="curated-benefits-list">
+        <li><FaGift /> Monthly Comic Drops</li>
+        <li><FaStar /> Exclusive Access to Collector Editions</li>
+        <li><FaUserPlus /> Showcase or Sell Your Own Comics</li>
       </ul>
+      <div className="register-now-button">
+        <a href="/register" className="bold-register-button">
+          Claim Your Gift Now 🚀
+        </a>
+      </div>
     </div>
   );
 };

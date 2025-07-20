@@ -425,6 +425,95 @@ const loginUser = asynchandler(async (req, res) => {
   console.log("User login successful for:", email);
 });
 
+const sendOtpForReset = asynchandler(async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    res.status(400);
+    throw new Error("Email is required");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found with this email");
+  }
+
+  const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+  otpStore.set(email, generatedOtp);
+  console.log(`Reset OTP for ${email}: ${generatedOtp}`);
+
+  // ----------- Send OTP Email Starts -------------
+  const nodemailer = require("nodemailer");
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, // Use an App Password
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP for Password Reset",
+      text: `Dear User,
+
+We received a request to reset your password for your ZealPlane account.
+
+Your One-Time Password (OTP) is: ${generatedOtp}
+
+Please enter this 6-digit code within 10 minutes to proceed with resetting your password.
+
+If you did not request this, please ignore this email.
+
+Regards,
+The ZealPlane Team`,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.messageId);
+
+    res.status(200).json({ success: true, message: "OTP sent to email" });
+  } catch (error) {
+    console.error("Error sending OTP email:", error);
+    res.status(500).json({ success: false, message: "Failed to send OTP email" });
+  }
+});
+
+
+const verifyOtpAndResetPassword = asynchandler(async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    res.status(400);
+    throw new Error("Email, OTP and new password are required");
+  }
+
+  const storedOtp = otpStore.get(email);
+  if (!storedOtp || parseInt(otp) !== storedOtp) {
+    res.status(400);
+    throw new Error("Invalid or expired OTP");
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+  await user.save();
+
+  otpStore.delete(email);
+
+  res.status(200).json({ success: true, message: "Password reset successful" });
+});
+
+
 const currentUser = asynchandler(async (req, res) => {
   try {
     console.log("Request to get current user:", req.user); // Log the request user
@@ -697,4 +786,6 @@ module.exports = {
   getFollowers,
   getFollowing,
   refreshAccessToken,
+  sendOtpForReset,
+  verifyOtpAndResetPassword
 };

@@ -189,6 +189,15 @@ export default function LoginComponent() {
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
+            <div className="forgot-password-container">
+  <span 
+    className="forgot-password-link" 
+    onClick={() => navigate("/forgot-password")}
+  >
+    Forgot password?
+  </span>
+</div>
+
           </div>
 
           <button onClick={login} className="login-btn">
