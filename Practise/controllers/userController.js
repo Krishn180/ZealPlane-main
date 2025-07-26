@@ -428,22 +428,23 @@ const loginUser = asynchandler(async (req, res) => {
 const sendOtpForReset = asynchandler(async (req, res) => {
   const { email } = req.body;
 
+  console.log(`[sendOtpForReset] Incoming request for email: ${email}`);
+
   if (!email) {
-    res.status(400);
-    throw new Error("Email is required");
+    console.log("[sendOtpForReset] ❌ Email not provided.");
+    return res.status(400).json({ success: false, message: "Email is required" });
   }
 
   const user = await User.findOne({ email });
   if (!user) {
-    res.status(404);
-    throw new Error("User not found with this email");
+    console.log("[sendOtpForReset] ❌ No user found with this email.");
+    return res.status(404).json({ success: false, message: "User not found with this email" });
   }
 
   const generatedOtp = Math.floor(100000 + Math.random() * 900000);
   otpStore.set(email, generatedOtp);
-  console.log(`Reset OTP for ${email}: ${generatedOtp}`);
+  console.log(`[sendOtpForReset] ✅ OTP for ${email}: ${generatedOtp}`);
 
-  // ----------- Send OTP Email Starts -------------
   const nodemailer = require("nodemailer");
 
   try {
@@ -451,7 +452,7 @@ const sendOtpForReset = asynchandler(async (req, res) => {
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // Use an App Password
+        pass: process.env.EMAIL_PASS,
       },
     });
 
@@ -459,49 +460,46 @@ const sendOtpForReset = asynchandler(async (req, res) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Your OTP for Password Reset",
-      text: `Dear User,
-
-We received a request to reset your password for your ZealPlane account.
-
-Your One-Time Password (OTP) is: ${generatedOtp}
-
-Please enter this 6-digit code within 10 minutes to proceed with resetting your password.
-
-If you did not request this, please ignore this email.
-
-Regards,
-The ZealPlane Team`,
+      text: `Dear User,\n\nYour OTP is: ${generatedOtp}\n\nValid for 10 minutes.\n\n- ZealPlane Team`,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info.messageId);
+    console.log(`[sendOtpForReset] 📧 Email sent: ${info.messageId}`);
 
     res.status(200).json({ success: true, message: "OTP sent to email" });
   } catch (error) {
-    console.error("Error sending OTP email:", error);
+    console.error("[sendOtpForReset] ❌ Failed to send email:", error);
     res.status(500).json({ success: false, message: "Failed to send OTP email" });
   }
 });
 
 
+
 const verifyOtpAndResetPassword = asynchandler(async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
+  console.log(`[verifyOtp] 🔐 Attempting password reset for ${email} with OTP ${otp}`);
+
   if (!email || !otp || !newPassword) {
-    res.status(400);
-    throw new Error("Email, OTP and new password are required");
+    console.log("[verifyOtp] ❌ Missing required fields.");
+    return res.status(400).json({ success: false, message: "Email, OTP, and new password are required" });
   }
 
   const storedOtp = otpStore.get(email);
-  if (!storedOtp || parseInt(otp) !== storedOtp) {
-    res.status(400);
-    throw new Error("Invalid or expired OTP");
+  if (!storedOtp) {
+    console.log("[verifyOtp] ❌ OTP expired or not generated.");
+    return res.status(400).json({ success: false, message: "OTP expired or not generated" });
+  }
+
+  if (parseInt(otp) !== storedOtp) {
+    console.log("[verifyOtp] ❌ Invalid OTP provided.");
+    return res.status(400).json({ success: false, message: "Invalid OTP" });
   }
 
   const user = await User.findOne({ email });
   if (!user) {
-    res.status(404);
-    throw new Error("User not found");
+    console.log("[verifyOtp] ❌ User not found in database.");
+    return res.status(404).json({ success: false, message: "User not found" });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -509,6 +507,8 @@ const verifyOtpAndResetPassword = asynchandler(async (req, res) => {
   await user.save();
 
   otpStore.delete(email);
+
+  console.log(`[verifyOtp] ✅ Password successfully reset for ${email}`);
 
   res.status(200).json({ success: true, message: "Password reset successful" });
 });

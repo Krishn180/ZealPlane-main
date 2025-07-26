@@ -16,7 +16,7 @@ function ForgotPassword() {
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`https://api.comicplane.site/api/users/send-otp`, {
+      const response = await axios.post(`${apiBaseUrl}/users/send-otp`, {
         email,
       });
 
@@ -41,7 +41,7 @@ function ForgotPassword() {
     }
 
     try {
-      const response = await axios.post(`https://api.comicplane.site/api/users/verify-otp`, {
+      const response = await axios.post(`${apiBaseUrl}/users/verify-otp`, {
         email,
         otp,
         newPassword,
