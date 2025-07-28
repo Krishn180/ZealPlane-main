@@ -12,10 +12,17 @@ import { GoogleLogin } from "@react-oauth/google";
 
 export default function RegisterComponent({ showModal, handleClose }) {
   let navigate = useNavigate();
-  const [credentials, setCredentials] = useState({});
+ const [credentials, setCredentials] = useState(() => {
+  const stored = localStorage.getItem("registerCredentials");
+  return stored ? JSON.parse(stored) : {};
+});
+
+const [otpSent, setOtpSent] = useState(() => {
+  return localStorage.getItem("otpSent") === "true";
+});
+
   const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState(""); // State for OTP input
-  const [otpSent, setOtpSent] = useState(false); // State to track if OTP is sent
   const [loading, setLoading] = useState(false); // State for button loading
   const dispatch = useDispatch();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -24,6 +31,18 @@ export default function RegisterComponent({ showModal, handleClose }) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
+  useEffect(() => {
+  localStorage.setItem("registerCredentials", JSON.stringify(credentials));
+}, [credentials]);
+
+useEffect(() => {
+  localStorage.setItem("otpSent", otpSent);
+}, [otpSent]);
+
+localStorage.removeItem("registerCredentials");
+localStorage.removeItem("otpSent");
+
 
   const sendOtp = async () => {
     try {
