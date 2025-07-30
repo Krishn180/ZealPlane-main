@@ -1,100 +1,132 @@
 /* Curated Sidebar Styling */
 .curated-sidebar-container {
-  background: linear-gradient(135deg, #1e1e2f, #2a2a3b);
-  padding: 24px;
+  background: #1f1f2e;
+  padding: 20px;
   color: #ffffff;
-  font-family: "Comic Neue", cursive;
-  animation: glowPulse 6s ease-in-out infinite;
-  text-align: center;
-  position: fixed; /* Fix the sidebar on the right */
+  font-family: "Arial", sans-serif;
+  position: fixed;
   right: 0;
-  top: 55px; /* Start the sidebar below the header */
-  // bottom: 0; /* Make the sidebar stretch to the bottom */
-  z-index: 1;
-  overflow-y: auto; /* Make sure the content is scrollable if it's too long */
-   width: 350px;
-   top: 55px;
+  top: 55px;
+  z-index: 10;
+  overflow-y: auto;
+  width: 300px;
+  height: calc(100% - 55px);
+  border-left: 1px solid #2e2e3e;
 }
 
+/* Hide on tablets and mobiles */
+@media (max-width: 1024px) {
+  .curated-sidebar-container {
+    display: none;
+  }
+}
 
+/* Title */
 .curated-sidebar-container h3 {
   color: #ff4757;
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
+/* Paragraphs */
 .curated-sidebar-container p {
-  font-size: 1rem;
-  color: #f0f0f0;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #cccccc;
+  line-height: 1.5;
+  margin-bottom: 16px;
 }
 
+/* Benefits List */
 .curated-benefits-list {
   list-style: none;
   padding: 0;
-  margin-bottom: 20px;
-  text-align: left;
+  margin: 0 0 16px 0;
 }
 
 .curated-benefits-list li {
-  background-color: #292c34;
-  margin: 10px 0;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #fce38a;
-  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background-color: #26283a;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #f5c542;
+  transition: background 0.2s ease;
 }
 
 .curated-benefits-list li:hover {
-  background-color: #343742;
+  background-color: #32354a;
 }
 
+/* Register Button */
 .register-now-button {
-  margin-top: 24px;
+  text-align: center;
+  margin-top: 16px;
 }
 
 .bold-register-button {
-  background: linear-gradient(135deg, #ff6b81, #ff4757);
-  color: #fff;
-  font-weight: bold;
-  font-size: 1rem;
-  padding: 12px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.3s ease;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.6);
+  background: #ff4757;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.3s ease;
 }
 
 .bold-register-button:hover {
-  background: linear-gradient(135deg, #ff3e53, #e84118);
-  transform: scale(1.05);
-  box-shadow: 0 6px 14px rgba(255, 71, 87, 0.8);
+  background: #e84118;
 }
 
-/* Mobile Tweaks */
+/* Posts List */
+.curated-posts-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.curated-post-item {
+  margin-bottom: 8px;
+}
+
+.curated-post-item a {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.curated-post-item a:hover {
+  color: #ff4757;
+}
+
+/* Mobile View */
 @media (max-width: 768px) {
   .curated-sidebar-container {
     width: 100%;
-    text-align: center;
-    padding: 20px;
+    height: auto;
+    position: relative;
+    border-left: none;
+    border-top: 1px solid #2e2e3e;
+    display: block;
+    padding: 15px;
   }
 
   .curated-sidebar-container h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .curated-benefits-list li {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .bold-register-button {
-    font-size: 0.9rem;
-    padding: 10px 16px;
+    font-size: 0.85rem;
+    padding: 8px 14px;
   }
 }
