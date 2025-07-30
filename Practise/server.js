@@ -11,7 +11,7 @@ const forumPost = require("./routes/postRoutes");
 const notification = require("./routes/notificationRoutes");
 const refreshToken = require("./routes/refreshTokenRoutes");
 const productroutes = require("./routes/e-commerce routes/productroutes");
-const sitemapRoutes = require("./routes/sitemapRoutes")
+const sitemap = require("./sitemap");
 
 
 // Connect to the database
@@ -23,6 +23,7 @@ const app = express();
 app.use(express.json());
 
 const cors = require("cors");
+const { default: router } = require("./sitemap");
 
 app.use(
   cors({
@@ -53,7 +54,7 @@ app.use("/api/like", likeRouter);
 app.use("/api/posts", forumPost);
 app.use("/api/notification", notification);
 app.use("/api/refresh-token", refreshToken);
-app.use("/", sitemapRoutes);
+app.use("/", sitemap);
 app.use(errorHandler);
 
 // Start the Express server
