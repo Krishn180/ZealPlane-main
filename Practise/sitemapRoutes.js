@@ -1,7 +1,6 @@
 const express = require("express");
 const Project = require("./models/projectModel");
 const User = require("./models/userModel");
-const Post = require("./models/Post");
 
 const router = express.Router();
 
@@ -11,7 +10,6 @@ router.get("/sitemap.xml", async (req, res) => {
   try {
     const projects = await Project.find();
     const users = await User.find();
-    const posts = await Post.find();
 
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
@@ -32,31 +30,30 @@ router.get("/sitemap.xml", async (req, res) => {
         </url>`;
     });
 
+    // User profiles
     users.forEach((user) => {
-      xml += `
-        <url>
-          <loc>${baseUrl}/profile/${user._id}</loc>
-          <lastmod>${new Date(user.updatedAt || user.createdAt).toISOString()}</lastmod>
-          <priority>0.6</priority>
-        </url>`;
+      const date = user.updatedAt || user.createdAt;
+      if (date) {
+        xml += `
+          <url>
+            <loc>${baseUrl}/profile/${user._id}</loc>
+            <lastmod>${new Date(date).toISOString()}</lastmod>
+            <priority>0.6</priority>
+          </url>`;
+      }
     });
 
+    // Projects
     projects.forEach((project) => {
-      xml += `
-        <url>
-          <loc>${baseUrl}/details/${project._id}</loc>
-          <lastmod>${new Date(project.updatedAt || project.createdAt).toISOString()}</lastmod>
-          <priority>0.8</priority>
-        </url>`;
-    });
-
-    posts.forEach((post) => {
-      xml += `
-        <url>
-          <loc>${baseUrl}/post/${post._id}</loc>
-          <lastmod>${new Date(post.updatedAt || post.createdAt).toISOString()}</lastmod>
-          <priority>0.7</priority>
-        </url>`;
+      const date = project.updatedAt || project.createdAt;
+      if (date) {
+        xml += `
+          <url>
+            <loc>${baseUrl}/details/${project._id}</loc>
+            <lastmod>${new Date(date).toISOString()}</lastmod>
+            <priority>0.8</priority>
+          </url>`;
+      }
     });
 
     xml += `</urlset>`;
