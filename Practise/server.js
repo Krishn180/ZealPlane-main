@@ -11,8 +11,7 @@ const forumPost = require("./routes/postRoutes");
 const notification = require("./routes/notificationRoutes");
 const refreshToken = require("./routes/refreshTokenRoutes");
 const productroutes = require("./routes/e-commerce routes/productroutes");
-const sitemap = require("./sitemap");
-
+const sitemapRoutes = require("./sitemapRoutes"); // ✅ Only this
 
 // Connect to the database
 connectDb();
@@ -23,7 +22,6 @@ const app = express();
 app.use(express.json());
 
 const cors = require("cors");
-const { default: router } = require("./sitemap");
 
 app.use(
   cors({
@@ -31,20 +29,23 @@ app.use(
       "https://comicplane.site",
       "http://localhost:5173",
       "http://comicplane.site",
-      'https://www.comicplane.site'
-    ], // Allow frontend origins
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow these HTTP methods
-    credentials: true, // Allow cookies and authentication
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers that might be included in the request
+      "https://www.comicplane.site",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 // ✅ Ensure OPTIONS request is handled properly
 app.options("*", cors());
 
-const port = process.env.PORT || 5000; // Default to 5000 if no PORT environment variable is set
+const port = process.env.PORT || 5000;
 
-// Route middlewares
+// ✅ Place sitemap route ABOVE any frontend catch-all
+app.use("/", sitemapRoutes);
+
+// API Routes
 app.use("/api/contacts", contactsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productroutes);
@@ -54,14 +55,11 @@ app.use("/api/like", likeRouter);
 app.use("/api/posts", forumPost);
 app.use("/api/notification", notification);
 app.use("/api/refresh-token", refreshToken);
-app.use("/", sitemap);
+
+// Error handler
 app.use(errorHandler);
 
-// Start the Express server
+// Start server
 app.listen(port, () => {
-  console.log(
-    `Server is running on port ${port} in ${
-      process.env.NODE_ENV || "development"
-    } mode`
-  );
+  console.log(`Server is running on port ${port} in ${process.env.NODE_ENV || "development"} mode`);
 });
