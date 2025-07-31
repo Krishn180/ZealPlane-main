@@ -64,20 +64,30 @@ const CuratedSidebar = () => {
   }
 
   return (
-    <div className="curated-sidebar-container">
-      <h3>🔥 Curated For You</h3>
-      {curatedPosts.length > 0 ? (
-        <ul className="curated-posts-list">
-          {curatedPosts.map((post) => (
-            <li key={post._id} className="curated-post-item">
-              <a href={`/posts/${post._id}`}>{post.title}</a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No curated posts yet. Check back soon!</p>
-      )}
-    </div>
+ <div className="curated-sidebar-container">
+  <h3>🔥 Curated For You</h3>
+  {curatedPosts.length > 0 ? (
+    <ul className="curated-posts-list">
+      {curatedPosts.map((post) => {
+        // Generate slug from title if backend does not provide one
+        const slug = post.slug
+          ? post.slug
+          : post.title
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-") // replace spaces & special characters with "-"
+              .replace(/(^-|-$)+/g, ""); // remove starting/ending hyphens
+
+        return (
+          <li key={post._id} className="curated-post-item">
+            <a href={`/post/${slug}-${post._id}`}>{post.title}</a>
+          </li>
+        );
+      })}
+    </ul>
+  ) : (
+    <p>No curated posts yet. Check back soon!</p>
+  )}
+</div>
   );
 };
 
