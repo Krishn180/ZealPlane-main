@@ -35,6 +35,9 @@ import TermsOfUse from "./components/footer/TermsOfUse";
 import "./App.scss";
 import { initGA, trackPageView } from "./Analytics";
 import PrivacyPolicy from "./components/footer/privacy_policy";
+import NewsList from "./pages/News/NewsList";
+import NewsDetail from "./pages/News/NewsDetail";
+import CreateNews from "./pages/News/CreateNews";
 
 function App() {
   const dispatch = useDispatch();
@@ -95,6 +98,9 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/news" element={<NewsList />} />
+          <Route path="/news/:slug" element={<NewsDetail />} />
+          <Route path="/add-news" element={<CreateNews />} />
         </Routes>
       </main>
 

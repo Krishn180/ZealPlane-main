@@ -85,6 +85,10 @@ const Header = () => {
   const handleForumClick = () => {
     navigate("/forum");
   };
+  const handleNewsClick = () => {
+  navigate("/news"); // Navigate to the News page
+};
+
 
   if (!token) {
     return <Navbar />;
@@ -123,6 +127,16 @@ const Header = () => {
                 "Communities"
               )}
             </li>
+
+             <li className="menuItem2" onClick={handleNewsClick}>
+    {window.innerWidth <= 568 ? (
+      <div className="iconWrapper">
+        <span className="hoverText">News</span>
+      </div>
+    ) : (
+      "News"
+    )}
+  </li>
 
             {/* Plus Icon for Modal */}
             <li
