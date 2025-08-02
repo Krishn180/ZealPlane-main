@@ -162,7 +162,7 @@ localStorage.removeItem("otpSent");
         } else if (err.response.status === 409) {
           toast.error("Email already exists. Please use a different email.");
         } else if (err.response.status === 500) {
-          toast.error("Internal server error. Please try again later.");
+          toast.error("Email already exists. Please use a different email.");
         } else {
           toast.error(errorMessage);
         }
@@ -226,7 +226,7 @@ localStorage.removeItem("otpSent");
         } else if (err.response.status === 404) {
           toast.error("Google login API endpoint not found.");
         } else if (err.response.status === 500) {
-          toast.error("Internal server error. Please try again later.");
+          toast.error("This mail ID already exist.");
         } else {
           toast.error(errorMessage);
         }
