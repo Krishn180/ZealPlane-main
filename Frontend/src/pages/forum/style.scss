@@ -17,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 
-/* HEADER */
 .header {
   display: flex;
   align-items: center;
@@ -30,25 +29,25 @@ body {
   position: fixed;
   top: 0;
   z-index: 1000;
-  height: 55px; /* compact header like Reddit */
 
-  .header-logo img {
-    width: 40px;
-    height: auto;
+  .header-logo {
+    img {
+      width: 40px;
+      height: auto;
+    }
   }
 
   .header-nav {
     gap: 20px;
     display: flex;
     align-items: center;
-
     .nav-link {
       text-decoration: none;
       color: #d7dadc;
       font-weight: bold;
       border: 1px solid rgb(69, 68, 68);
       padding: 5px 16px;
-      border-radius: 20px;
+      border-radius: 20px; /* More rounded borders for a sleek look */
 
       &:hover {
         background: #343536;
@@ -79,6 +78,75 @@ body {
       height: 40px;
       border-radius: 50%;
       object-fit: cover;
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    padding: 10px 5px;
+    gap: 0;
+    .left-menu {
+      gap: 0;
+    }
+    .logo-text {
+      display: none;
+    }
+
+    .search-bar input {
+      padding: 0.3rem 0.2rem 0.2rem 2rem;
+
+      font-size: 14px;
+      width: 190px;
+    }
+
+    .search-bar .search-icon {
+      left: 10px;
+      color: #c3c4c5;
+    }
+
+    .search-results-list {
+      width: 390px;
+      left: -45px;
+    }
+
+    #logout-icon {
+      display: none;
+    }
+
+    .header-nav {
+      gap: 10px;
+      .nav-link {
+        border: none;
+        padding: 4px 5px;
+      }
+    }
+
+    .header-icons {
+      gap: 10px;
+
+      .icon-link {
+        font-size: 24px;
+      }
+
+      .profile-pic {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header-logo img {
+      width: 33px;
+    }
+
+    .header-icons {
+      gap: 1px;
+      display: flex;
+
+      .icon-link {
+        font-size: 22px;
+      }
     }
   }
 }
@@ -294,3 +362,4 @@ body {
     margin-left: 0;
   }
 }
+
