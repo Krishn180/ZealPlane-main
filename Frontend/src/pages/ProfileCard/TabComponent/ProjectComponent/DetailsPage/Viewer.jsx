@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { PacmanLoader } from "react-spinners";
 import ProductCard from "../../../../../components/product/ProductCard";
-import products from "../../../../../assets/product";
 import { FaChevronDown } from "react-icons/fa";
 import { useLocation, useParams } from "react-router-dom";
 import { initGA, trackPageView } from "../../../../../Analytics";
-import axiosInstance from "../../../../../Auth/Axios"; // Adjust path if needed
+import axiosInstance from "../../../../../Auth/Axios";
 import "./Viewer.scss";
 
 const Viewer = () => {
-  // const { projectId } = useParams();
   const location = useLocation();
 
   const [images, setImages] = useState([]);
@@ -18,18 +16,18 @@ const Viewer = () => {
   const [scale, setScale] = useState(1);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
-  const { projectSlug } = useParams(); // '684d5027f46df0ac975012d1-the-dark-night'
+  const [showRecommendation, setShowRecommendation] = useState(false);
+  const [recommendedComics, setRecommendedComics] = useState([]); // <-- For real backend comics
 
-const projectId = projectSlug?.split("-")[0]; // Only get the ID part
+  const { projectSlug } = useParams();
+  const projectId = projectSlug?.split("-")[0];
 
-
-  // Zoom controls
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.1, 3));
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.1, 1));
   const resetZoom = () => setScale(1);
 
+  // Google Analytics + scroll hint timers
   useEffect(() => {
-    // Google Analytics
     initGA();
     trackPageView(window.location.pathname + window.location.search);
 
@@ -42,6 +40,7 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
     };
   }, []);
 
+  // Fetch comic images
   useEffect(() => {
     const fetchImages = async () => {
       const queryParams = new URLSearchParams(window.location.search);
@@ -65,8 +64,8 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
       } else if (projectId) {
         try {
           const res = await axiosInstance.get(`/projects/id/${projectId}`);
-          console.log('images are', res.data);
-          
+          console.log("images are", res.data);
+
           setImages(res.data.project.thumbnailImages || []);
           setLoading(false);
         } catch (err) {
@@ -79,6 +78,44 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
 
     fetchImages();
   }, [projectId]);
+
+  // Fetch recommended comics
+  useEffect(() => {
+    const fetchRecommendedComics = async () => {
+      try {
+        const res = await axiosInstance.get(`/projects`);
+        console.log("projects are", res.data);
+        
+        const validProjects = res.data.filter(
+          (project) =>
+            project.thumbnailImage && project.thumbnailImages.length > 0
+        );
+
+        // Shuffle projects and exclude the currently viewed project
+        const shuffled = validProjects
+          .filter((p) => p._id !== projectId)
+          .sort(() => Math.random() - 0.5);
+
+        setRecommendedComics(shuffled.slice(0, 3)); // Take only 3 recommended comics
+      } catch (err) {
+        console.error("Error fetching recommended comics", err);
+      }
+    };
+
+    fetchRecommendedComics();
+  }, [projectId]);
+
+  // Detect scroll to bottom
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        setShowRecommendation(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="viewer-container vertical">
@@ -129,7 +166,7 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
 
       {showOverlay && (
         <div className="overlay" onClick={() => setShowOverlay(false)}>
-          <ProductCard product={products[startIndex]} />
+          {/* Optional: If overlay needs dynamic comic data */}
         </div>
       )}
 
@@ -138,6 +175,17 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
         <button onClick={resetZoom}>⭮</button>
         <button onClick={zoomIn}>+</button>
       </div>
+
+      {showRecommendation && recommendedComics.length > 0 && (
+        <div className="recommendation-section">
+          <h3>Recommended Comics</h3>
+          <div className="recommendation-cards">
+            {recommendedComics.map((comic) => (
+              <ProductCard key={comic._id} product={comic} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
