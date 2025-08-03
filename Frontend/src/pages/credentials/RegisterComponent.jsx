@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser, setUserId } from "../../store/userSlice";
 import glogo from "/src/assets/Google__G__logo.svg.png";
 import { GoogleLogin } from "@react-oauth/google";
+import CongratsModal from "./CongratsModal";
 
 export default function RegisterComponent({ showModal, handleClose }) {
   let navigate = useNavigate();
@@ -28,6 +29,8 @@ const [otpSent, setOtpSent] = useState(() => {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [timer, setTimer] = useState(0); // Timer for resend OTP
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [showCongrats, setShowCongrats] = useState(false);
+
 
 
 
@@ -76,9 +79,14 @@ localStorage.removeItem("otpSent");
       return;
     }
 
+    if (!agreedToPrivacy) {
+      toast.error("You must agree to the Privacy Policy before proceeding");
+      return;
+    }
+
     setLoading(true);
 
-    // Send OTP using the same register API
+    // Send OTP using existing register API
     const response = await axios.post(
       `https://api.comicplane.site/api/users/register`,
       { email: credentials.email }
@@ -107,6 +115,7 @@ localStorage.removeItem("otpSent");
     setLoading(false);
   }
 };
+
 
 
   const register = async () => {
@@ -158,7 +167,8 @@ localStorage.removeItem("otpSent");
 
       toast.success("Successfully registered");
       dispatch(setUser(response.data.user));
-      navigate("/login");
+      setShowCongrats(true);
+      // navigate("/login");
       handleClose();
     } catch (err) {
       if (err.response) {
@@ -315,34 +325,60 @@ localStorage.removeItem("otpSent");
           />
         )}
       </div>
+  <div className="privacy-checkbox">
+  <label>
+    <input
+      type="checkbox"
+      checked={agreedToPrivacy}
+      onChange={() => setAgreedToPrivacy(!agreedToPrivacy)}
+    />
+    I agree to the{" "}
+    <span
+      className="privacy-link"
+      onClick={() => navigate("/privacy-policy")}
+    >
+      Privacy Policy
+    </span>
+  </label>
+</div>
 
-      {!otpSent ? (
+{!otpSent ? (
+  <>
+    <button onClick={sendOtp} className="login-btn" disabled={loading}>
+      {loading ? (
         <>
-          <button onClick={sendOtp} className="login-btn" disabled={loading}>
-  {loading ? (
-    <>
-      <span className="spinner"></span>
-      <span style={{ marginLeft: "8px" }}>Sending OTP...</span>
-    </>
-  ) : (
-    "Get Access Code"
-  )}
-</button>
-
-          <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
-            🔒 We respect your privacy. The code keeps ComicPlane safe from bots.
-          </p>
+          <span className="spinner"></span>
+          <span style={{ marginLeft: "8px" }}>Sending OTP...</span>
         </>
       ) : (
-        <>
-          <button onClick={register} className="login-btn">
-            Verify & Enter the World
-          </button>
-          <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
-            You’re one step away from unlocking fan-favorite content.
-          </p>
-        </>
+        "Get Access Code"
       )}
+    </button>
+    <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
+      🔒 We respect your privacy. The code keeps ComicPlane safe from bots.
+    </p>
+  </>
+) : (
+  <>
+    <button onClick={register} className="login-btn">
+      Verify & Enter the World
+    </button>
+    <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
+      You’re one step away from unlocking fan-favorite content.
+    </p>
+
+    {timer > 0 ? (
+      <p className="go-to-signup" style={{ marginTop: "5px", fontSize: "12px", color: "#aaa" }}>
+        ⏳ Resend OTP in {timer}s
+      </p>
+    ) : (
+      <button onClick={sendOtp} className="resend-otp-btn">
+        Resend OTP
+      </button>
+    )}
+  </>
+)}
+
 
       <div className="google-btn-container">
         <p className="go-to-signup">
@@ -375,6 +411,7 @@ localStorage.removeItem("otpSent");
       </div>
     </div>
   </div>
+  {showCongrats && <CongratsModal onClose={() => navigate("/login")} />}
 </>
   );
 }
