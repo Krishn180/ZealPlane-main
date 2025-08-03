@@ -1,15 +1,14 @@
 .sidebar {
-  width: 270px;
+  width: 240px;
   background-color: #1a1a1b;
   padding: 15px;
   position: fixed;
-  top: 55px; // Start below the header
   left: 0;
-  height: calc(100vh - 55px); // Full height minus header
-  border-right: 1px solid #343536;
+  margin-top: 40px;
+  height: 100vh;
+  border-right: 1px solid #444;
   transition: transform 0.3s ease-in-out;
   transform: translateX(0);
-  overflow-y: auto;
 
   .sidebar-section {
     margin-bottom: 20px;
@@ -17,30 +16,31 @@
     h3 {
       font-size: 16px;
       margin-bottom: 10px;
-      color: #ffffff;
+      color: #ffffff; // White color for section headers
     }
 
     .sidebar-header {
       display: flex;
       align-items: center;
-      background-color: #2a2a2b;
+      background-color: #3a3a3a; // Slightly lighter background for the header
       padding: 10px;
       border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); // Slightly darker shadow
       margin-bottom: 20px;
 
       .icon {
         margin-right: 10px;
-        color: #ffffff;
+        color: #ffffff; // White color for icons
       }
 
       input {
         width: 100%;
         border: none;
         outline: none;
-        background-color: #3a3a3b;
-        color: #ffffff;
-        padding: 5px;
-        border-radius: 3px;
+        background-color: #4a4a4a; // Background for input field
+        color: #ffffff; // Text color for input
+        padding: 5px; // Add some padding for better usability
+        border-radius: 3px; // Rounded corners for input
       }
     }
 
@@ -49,71 +49,63 @@
       align-items: center;
       padding: 10px;
       margin-top: 10px;
+      margin-bottom: 5px;
       border-radius: 5px;
       text-decoration: none;
-      color: #ffffff;
+      color: #ffffff; // White color for link text
       font-size: 14px;
-      transition: background-color 0.2s ease;
 
       .icon {
         margin-right: 10px;
-        color: #ffffff;
+        color: #ffffff; // White color for icons in links
       }
 
       &:hover {
-        background-color: #343536;
+        background-color: #444; // Darker background on hover
       }
     }
   }
 }
-
-/* Sidebar container for responsiveness */
+/* Sidebar styling */
 .sidebar-container {
   position: fixed;
-  top: 55px;
+  top: 0;
   left: 0;
-  height: calc(100vh - 55px);
-  width: 270px;
+  height: 100%;
+  width: 250px;
   background-color: #1a1a1b;
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
 }
-
 .sidebar-container.open {
   transform: translateX(0);
 }
-
 .sidebar-container.closed {
   transform: translateX(-100%);
 }
-
-/* Hamburger Menu */
 .hamburger-menu {
   display: none;
-  position: absolute;
   top: 15px;
   left: 15px;
   z-index: 1100;
   cursor: pointer;
-
-  .icon {
-    color: #bebdbd;
-    font-size: 30px;
-  }
 }
-
+.hamburger-menu .icon {
+  color: #bebdbd;
+  font-size: 30px;
+}
 @media (max-width: 1100px) {
   .hamburger-menu {
+    display: block;
     display: flex;
     align-items: center;
+    margin-right: 6px;
   }
-
   .sidebar-container {
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Sidebar is hidden by default */
   }
 }
 
-/* Create Community Button */
 .create-community-btn {
   display: flex;
   justify-content: center;
@@ -121,9 +113,9 @@
   margin-top: 20px;
 
   button {
-    background-color: #ff4500;
+    background-color: #ff4500; /* Reddit red/orange */
     color: white;
-    padding: 12px 20px;
+    padding: 12px 20px; /* Adequate padding */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -133,18 +125,18 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
 
     &:hover {
-      background-color: #d74100;
-      transform: scale(1.05);
+      background-color: #d74100; /* Darker red on hover */
+      transform: scale(1.05); /* Slightly enlarge the button */
     }
 
     &:focus {
       outline: none;
-      border: 1px solid #ff4500;
+      border: 1px solid #ff4500; /* Focused border */
     }
 
     &:disabled {
-      background-color: #666;
-      cursor: not-allowed;
+      background-color: #666; /* Disabled state background */
+      cursor: not-allowed; /* Disable hover effect */
     }
   }
 }
