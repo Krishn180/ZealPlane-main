@@ -26,6 +26,10 @@ const [otpSent, setOtpSent] = useState(() => {
   const [loading, setLoading] = useState(false); // State for button loading
   const dispatch = useDispatch();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const [timer, setTimer] = useState(0); // Timer for resend OTP
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+
+
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -44,57 +48,66 @@ localStorage.removeItem("registerCredentials");
 localStorage.removeItem("otpSent");
 
 
-  const sendOtp = async () => {
-    try {
-      if (!credentials.email) {
-        toast.error("Email is required to send OTP");
-        return;
-      }
-
-      if (!isValidEmail(credentials.email)) {
-        toast.error("Please enter a valid email format");
-        return;
-      }
-
-      setLoading(true); // Start loading spinner
-      const response = await axios.post(
-        // `http://localhost:5000/api/users/register`,
-        `https://api.comicplane.site/api/users/register`,
-        {
-          email: credentials.email,
-        }
-      );
-      toast.success("OTP sent to your email");
-      setOtpSent(true);
-    } catch (err) {
-      if (err.response) {
-        const errorMessage = err.response.data?.message || "Failed to send OTP";
-        if (err.response.status === 400) {
-          toast.error("Invalid request. Please check your input.");
-        } else if (err.response.status === 401) {
-          toast.error("Unauthorized request. Please log in again.");
-        } else if (err.response.status === 403) {
-          toast.error("You are not allowed to perform this action.");
-        } else if (err.response.status === 404) {
-          toast.error("API endpoint not found.");
-        } else if (err.response.status === 409) {
-          toast.error("This email is already registered.");
-        } else if (err.response.status === 500) {
-          toast.error("Internal server error. Please try again later.");
-        } else {
-          toast.error(errorMessage);
-        }
-      } else if (err.request) {
-        toast.error(
-          "No response from the server. Check your internet connection."
-        );
-      } else {
-        toast.error("An unexpected error occurred while sending OTP.");
-      }
-    } finally {
-      setLoading(false); // Stop loading spinner
+ const sendOtp = async () => {
+  try {
+    // Validate all fields before sending OTP
+    if (!credentials.username || !credentials.email || !credentials.password || !confirmPassword) {
+      toast.error("All fields are required before requesting OTP");
+      return;
     }
-  };
+
+    if (credentials.username.includes(" ")) {
+      toast.error("Username cannot contain spaces");
+      return;
+    }
+
+    if (!isValidEmail(credentials.email)) {
+      toast.error("Please enter a valid email format");
+      return;
+    }
+
+    if (credentials.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (credentials.password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    // Send OTP using the same register API
+    const response = await axios.post(
+      `https://api.comicplane.site/api/users/register`,
+      { email: credentials.email }
+    );
+
+    toast.success("OTP sent to your email");
+    setOtpSent(true);
+    setTimer(60); // Start resend timer
+  } catch (err) {
+    if (err.response) {
+      const errorMessage = err.response.data?.message || "Failed to send OTP";
+
+      if (err.response.status === 400) toast.error("Invalid request. Please check your input.");
+      else if (err.response.status === 401) toast.error("Unauthorized request.");
+      else if (err.response.status === 403) toast.error("You are not allowed to perform this action.");
+      else if (err.response.status === 404) toast.error("API endpoint not found.");
+      else if (err.response.status === 409) toast.error("This email or username is already registered.");
+      else if (err.response.status === 500) toast.error("Internal server error. Please try again later.");
+      else toast.error(errorMessage);
+    } else if (err.request) {
+      toast.error("No response from the server. Check your internet connection.");
+    } else {
+      toast.error("An unexpected error occurred while sending OTP.");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const register = async () => {
     try {
@@ -306,8 +319,16 @@ localStorage.removeItem("otpSent");
       {!otpSent ? (
         <>
           <button onClick={sendOtp} className="login-btn" disabled={loading}>
-            {loading ? <span className="spinner"></span> : "Get Access Code"}
-          </button>
+  {loading ? (
+    <>
+      <span className="spinner"></span>
+      <span style={{ marginLeft: "8px" }}>Sending OTP...</span>
+    </>
+  ) : (
+    "Get Access Code"
+  )}
+</button>
+
           <p className="go-to-signup" style={{ marginTop: "10px", fontSize: "13px", color: "#999" }}>
             🔒 We respect your privacy. The code keeps ComicPlane safe from bots.
           </p>
