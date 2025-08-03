@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser, setUserId } from "../../store/userSlice";
 import glogo from "/src/assets/Google__G__logo.svg.png";
 import { GoogleLogin } from "@react-oauth/google";
+import CongratsModal from "./CongratsModal";
 
 export default function RegisterComponent({ showModal, handleClose }) {
   let navigate = useNavigate();
@@ -26,6 +27,9 @@ const [otpSent, setOtpSent] = useState(() => {
   const [loading, setLoading] = useState(false); // State for button loading
   const dispatch = useDispatch();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+  const [showCongrats, setShowCongrats] = useState(false);
+
+  
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,8 +44,7 @@ useEffect(() => {
   localStorage.setItem("otpSent", otpSent);
 }, [otpSent]);
 
-localStorage.removeItem("registerCredentials");
-localStorage.removeItem("otpSent");
+
 
 
   const sendOtp = async () => {
@@ -145,6 +148,9 @@ localStorage.removeItem("otpSent");
 
       toast.success("Successfully registered");
       dispatch(setUser(response.data.user));
+      localStorage.removeItem("registerCredentials");
+      localStorage.removeItem("otpSent");
+      setShowCongrats(true);
       navigate("/login");
       handleClose();
     } catch (err) {
@@ -354,6 +360,15 @@ localStorage.removeItem("otpSent");
       </div>
     </div>
   </div>
+  {showCongrats && (
+  <CongratsModal
+    onClose={() => {
+      setShowCongrats(false);
+      navigate("/login"); // Redirect to login after closing modal
+    }}
+  />
+)}
 </>
   );
 }
+

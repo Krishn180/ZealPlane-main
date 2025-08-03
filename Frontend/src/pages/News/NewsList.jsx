@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom"; // ✅ Added useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 import "./NewsList.scss";
 
 const NewsList = () => {
   const [news, setNews] = useState([]);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-  const navigate = useNavigate(); // ✅ Navigation hook
+  const navigate = useNavigate();
+
+  // ✅ Get userId from localStorage
+  const userId = localStorage.getItem("Id");
+  const allowedUserId = "63a87bd4-08ed-4c06-9080-2a891c0efbfa";
 
   useEffect(() => {
     axios
@@ -36,12 +40,16 @@ const NewsList = () => {
         <main className="news-page">
           <div className="news-header">
             <h2>📰 Comic Book News</h2>
-            <button 
-              className="create-news-btn"
-              onClick={() => navigate("/add-news")}
-            >
-              ➕ Create News
-            </button>
+
+            {/* ✅ Show Create News button only for allowed user */}
+            {userId === allowedUserId && (
+              <button
+                className="create-news-btn"
+                onClick={() => navigate("/add-news")}
+              >
+                ➕ Create News
+              </button>
+            )}
           </div>
 
           {news.length > 0 ? (

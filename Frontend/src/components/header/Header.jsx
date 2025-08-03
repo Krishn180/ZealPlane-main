@@ -128,16 +128,6 @@ const Header = () => {
               )}
             </li>
 
-             <li className="menuItem2" onClick={handleNewsClick}>
-    {window.innerWidth <= 568 ? (
-      <div className="iconWrapper">
-        <span className="hoverText">News</span>
-      </div>
-    ) : (
-      "News"
-    )}
-  </li>
-
             {/* Plus Icon for Modal */}
             <li
               className="menuItem1"

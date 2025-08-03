@@ -7,39 +7,57 @@
   padding: 20px 0;
   scrollbar-width: thin;
   scrollbar-color: #888 #222;
+
+  // Custom Scrollbar
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #aaa;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #222;
+  }
 }
 
-.viewer-container.vertical::-webkit-scrollbar {
-  width: 10px;
-}
-
-.viewer-container.vertical::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-.viewer-container.vertical::-webkit-scrollbar-track {
-  background: #222;
-}
-
+/* Scroll Wrapper */
 .scroll-wrapper.vertical {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Image Section */
 .image-wrapper {
   margin: 10px 0;
+  display: flex;
+  justify-content: center;
+
+  .image {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+  }
 }
 
-.image {
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  cursor: pointer;
-}
-
+/* Zoom Controls */
 .zoom-controls {
   position: fixed;
   bottom: 30px;
@@ -47,19 +65,24 @@
   display: flex;
   gap: 10px;
   z-index: 100;
+
+  button {
+    padding: 8px 12px;
+    font-size: 18px;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #333;
+    }
+  }
 }
 
-.zoom-controls button {
-  padding: 8px 12px;
-  font-size: 18px;
-  background: #222;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Scroll hint */
+/* Scroll Hint */
 .scroll-hint {
   position: fixed;
   top: 20px;
@@ -72,53 +95,86 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  animation: fadeOutHint 8s forwards;
+  animation: fadeOutHint 6s forwards;
+
+  .scroll-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+
+    .chevron {
+      font-size: 30px;
+      animation: bounce 1.2s infinite;
+    }
+  }
+
+  .scroll-text {
+    font-weight: bold;
+    font-size: 16px;
+  }
 }
 
-.scroll-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
+/* Forum CTA Overlay */
+.overlay.forum-cta {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px 25px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeIn 0.4s ease-out;
+
+  p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #f1f1f1;
+  }
+
+  button {
+    background: linear-gradient(135deg, #ff3d3d, #ff6f6f);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #e63636, #ff5b5b);
+    }
+  }
 }
 
-.chevron {
-  font-size: 30px;
-  animation: bounce 1s infinite;
-}
-
-.scroll-text {
-  font-weight: bold;
-  font-size: 16px;
-}
-
+/* Animations */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
 }
 
 @keyframes fadeOutHint {
   0% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { opacity: 0; display: none; }
+  80% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
 }
 
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0px);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
   }
-  50% {
-    transform: translateY(5px);
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
-}
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  90% { opacity: 0.5; }
-  100% { opacity: 0; display: none; }
 }

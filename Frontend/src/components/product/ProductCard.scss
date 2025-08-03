@@ -1,61 +1,70 @@
+.product-recommendation-container {
+  padding: 20px;
+  background: #111;
+  border-top: 1px solid #333;
+  text-align: center;
+
+  .recommendation-heading {
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 15px;
+
+    span {
+      color: #ff4500;
+      font-weight: bold;
+    }
+  }
+}
+
 .product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
   }
-  
-  .product-card {
-    background-color: #222;
-    color: white;
-    border-radius: 10px;
-    padding: 10px; /* Reduced padding for smaller size */
-    width: 180px;  /* Reduced width for compact cards */
-    height: 320px; /* Reduced height for a more compact card */
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
+
   .product-image {
     width: 100%;
-    height: 150px; /* Set a fixed height for the image */
-    object-fit: cover; /* Ensures the image scales properly without stretching */
-    border-radius: 10px;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 1px solid #333;
   }
-  
+
   .product-details {
-    margin-top: 10px;
-    flex-grow: 1; /* Ensures content fills the remaining space */
+    padding: 10px;
+    color: #fff;
+
+    .product-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .product-description {
+      font-size: 13px;
+      color: #bbb;
+      height: 35px;
+      overflow: hidden;
+    }
+
+    .continue-reading {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #ff4500;
+      font-weight: bold;
+    }
   }
-  
-  .product-title {
-    font-size: 16px; /* Adjusted font size for title */
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .product-category {
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-  
-  .product-price {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .buy-button {
-    background-color: orangered; /* Updated button color */
-    color: white;
-    padding: 6px 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-    font-size: 14px; /* Adjusted button font size */
-  }
-  
+}

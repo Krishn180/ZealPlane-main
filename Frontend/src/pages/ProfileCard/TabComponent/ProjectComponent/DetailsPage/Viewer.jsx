@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PacmanLoader } from "react-spinners";
-import ProductCard from "../../../../../components/product/ProductCard";
-import products from "../../../../../assets/product";
 import { FaChevronDown } from "react-icons/fa";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { initGA, trackPageView } from "../../../../../Analytics";
-import axiosInstance from "../../../../../Auth/Axios"; // Adjust path if needed
+import axiosInstance from "../../../../../Auth/Axios";
+import { jwtDecode } from "jwt-decode";
 import "./Viewer.scss";
 
 const Viewer = () => {
-  // const { projectId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const imageRefs = useRef([]);
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,18 +19,33 @@ const Viewer = () => {
   const [scale, setScale] = useState(1);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
-  const { projectSlug } = useParams(); // '684d5027f46df0ac975012d1-the-dark-night'
 
-const projectId = projectSlug?.split("-")[0]; // Only get the ID part
+  const { projectSlug } = useParams();
+  const projectId = projectSlug?.split("-")[0];
 
+  const token = localStorage.getItem("token");
+  let userId = null;
+  let username = null;
+
+  // ✅ Decode token to extract userId and username
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      console.log("Decoded token:", decoded);
+      userId = decoded?.userId || null;
+      username = decoded?.username || null;
+    } catch (err) {
+      console.error("Error decoding token:", err);
+    }
+  }
 
   // Zoom controls
   const zoomIn = () => setScale((prev) => Math.min(prev + 0.1, 3));
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.1, 1));
   const resetZoom = () => setScale(1);
 
+  // Google Analytics
   useEffect(() => {
-    // Google Analytics
     initGA();
     trackPageView(window.location.pathname + window.location.search);
 
@@ -42,6 +58,7 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
     };
   }, []);
 
+  // Fetch images
   useEffect(() => {
     const fetchImages = async () => {
       const queryParams = new URLSearchParams(window.location.search);
@@ -64,9 +81,11 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
         }
       } else if (projectId) {
         try {
-          const res = await axiosInstance.get(`/projects/id/${projectId}`);
-          console.log('images are', res.data);
-          
+          const res = await axiosInstance.get(`/projects/id/${projectId}`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            params: { userId, username },
+          });
+
           setImages(res.data.project.thumbnailImages || []);
           setLoading(false);
         } catch (err) {
@@ -78,10 +97,57 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
     };
 
     fetchImages();
-  }, [projectId]);
+  }, [projectId, token]);
+
+  // Detect visible image while scrolling
+  useEffect(() => {
+    if (!images.length || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let mostVisible = null;
+        let maxRatio = 0;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            mostVisible = entry.target;
+          }
+        });
+
+        if (mostVisible) {
+          const index = parseInt(mostVisible.dataset.index, 10);
+
+          if (index !== startIndex) {
+            setStartIndex(index);
+
+            const url = new URL(window.location.href);
+            url.searchParams.set("start", index);
+            navigate(`${url.pathname}?${url.searchParams.toString()}`, { replace: true });
+          }
+
+          if (index === images.length - 1) {
+            setShowOverlay(true);
+          } else {
+            setShowOverlay(false);
+          }
+        }
+      },
+      {
+        root: containerRef.current,
+        threshold: Array.from({ length: 10 }, (_, i) => i / 10),
+      }
+    );
+
+    imageRefs.current.forEach((img) => img && observer.observe(img));
+
+    return () => {
+      imageRefs.current.forEach((img) => img && observer.unobserve(img));
+    };
+  }, [images, startIndex, navigate]);
 
   return (
-    <div className="viewer-container vertical">
+    <div className="viewer-container vertical" ref={containerRef}>
       {loading && (
         <div className="loading-spinner">
           <PacmanLoader color="orange" size={50} />
@@ -109,10 +175,11 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
               }}
             >
               <img
+                ref={(el) => (imageRefs.current[index] = el)}
+                data-index={index}
                 src={img}
                 alt={`Page ${index + 1}`}
                 className="image"
-                onClick={() => setShowOverlay(true)}
                 onLoad={() => setLoading(false)}
                 onError={() => setLoading(false)}
               />
@@ -126,13 +193,15 @@ const projectId = projectSlug?.split("-")[0]; // Only get the ID part
           )
         )}
       </div>
-
-      {showOverlay && (
-        <div className="overlay" onClick={() => setShowOverlay(false)}>
-          <ProductCard product={products[startIndex]} />
-        </div>
-      )}
-
+{showOverlay && (
+  <div className="overlay forum-cta">
+    <p>
+      Loved this comic? Join fellow fans in epic debates, share your theories, 
+      and discover hidden easter eggs you might have missed!
+    </p>
+    <button onClick={() => navigate(`/forum`)}>Join the Comic Community</button>
+  </div>
+)}
       <div className="zoom-controls">
         <button onClick={zoomOut}>−</button>
         <button onClick={resetZoom}>⭮</button>
