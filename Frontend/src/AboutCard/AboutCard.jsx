@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./AboutCardStyle.css";
+import "./AboutCardStyle.scss";
 import growth from "../assets/aghori9.jpg";
 import reflecting from "../assets/dehek-eng.jpg";
 import god from "../assets/gameofdeath.jpg";
@@ -11,7 +11,7 @@ const AboutCard = () => {
 
   const handleScroll = () => {
     const elementPosition = document
-      .querySelector(".left-banka")
+      .querySelector(".about-left-section")
       .getBoundingClientRect().top;
 
     if (elementPosition <= window.innerHeight && elementPosition >= 0) {
@@ -26,7 +26,7 @@ const AboutCard = () => {
 
   return (
     <>
-      <section className="head-top" id="about">
+      <section className="about-header-section" id="about">
         <hr
           style={{
             border: "0.1px solid #1d325f",
@@ -36,17 +36,17 @@ const AboutCard = () => {
           }}
         />
 
-        <div className="backa-comic-design">
-          <div className="backa-comic-main">
-            <article className="left-banka">
+        <div className="about-comic-container">
+          <div className="about-comic-content">
+            <article className="about-left-section">
               <p
-                className={`adventure-text ${isVisible ? "visible" : ""}`}
+                className={`about-genre-text ${isVisible ? "visible" : ""}`}
                 style={{ fontSize: "16px", textAlign: "center" }}
               >
                 Adventure • Dark Fantasy • Martial Arts
               </p>
-            <h1
-                className={`demon-slayer-title ${isVisible ? "visible" : ""}`}
+              <h1
+                className={`about-title ${isVisible ? "visible" : ""}`}
                 style={{ fontSize: "40px" }}
               >
                 Immerse Yourself In
@@ -59,7 +59,7 @@ const AboutCard = () => {
               />
             </article>
 
-            <article className="right-banka adventure-text">
+            <article className="about-right-section">
               <p>
                 <strong>
                   <i>Engage with our Community</i>
@@ -93,33 +93,33 @@ const AboutCard = () => {
         </div>
       </section>
 
-      <section className="cardBox" aria-label="Comic Showcase Gallery">
-        <div className="card1">
+      <section className="about-gallery-section" aria-label="Comic Showcase Gallery">
+        <div className="about-gallery-card">
           <img
             src={growth}
             alt="Dark fantasy warrior character from ComicPlane universe"
-            className="featureImage"
+            className="about-gallery-image"
           />
         </div>
-        <div className="card1">
+        <div className="about-gallery-card">
           <img
             src={reflecting}
             alt="A reflective protagonist from ComicPlane exploring inner power"
-            className="featureImage"
+            className="about-gallery-image"
           />
         </div>
-        <div className="card1">
+        <div className="about-gallery-card">
           <img
             src={bumba}
             alt="Colorful comic poster featuring multiple heroes from ComicPlane"
-            className="featureImage"
+            className="about-gallery-image"
           />
         </div>
-        <div className="card1">
+        <div className="about-gallery-card">
           <img
             src={god}
             alt="An action-packed comic featuring a deadly tournament"
-            className="featureImage"
+            className="about-gallery-image"
           />
         </div>
       </section>
