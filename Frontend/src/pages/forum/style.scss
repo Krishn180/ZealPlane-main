@@ -350,3 +350,8 @@ body {
     gap: 0;
   }
 }
+@media (max-width: 768px) {
+  .curated-sidebar {
+    display: none; /* Hide sidebar on tablets and mobile screens */
+  }
+}
