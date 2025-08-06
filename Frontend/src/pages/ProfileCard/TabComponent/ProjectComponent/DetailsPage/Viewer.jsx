@@ -27,7 +27,7 @@ const Viewer = () => {
   let userId = null;
   let username = null;
 
-  // ✅ Decode token to extract userId and username
+  // Decode token
   if (token) {
     try {
       const decoded = jwtDecode(token);
@@ -147,65 +147,69 @@ const Viewer = () => {
   }, [images, startIndex, navigate]);
 
   return (
-    <div className="viewer-container vertical" ref={containerRef}>
-      {loading && (
-        <div className="loading-spinner">
-          <PacmanLoader color="orange" size={50} />
-        </div>
-      )}
-
-      {showScrollHint && (
-        <div className="scroll-hint">
-          <div className="scroll-icon">
-            <FaChevronDown className="chevron" />
-            <span className="scroll-text">Scroll down to read</span>
+    <div className="viewer">
+      <div className="viewer__container" ref={containerRef}>
+        {loading && (
+          <div className="viewer__loading-spinner">
+            <PacmanLoader color="orange" size={50} />
           </div>
-        </div>
-      )}
-
-      <div className="scroll-wrapper vertical">
-        {Array.isArray(images) && images.length > 0 ? (
-          images.map((img, index) => (
-            <div
-              key={index}
-              className="image-wrapper"
-              style={{
-                transform: `scale(${scale})`,
-                transformOrigin: "top center",
-              }}
-            >
-              <img
-                ref={(el) => (imageRefs.current[index] = el)}
-                data-index={index}
-                src={img}
-                alt={`Page ${index + 1}`}
-                className="image"
-                onLoad={() => setLoading(false)}
-                onError={() => setLoading(false)}
-              />
-            </div>
-          ))
-        ) : (
-          !loading && (
-            <p style={{ color: "white", textAlign: "center" }}>
-              No images available.
-            </p>
-          )
         )}
-      </div>
-{showOverlay && (
-  <div className="overlay forum-cta">
-    <p>
-      Loved this comic? Join fellow fans in epic debates, share your theories, 
-      and discover hidden easter eggs you might have missed!
-    </p>
-    <button onClick={() => navigate(`/forum`)}>Join the Comic Community</button>
-  </div>
-)}
-      <div className="zoom-controls">
-        <button onClick={zoomOut}>−</button>
-        <button onClick={resetZoom}>⭮</button>
-        <button onClick={zoomIn}>+</button>
+
+        {showScrollHint && (
+          <div className="viewer__scroll-hint">
+            <div className="viewer__scroll-icon">
+              <FaChevronDown className="viewer__chevron" />
+              <span className="viewer__scroll-text">Scroll down to read</span>
+            </div>
+          </div>
+        )}
+
+        <div className="viewer__scroll-wrapper">
+          {Array.isArray(images) && images.length > 0 ? (
+            images.map((img, index) => (
+              <div
+                key={index}
+                className="viewer__image-wrapper"
+                style={{
+                  transform: `scale(${scale})`,
+                  transformOrigin: "top center",
+                }}
+              >
+                <img
+                  ref={(el) => (imageRefs.current[index] = el)}
+                  data-index={index}
+                  src={img}
+                  alt={`Page ${index + 1}`}
+                  className="viewer__image"
+                  onLoad={() => setLoading(false)}
+                  onError={() => setLoading(false)}
+                />
+              </div>
+            ))
+          ) : (
+            !loading && (
+              <p style={{ color: "white", textAlign: "center" }}>
+                No images available.
+              </p>
+            )
+          )}
+        </div>
+
+        {showOverlay && (
+          <div className="viewer__overlay viewer__overlay--forum-cta">
+            <p>
+              Loved this comic? Join fellow fans in epic debates, share your theories,
+              and discover hidden easter eggs you might have missed!
+            </p>
+            <button onClick={() => navigate(`/forum`)}>Join the Comic Community</button>
+          </div>
+        )}
+
+        <div className="viewer__zoom-controls">
+          <button onClick={zoomOut}>−</button>
+          <button onClick={resetZoom}>⭮</button>
+          <button onClick={zoomIn}>+</button>
+        </div>
       </div>
     </div>
   );
