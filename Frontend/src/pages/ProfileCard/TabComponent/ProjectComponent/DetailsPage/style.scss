@@ -202,6 +202,9 @@
       right: 5px; /* Adjust for smaller screens */
       flex-direction: row; /* Display icons in a row for better fit */
     }
+    .tags-views-container {
+      display: grid;
+    }
   }
 
   @media (max-width: 480px) {

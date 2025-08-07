@@ -4,7 +4,7 @@
   padding: 15px;
   position: fixed;
   left: 0;
-  margin-top: 40px;
+  // margin-top: 40px;
   height: 100vh;
   border-right: 1px solid #444;
   transition: transform 0.3s ease-in-out;
@@ -12,6 +12,7 @@
 
   .sidebar-section {
     margin-bottom: 20px;
+    margin-top: 50px;
 
     h3 {
       font-size: 16px;

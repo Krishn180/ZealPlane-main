@@ -146,12 +146,12 @@ export default function LoginComponent() {
 
   return (
     <>
-      <div className="logo-img">
+      {/* <div className="logo-img">
         <img src={logozp} alt="ZealPlane Logo" className="logo-img" />
         <span style={{ color: "red", fontWeight: "900", fontSize: "19px" }}>
           ZEALPLANE
         </span>
-      </div>
+      </div> */}
       <div className="login-wrapper">
         <ToastContainer />
         <div className="login-wrapper-inner">
@@ -190,14 +190,13 @@ export default function LoginComponent() {
               </button>
             </div>
             <div className="forgot-password-container">
-  <span 
-    className="forgot-password-link" 
-    onClick={() => navigate("/forgot-password")}
-  >
-    Forgot password?
-  </span>
-</div>
-
+              <span
+                className="forgot-password-link"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Forgot password?
+              </span>
+            </div>
           </div>
 
           <button onClick={login} className="login-btn">
