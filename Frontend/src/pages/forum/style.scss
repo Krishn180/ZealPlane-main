@@ -350,8 +350,14 @@ body {
     gap: 0;
   }
 }
+
 @media (max-width: 768px) {
   .curated-sidebar {
     display: none; /* Hide sidebar on tablets and mobile screens */
+  }
+}
+@media (max-width: 1023px) {
+  .curated-sidebar {
+    display: none;
   }
 }

@@ -12,7 +12,7 @@ import {
   IconButton,
   CircularProgress,
   FormHelperText,
-   Select,
+  Select,
   MenuItem,
   InputLabel,
 } from "@mui/material";
@@ -45,18 +45,17 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
 
   const MAX_TAGS = 5; // Maximum allowed tags
 
- const [formData, setFormData] = useState({
-  name: "",
-  description: "",
-  thumbnailImage: "",
-  tags: [],
-  subtags: [],  // instead of subtag: ""           // ✅ Added
-  publisher: "",          // ✅ Added
-  profilePic: profilePic || "",
-  username: localStorage.getItem("username"),
-  id: Date.now(),
-});
-
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    thumbnailImage: "",
+    tags: [],
+    subtags: [], // instead of subtag: ""           // ✅ Added
+    publisher: "", // ✅ Added
+    profilePic: profilePic || "",
+    username: localStorage.getItem("username"),
+    id: Date.now(),
+  });
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -136,17 +135,17 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
     setLoading(true);
     try {
       await onSubmit(formData);
-     setFormData({
-  name: "",
-  description: "",
-  thumbnailImage: "",
-  tags: [],
-  subtags: [], // ✅ correct             // ✅ Reset
-  publisher: "",          // ✅ Reset
-  profilePic: profilePic || "",
-  username: localStorage.getItem("username"),
-  id: Date.now(),
-});
+      setFormData({
+        name: "",
+        description: "",
+        thumbnailImage: "",
+        tags: [],
+        subtags: [], // ✅ correct             // ✅ Reset
+        publisher: "", // ✅ Reset
+        profilePic: profilePic || "",
+        username: localStorage.getItem("username"),
+        id: Date.now(),
+      });
 
       onClose();
     } catch (error) {
@@ -215,9 +214,14 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
           helperText={errors.name}
           sx={{
             marginBottom: 2,
-            input: { color: "#fff" }, // White text color for input
-            "& .MuiFormHelperText-root": {
-              color: "#e57373", // Red helper text color
+            input: { color: "#fff" }, // White input text
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#red", // hover border color
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#272729", // focused border color
+              },
             },
           }}
         />
@@ -279,121 +283,152 @@ const ProjectModal = ({ open, onClose, onSubmit }) => {
             </FormHelperText>
           )}
         </FormControl>
-  {/* Tag Selector */}
-{/* Tag Selector */}
-{/* Tag Selector */}
-<FormControl fullWidth sx={{ marginBottom: 2 }}>
-  <InputLabel sx={{ color: "#aaa" }}>Tags</InputLabel>
-  <Select
-    value={formData.tags[0] || ""}
-    onChange={(e) =>
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        tags: [e.target.value],
-      }))
-    }
-    MenuProps={{
-      disableScrollLock: true,
-      PaperProps: {
-        style: {
-          maxHeight: 200,
-          overflowY: "auto", // Adds scroll
-          backgroundColor: "#2a2a2a",
-          color: "#fff",
-        },
-      },
-    }}
-    sx={{
-      color: "#fff",
-      backgroundColor: "#272729",
-      "& .MuiSvgIcon-root": { color: "#fff" },
-    }}
-  >
-    {[
-      "Graphic Novel", "Comic Book", "Manga", "Webtoon", "One-Shot",
-      "Zine", "Anthology", "Motion Comic", "Strip", "Mini Comic",
-      "Light Novel", "Illustrated Novel", "Indie", "Digital Comic"
-    ].map((tag) => (
-      <MenuItem key={tag} value={tag}>
-        {tag}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+        {/* Tag Selector */}
+        {/* Tag Selector */}
+        {/* Tag Selector */}
+        <FormControl fullWidth sx={{ marginBottom: 2 }}>
+          <InputLabel sx={{ color: "#aaa" }}>Tags</InputLabel>
+          <Select
+            value={formData.tags[0] || ""}
+            onChange={(e) =>
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                tags: [e.target.value],
+              }))
+            }
+            MenuProps={{
+              disableScrollLock: true,
+              PaperProps: {
+                style: {
+                  maxHeight: 200,
+                  overflowY: "auto", // Adds scroll
+                  backgroundColor: "#2a2a2a",
+                  color: "#fff",
+                },
+              },
+            }}
+            sx={{
+              color: "#fff",
+              backgroundColor: "#272729",
+              "& .MuiSvgIcon-root": { color: "#fff" },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f00",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f00",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#444",
+              },
+            }}
+          >
+            {[
+              "Graphic Novel",
+              "Comic Book",
+              "Manga",
+              "Webtoon",
+              "One-Shot",
+              "Zine",
+              "Anthology",
+              "Motion Comic",
+              "Strip",
+              "Mini Comic",
+              "Light Novel",
+              "Illustrated Novel",
+              "Indie",
+              "Digital Comic",
+            ].map((tag) => (
+              <MenuItem key={tag} value={tag}>
+                {tag}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
+        {/* Subtag Selector */}
+        <FormControl fullWidth sx={{ marginBottom: 2 }}>
+          <InputLabel sx={{ color: "#aaa" }}>Subtag / Genre</InputLabel>
+          <Select
+            value={formData.subtags[0] || ""} // Only one value allowed
+            onChange={(e) =>
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                subtags: [e.target.value], // Replace array with selected genre
+              }))
+            }
+            MenuProps={{
+              disableScrollLock: true, // Prevent body scroll lock
+              PaperProps: {
+                style: {
+                  maxHeight: 200,
+                  backgroundColor: "#2a2a2a",
+                  color: "#fff",
+                  zIndex: 1302, // slightly less than modal so it doesn’t over-shadow
+                },
+              },
+            }}
+            sx={{
+              color: "#fff",
+              backgroundColor: "#272729",
+              "& .MuiSvgIcon-root": { color: "#fff" },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f00",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f00",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#444",
+              },
+            }}
+          >
+            {[
+              "Action",
+              "Adventure",
+              "Horror",
+              "Drama",
+              "Fantasy",
+              "Sci-Fi",
+              "Comedy",
+              "Mystery",
+              "Historical",
+              "Romance",
+              "Slice of Life",
+              "Thriller",
+              "Fanmade",
+              "Psychological",
+              "Post-Apocalyptic",
+              "Crime",
+            ].map((genre) => (
+              <MenuItem key={genre} value={genre}>
+                {genre}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-{/* Subtag Selector */}
-<FormControl fullWidth sx={{ marginBottom: 2 }}>
-  <InputLabel sx={{ color: "#aaa" }}>Subtag / Genre</InputLabel>
-  <Select
-    value={formData.subtags[0] || ""} // Only one value allowed
-    onChange={(e) =>
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        subtags: [e.target.value],  // Replace array with selected genre
-      }))
-    }
-    MenuProps={{
-  disableScrollLock: true, // Prevent body scroll lock
-  PaperProps: {
-    style: {
-      maxHeight: 200,
-      backgroundColor: "#2a2a2a",
-      color: "#fff",
-      zIndex: 1302 // slightly less than modal so it doesn’t over-shadow
-    },
-  },
-}}
-
-    sx={{
-      color: "#fff",
-      backgroundColor: "#272729",
-      "& .MuiSvgIcon-root": { color: "#fff" },
-    }}
-  >
-    {[
-      "Action",
-      "Adventure",
-      "Horror",
-      "Drama",
-      "Fantasy",
-      "Sci-Fi",
-      "Comedy",
-      "Mystery",
-      "Historical",
-      "Romance",
-      "Slice of Life",
-      "Thriller",
-      "Fanmade",
-      "Psychological",
-      "Post-Apocalyptic",
-      "Crime"
-    ].map((genre) => (
-      <MenuItem key={genre} value={genre}>
-        {genre}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
-
-
-{/* Publisher Input */}
-<TextField
-  margin="dense"
-  name="publisher"
-  placeholder="Publisher Name"
-  type="text"
-  fullWidth
-  value={formData.publisher || ""}
-  onChange={handleChange}
-  sx={{
-    marginBottom: 2,
-    input: { color: "#fff" },
-    "& .MuiFormHelperText-root": {
-      color: "#aaa",
-    },
-  }}
-/>
+        {/* Publisher Input */}
+        <TextField
+          margin="dense"
+          name="publisher"
+          placeholder="Publisher Name"
+          type="text"
+          fullWidth
+          value={formData.publisher || ""}
+          onChange={handleChange}
+          sx={{
+            marginBottom: 2,
+            input: { color: "#fff" }, // White input text
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#red", // hover border color
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#272729", // focused border color
+              },
+            },
+          }}
+        />
 
         <input
           type="file"

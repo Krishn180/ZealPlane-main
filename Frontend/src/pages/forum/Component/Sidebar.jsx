@@ -8,18 +8,18 @@ const Sidebar = () => {
     <div className="sidebar">
       {/* FEEDS SECTION */}
       <div className="sidebar-section">
-        <h3 className="section-title">Feeds</h3>
+        {/* <h3 className="section-title">Feeds</h3> */}
         <Link to="/home" className="sidebar-link">
           <FaHome className="icon" /> Home
         </Link>
         <Link to="/forum" className="sidebar-link">
           <FaHome className="icon" /> Forum
         </Link>
-        <Link to="/popular" className="sidebar-link">
-          <FaFire className="icon" /> Popular
-        </Link>
         <Link to="/news" className="sidebar-link">
           <FaStar className="icon" /> News
+        </Link>
+        <Link to="/popular" className="sidebar-link">
+          <FaFire className="icon" /> Popular
         </Link>
       </div>
     </div>

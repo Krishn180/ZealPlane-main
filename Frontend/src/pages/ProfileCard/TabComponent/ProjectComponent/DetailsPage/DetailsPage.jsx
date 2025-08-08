@@ -96,8 +96,6 @@ const DetailsPage = () => {
   const [view, setView] = useState(false);
   const [userDetails, setUserDetails] = useState("");
   const hasFetched = useRef(false);
- 
-  
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -297,20 +295,18 @@ const DetailsPage = () => {
     setSnackbarOpen(false);
   };
 
-const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
+  const slugify = (text) =>
+    text
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
 
-const openViewer = (projectId, projectName, startIndex) => {
-  const slug = slugify(projectName);
-  const viewerUrl = `/viewer/${projectId}-${slug}?start=${startIndex}`;
-  window.open(viewerUrl, "_blank");
-};
-
-
+  const openViewer = (projectId, projectName, startIndex) => {
+    const slug = slugify(projectName);
+    const viewerUrl = `/viewer/${projectId}-${slug}?start=${startIndex}`;
+    window.open(viewerUrl, "_blank");
+  };
 
   const handleDeleteClick = () => {
     const token = localStorage.getItem("token");
@@ -434,127 +430,134 @@ const openViewer = (projectId, projectName, startIndex) => {
             <div className="content1">
               <div className="left1">
                 <div className="swiper-container">
-  <div className="swiper-main-wrapper" style={{ overflowX: "auto" }}>
-    <Swiper
-      style={{
-        "--swiper-navigation-color": "#fff",
-        "--swiper-pagination-color": "green",
-      }}
-      lazy={true}
-      pagination={{
-        el: ".custom-pagination",
-        clickable: true,
-        dynamicBullets: true,
-        dynamicMainBullets: 3,
-      }}
-      thumbs={{ swiper: thumbsSwiper }}
-      navigation={{
-        nextEl: ".custom-next",
-        prevEl: ".custom-prev",
-      }}
-      modules={[Pagination, Navigation, Thumbs]}
-      className="mySwiper"
-    >
-      {projectData.thumbnailImages?.length > 0 ? (
-        projectData.thumbnailImages.map((image, index) => (
-          <SwiperSlide
-            key={index}
-            onClick={() =>
-              openViewer(projectData.projectId, projectData.name, index)
-            }
-          >
-            <Img
-              className="thumbImg"
-              src={image || PosterFallback}
-              alt={`Thumbnail ${index + 1}`}
-            />
-          </SwiperSlide>
-        ))
-      ) : (
-        <SwiperSlide>
-          <Img
-            className="thumbImg"
-            src={PosterFallback}
-            alt="Thumbnail"
-          />
-        </SwiperSlide>
-      )}
-    </Swiper>
+                  <div
+                    className="swiper-main-wrapper"
+                    style={{ overflowX: "auto" }}
+                  >
+                    <Swiper
+                      style={{
+                        "--swiper-navigation-color": "#fff",
+                        "--swiper-pagination-color": "green",
+                      }}
+                      lazy={true}
+                      pagination={{
+                        el: ".custom-pagination",
+                        clickable: true,
+                        dynamicBullets: true,
+                        dynamicMainBullets: 3,
+                      }}
+                      thumbs={{ swiper: thumbsSwiper }}
+                      navigation={{
+                        nextEl: ".custom-next",
+                        prevEl: ".custom-prev",
+                      }}
+                      modules={[Pagination, Navigation, Thumbs]}
+                      className="mySwiper"
+                    >
+                      {projectData.thumbnailImages?.length > 0 ? (
+                        projectData.thumbnailImages.map((image, index) => (
+                          <SwiperSlide
+                            key={index}
+                            onClick={() =>
+                              openViewer(
+                                projectData.projectId,
+                                projectData.name,
+                                index
+                              )
+                            }
+                          >
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Thumbnail ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
 
-    <div className="swiper-nav-buttons">
-      <div className="swiper-button-prev custom-prev"></div>
-      <div className="swiper-button-next custom-next"></div>
-    </div>
+                    <div className="swiper-nav-buttons">
+                      <div className="swiper-button-prev custom-prev"></div>
+                      <div className="swiper-button-next custom-next"></div>
+                    </div>
 
-    <div className="swiper-pagination custom-pagination"></div>
-  </div>
+                    <div className="swiper-pagination custom-pagination"></div>
+                  </div>
 
-  {/* 👇 User Instruction */}
-  <p
-    style={{
-      textAlign: "center",
-      color: "#aaa",
-      marginTop: "10px",
-      fontSize: "14px",
-    }}
-  >
-    Click on an image to view in full screen
-  </p>
+                  {/* 👇 User Instruction */}
+                  <p
+                    style={{
+                      textAlign: "center",
+                      color: "#aaa",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                      fontSize: "14px",
+                    }}
+                  >
+                    Click on an image to view in full screen
+                  </p>
 
-  <div className="swiper-thumbs-wrapper">
-    <Swiper
-      onSwiper={setThumbsSwiper}
-      spaceBetween={10}
-      slidesPerView={4}
-      freeMode={true}
-      watchSlidesProgress={true}
-      modules={[Navigation, Thumbs]}
-      className="mySwiper-thumbs"
-    >
-      {projectData.thumbnailImages?.length > 0 ? (
-        projectData.thumbnailImages.map((image, index) => (
-          <SwiperSlide key={index}>
-            <Img
-              className="thumbImg"
-              src={image || PosterFallback}
-              alt={`Thumbnail ${index + 1}`}
-            />
-          </SwiperSlide>
-        ))
-      ) : (
-        <SwiperSlide>
-          <Img
-            className="thumbImg"
-            src={PosterFallback}
-            alt="Thumbnail"
-          />
-        </SwiperSlide>
-      )}
-    </Swiper>
+                  <div className="swiper-thumbs-wrapper">
+                    <Swiper
+                      onSwiper={setThumbsSwiper}
+                      spaceBetween={10}
+                      slidesPerView={4}
+                      freeMode={true}
+                      watchSlidesProgress={true}
+                      modules={[Navigation, Thumbs]}
+                      className="mySwiper-thumbs"
+                    >
+                      {projectData.thumbnailImages?.length > 0 ? (
+                        projectData.thumbnailImages.map((image, index) => (
+                          <SwiperSlide key={index}>
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Thumbnail ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
 
-    {status !== "visitor" && (
-      <div
-        className="plus-icon"
-        style={{
-          position: "absolute",
-          right: "10px",
-          padding: "10px",
-          marginTop: "-60px",
-          borderRadius: "10%",
-        }}
-      >
-        <FaPlus
-          title="Add Image"
-          className="plus-icon-inner"
-          style={{ fontSize: "21px" }}
-          onClick={handleImageOpen}
-          onTouchStart={handleImageOpen}
-        />
-      </div>
-    )}
-  </div>
-</div>
-
+                    {status !== "visitor" && (
+                      <div
+                        className="plus-icon"
+                        style={{
+                          position: "absolute",
+                          right: "10px",
+                          padding: "10px",
+                          marginTop: "-60px",
+                          borderRadius: "10%",
+                        }}
+                      >
+                        <FaPlus
+                          title="Add Image"
+                          className="plus-icon-inner"
+                          style={{ fontSize: "21px" }}
+                          onClick={handleImageOpen}
+                          onTouchStart={handleImageOpen}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
 
                 <div className="description-container">
                   <div
@@ -577,28 +580,30 @@ const openViewer = (projectId, projectName, startIndex) => {
                         <span>No tags available</span>
                       )}
                     </div>
-                      <div className="subtags">
-     <strong>Subtags:</strong>{" "}
-    {projectData.subtags && projectData.subtags.length > 0 ? (
-      projectData.subtags.map((Subtags, index) => (
-        <span key={index} className="tag-item">
-          {Subtags}
-        </span>
-      ))
-    ) : (
-      <span>None</span>
-    )}
-  </div>
+                    <div className="subtags">
+                      <strong>Subtags:</strong>{" "}
+                      {projectData.subtags && projectData.subtags.length > 0 ? (
+                        projectData.subtags.map((Subtags, index) => (
+                          <span key={index} className="tag-item">
+                            {Subtags}
+                          </span>
+                        ))
+                      ) : (
+                        <span>None</span>
+                      )}
+                    </div>
 
-  {/* Publisher */}
-  <div className="publisher">
-    <strong>Publisher:</strong>{" "}
-    {projectData.publisher ? (
-      <span className="tag-item">{projectData.publisher}</span>
-    ) : (
-      <span>None</span>
-    )}
-  </div>
+                    {/* Publisher */}
+                    <div className="publisher">
+                      <strong>Publisher:</strong>{" "}
+                      {projectData.publisher ? (
+                        <span className="tag-item">
+                          {projectData.publisher}
+                        </span>
+                      ) : (
+                        <span>None</span>
+                      )}
+                    </div>
                     <div className="views">
                       <FaEye style={{ marginRight: "8px", color: "#7f8c8d" }} />{" "}
                       {view} views
@@ -695,7 +700,7 @@ const openViewer = (projectId, projectName, startIndex) => {
           </div>
         </ContentWrapper>
       ) : (
-         <Spinner initial />
+        <Spinner initial />
       )}
       <UpdateProjectModal
         open={open}
