@@ -12,8 +12,11 @@ const NewsDetail = () => {
   useEffect(() => {
     axios
       .get(`${apiBaseUrl}/news/${slug}`)
-      .then((res) => setNews(res.data))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        console.log("Fetched news data:", res.data);
+        setNews(res.data);
+      })
+      .catch((err) => console.error("Error fetching news:", err));
   }, [slug]);
 
   if (!news) return <p className="loading">Loading...</p>;
@@ -36,13 +39,14 @@ const NewsDetail = () => {
 
         {/* Main News Content */}
         <main className="news-detail">
+          <h1 className="news-title">{news.title}</h1> {/* 🔼 Moved above image */}
+
           {news.coverImage && (
             <div className="news-cover">
               <img src={news.coverImage} alt={news.title} />
             </div>
           )}
 
-          <h1 className="news-title">{news.title}</h1>
           <p className="news-meta">
             <span>By {news.author || "Unknown"}</span> •{" "}
             <span>{new Date(news.createdAt).toLocaleDateString()}</span>

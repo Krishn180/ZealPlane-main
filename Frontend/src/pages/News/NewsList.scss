@@ -53,7 +53,7 @@
 
   .news-page {
     flex: 1;
-    max-width: 800px;
+    max-width: 1000px; // ✅ INCREASED WIDTH for better layout
 
     .news-header {
       display: flex;
@@ -108,8 +108,8 @@
           padding: 15px;
 
           img {
-            width: 130px;
-            height: 90px;
+            width: 180px; // ✅ MODIFIED IMAGE SIZE FOR BETTER NEWS PREVIEW
+            height: 110px;
             object-fit: cover;
             border-radius: 6px;
             flex-shrink: 0;
