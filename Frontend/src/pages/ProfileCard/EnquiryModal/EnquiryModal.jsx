@@ -107,7 +107,7 @@ const EnquiryModal = ({ open, onClose, emailAddress }) => {
               </Button>
 
               {/* Update Contact Number */}
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   bgcolor: "#ffffff",
@@ -117,7 +117,7 @@ const EnquiryModal = ({ open, onClose, emailAddress }) => {
                 onClick={() => navigate("/settings")}
               >
                 Update Contact Number
-              </Button>
+              </Button> */}
             </Box>
           </>
         )}

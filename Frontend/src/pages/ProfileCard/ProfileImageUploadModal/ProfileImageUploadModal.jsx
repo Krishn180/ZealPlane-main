@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Modal,
   Upload,
@@ -7,12 +7,17 @@ import {
   Progress,
   Typography,
   message,
+  Slider,
 } from "antd";
 import {
   UploadOutlined,
   DeleteOutlined,
   EditOutlined,
+  ScissorOutlined,
 } from "@ant-design/icons";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "./CropImage"; // helper function to crop
+
 import "./ProfileImageUploadModal.scss";
 
 const { Text } = Typography;
@@ -26,32 +31,40 @@ const ProfileImageUploadModal = ({
   profilePic,
   setFile,
 }) => {
-  const [uploading, setUploading] = useState(false); // Track upload state
-  const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
-  const [previewImage, setPreviewImage] = useState(profilePic); // Handle live preview
-  const [fileInputKey, setFileInputKey] = useState(Date.now()); // Ensure a new key for file input when user changes the image
-  const [isUploaded, setIsUploaded] = useState(false); // Track if image is uploaded
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [previewImage, setPreviewImage] = useState(profilePic);
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
+  const [isUploaded, setIsUploaded] = useState(false);
 
-  const MAX_FILE_SIZE_MB = 5; // Maximum file size allowed (5 MB)
+  const [cropping, setCropping] = useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const MAX_FILE_SIZE_MB = 5;
+
+  const onCropComplete = useCallback((_, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
 
   const simulateUpload = (file) => {
     setUploading(true);
     setUploadProgress(0);
-    setIsUploaded(false); // Reset the uploaded state
+    setIsUploaded(false);
 
     const progressInterval = setInterval(() => {
-      setUploadProgress((prevProgress) => {
-        if (prevProgress >= 100) {
+      setUploadProgress((prev) => {
+        if (prev >= 100) {
           clearInterval(progressInterval);
           setUploading(false);
-          setIsUploaded(true); // Mark as uploaded
+          setIsUploaded(true);
           return 100;
         }
-        return prevProgress + 20;
+        return prev + 20;
       });
     }, 500);
 
-    // Simulate successful upload
     setTimeout(() => {
       handleFileChange({
         file: {
@@ -59,13 +72,12 @@ const ProfileImageUploadModal = ({
           response: { url: URL.createObjectURL(file) },
         },
       });
-      closeModal(); // Close the modal after upload is successful
+      closeModal();
       setIsUploaded(true);
     }, 3000);
   };
 
   const handleFileSelect = (file) => {
-    // Validate file type and size
     if (!file.type.startsWith("image/")) {
       message.error("Only image files are allowed!");
       return false;
@@ -75,8 +87,10 @@ const ProfileImageUploadModal = ({
       return false;
     }
 
-    setPreviewImage(URL.createObjectURL(file)); // Set preview
-    setFile(file); // Update the file in the parent component
+    const url = URL.createObjectURL(file);
+    setPreviewImage(url);
+    setFile(file);
+    setCropping(true); // Start crop mode
     return true;
   };
 
@@ -86,9 +100,19 @@ const ProfileImageUploadModal = ({
   };
 
   const handleChangeClick = () => {
-    // Reset the key of the file input to trigger a re-render of the file input field
     setFileInputKey(Date.now());
-    document.querySelector(`#fileInput-${fileInputKey}`).click(); // Trigger file input click
+    document.querySelector(`#fileInput-${fileInputKey}`).click();
+  };
+
+  const finishCropping = async () => {
+    try {
+      const croppedImage = await getCroppedImg(previewImage, croppedAreaPixels);
+      setPreviewImage(croppedImage);
+      setCropping(false);
+    } catch (e) {
+      console.error(e);
+      message.error("Failed to crop image");
+    }
   };
 
   return (
@@ -112,8 +136,39 @@ const ProfileImageUploadModal = ({
       ]}
     >
       <div className="upload-container">
-        {/* Image Preview */}
-        {previewImage ? (
+        {cropping ? (
+          <>
+            <div className="crop-container" style={{ position: "relative", width: "100%", height: 300 }}>
+              <Cropper
+                image={previewImage}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            </div>
+            <div style={{ marginTop: 10 }}>
+              <Text>Zoom:</Text>
+              <Slider
+                min={1}
+                max={3}
+                step={0.1}
+                value={zoom}
+                onChange={(value) => setZoom(value)}
+              />
+            </div>
+            <Button
+              icon={<ScissorOutlined />}
+              type="primary"
+              onClick={finishCropping}
+              style={{ marginTop: 10 }}
+            >
+              Apply Crop
+            </Button>
+          </>
+        ) : previewImage ? (
           <div className="image-preview-container">
             <img
               src={previewImage}
@@ -129,10 +184,9 @@ const ProfileImageUploadModal = ({
               <Button
                 icon={<EditOutlined />}
                 className="edit-btn"
-                onClick={handleChangeClick}
-                onTouchStart={handleChangeClick} // Add support for touch events
+                onClick={() => setCropping(true)}
               >
-                Change
+                Edit
               </Button>
               <Button
                 icon={<DeleteOutlined />}
@@ -145,7 +199,6 @@ const ProfileImageUploadModal = ({
             </div>
           </div>
         ) : (
-          // Upload Component
           <Upload.Dragger
             showUploadList={false}
             beforeUpload={handleFileSelect}
@@ -165,7 +218,6 @@ const ProfileImageUploadModal = ({
           </Upload.Dragger>
         )}
 
-        {/* Hidden File Input */}
         <input
           type="file"
           id={`fileInput-${fileInputKey}`}
@@ -179,7 +231,6 @@ const ProfileImageUploadModal = ({
           }}
         />
 
-        {/* Uploading Progress Bar */}
         {uploading && (
           <div className="progress-container">
             <Text>Uploading...</Text>

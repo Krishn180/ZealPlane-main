@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { setUser, setUserId } from "../../store/userSlice";
 import glogo from "/src/assets/Google__G__logo.svg.png";
 import { GoogleLogin } from "@react-oauth/google";
-import CongratsModal from "./CongratsModal";
 
 export default function RegisterComponent({ showModal, handleClose }) {
   let navigate = useNavigate();
@@ -29,7 +28,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const [timer, setTimer] = useState(0); // Timer for resend OTP
   const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
-  const [showCongrats, setShowCongrats] = useState(false);
+
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -125,84 +124,82 @@ export default function RegisterComponent({ showModal, handleClose }) {
     }
   };
 
-  const register = async () => {
-    try {
-      if (
-        !credentials.username ||
-        !credentials.email ||
-        !credentials.password ||
-        !confirmPassword
-      ) {
-        toast.error("All fields are required");
-        return;
-      }
-
-      if (credentials.username.includes(" ")) {
-        toast.error("Username cannot contain spaces");
-        return;
-      }
-
-      if (!isValidEmail(credentials.email)) {
-        toast.error("Please enter a valid email format");
-        return;
-      }
-
-      if (credentials.password.length < 6) {
-        toast.error("Password must be at least 6 characters long");
-        return;
-      }
-
-      if (credentials.password !== confirmPassword) {
-        toast.error("Passwords do not match");
-        return;
-      }
-
-      if (!otp) {
-        toast.error("Please enter the OTP sent to your email");
-        return;
-      }
-
-      // Verify OTP and register the user
-      const response = await axios.post(
-        `https://api.comicplane.site/api/users/register`,
-        // `http://localhost:5000/api/users/register`,
-        {
-          ...credentials,
-          otp,
-        }
-      );
-
-      toast.success("Successfully registered");
-      dispatch(setUser(response.data.user));
-      setShowCongrats(true);
-      // navigate("/login");
-      handleClose();
-    } catch (err) {
-      if (err.response) {
-        const errorMessage =
-          err.response.data?.message || "Registration failed";
-        if (err.response.status === 400) {
-          toast.error("Invalid input. Please check your data.");
-        } else if (err.response.status === 401) {
-          toast.error("Unauthorized request. Please log in again.");
-        } else if (err.response.status === 403) {
-          toast.error("You are not authorized to perform this action.");
-        } else if (err.response.status === 404) {
-          toast.error("Registration API endpoint not found.");
-        } else if (err.response.status === 409) {
-          toast.error("Email already exists. Please use a different email.");
-        } else if (err.response.status === 500) {
-          toast.error("Email already exists. Please use a different email.");
-        } else {
-          toast.error(errorMessage);
-        }
-      } else if (err.request) {
-        toast.error("No response from server. Check your network connection.");
-      } else {
-        toast.error("An unexpected error occurred during registration.");
-      }
+ const register = async () => {
+  try {
+    if (
+      !credentials.username ||
+      !credentials.email ||
+      !credentials.password ||
+      !confirmPassword
+    ) {
+      toast.error("All fields are required");
+      return;
     }
-  };
+
+    if (credentials.username.includes(" ")) {
+      toast.error("Username cannot contain spaces");
+      return;
+    }
+
+    if (!isValidEmail(credentials.email)) {
+      toast.error("Please enter a valid email format");
+      return;
+    }
+
+    if (credentials.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (credentials.password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (!otp) {
+      toast.error("Please enter the OTP sent to your email");
+      return;
+    }
+
+    // Verify OTP and register the user
+    const response = await axios.post(
+      `https://api.comicplane.site/api/users/register`,
+      {
+        ...credentials,
+        otp,
+      }
+    );
+
+    toast.success("Successfully registered");
+    dispatch(setUser(response.data.user));
+
+    navigate("/login"); // Directly go to login page
+    handleClose();
+  } catch (err) {
+    if (err.response) {
+      const errorMessage = err.response.data?.message || "Registration failed";
+      if (err.response.status === 400) {
+        toast.error("Invalid input. Please check your data.");
+      } else if (err.response.status === 401) {
+        toast.error("Unauthorized request. Please log in again.");
+      } else if (err.response.status === 403) {
+        toast.error("You are not authorized to perform this action.");
+      } else if (err.response.status === 404) {
+        toast.error("Registration API endpoint not found.");
+      } else if (err.response.status === 409) {
+        toast.error("Email already exists. Please use a different email.");
+      } else if (err.response.status === 500) {
+        toast.error("Email already exists. Please use a different email.");
+      } else {
+        toast.error(errorMessage);
+      }
+    } else if (err.request) {
+      toast.error("No response from server. Check your network connection.");
+    } else {
+      toast.error("An unexpected error occurred during registration.");
+    }
+  }
+};
 
   const handleGoogleRegister = async (credentialResponse) => {
     try {

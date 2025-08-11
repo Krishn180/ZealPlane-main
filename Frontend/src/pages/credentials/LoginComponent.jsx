@@ -159,36 +159,42 @@ export default function LoginComponent() {
           <p className="sub-heading">Stay updated on your professional world</p>
 
           <div className="auth-inputs">
-            <input
-              onChange={(event) =>
-                setCredentials({ ...credentials, email: event.target.value })
-              }
-              type="email"
-              className="common-input"
-              placeholder="Email or Phone"
-            />
+          <input
+  onChange={(event) =>
+    setCredentials({ ...credentials, email: event.target.value })
+  }
+  type="email"
+  name="email"
+  autoComplete="username"
+  className="common-input"
+  placeholder="Email"
+  value={credentials.email}
+/>
 
-            <div className="password-input-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="common-input password-input"
-                placeholder="Password"
-                value={credentials.password}
-                onChange={(event) =>
-                  setCredentials({
-                    ...credentials,
-                    password: event.target.value,
-                  })
-                }
-              />
-              <button
-                type="button"
-                className="toggle-password-visibility"
-                onClick={handlePasswordVisibility}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+<div className="password-input-wrapper">
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    autoComplete="current-password"
+    className="common-input password-input"
+    placeholder="Password"
+    value={credentials.password}
+    onChange={(event) =>
+      setCredentials({
+        ...credentials,
+        password: event.target.value,
+      })
+    }
+  />
+  <button
+    type="button"
+    className="toggle-password-visibility"
+    onClick={handlePasswordVisibility}
+  >
+    {showPassword ? "Hide" : "Show"}
+  </button>
+</div>
+
             <div className="forgot-password-container">
               <span
                 className="forgot-password-link"

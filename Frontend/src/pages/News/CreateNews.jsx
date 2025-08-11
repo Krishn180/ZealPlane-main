@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CreateNews.scss";
 import "react-quill/dist/quill.snow.css";
@@ -7,6 +8,7 @@ import "./CreateNews.scss";
 
 const CreateNews = () => {
   const [title, setTitle] = useState("");
+  const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [coverImage, setCoverImage] = useState("");
@@ -43,14 +45,6 @@ const CreateNews = () => {
 
       await axios.post(`${apiBaseUrl}/news`, newsData);
       alert("News added successfully!");
-
-      // Reset form after submit
-
-      //  setTitle("");
-      //  setContent("");
-      //  setAuthor("");
-      //  setCoverImage("");
-      //  setTags("");
     } catch (err) {
       console.error("Error adding news:", err);
       alert("Failed to add news");
