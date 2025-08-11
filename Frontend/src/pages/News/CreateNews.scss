@@ -60,3 +60,30 @@
     }
   }
 }
+
+.quill {
+  width: 100%; /* Ensures the editor takes full width of the parent container */
+  min-height: 150px; /* Sets a minimum height for the editor */
+  border: 1px solid #343536; /* Keeps a consistent border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #272729; /* Consistent background */
+  color: #d7dadc; /* Text color */
+}
+
+.quill .ql-container {
+  border: none; /* Removes inner container border */
+  font-size: 14px; /* Ensures consistent font size */
+}
+
+.quill .ql-editor {
+  min-height: 150px; /* Ensures the editor area has sufficient height */
+  padding: 10px; /* Adds padding inside the editor area */
+}
+
+.quill:focus {
+  outline: none; /* Removes outline when the editor is focused */
+}
+/* Add this CSS to your .quill class */
+.quill .ql-editor::before {
+  color: #818384 !important;
+}
