@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header/Header";
+import linkifyHtml from "linkify-html";
 import "./NewsDetail.scss";
 
 const NewsDetail = () => {
@@ -50,8 +51,11 @@ const NewsDetail = () => {
 
           <div
             className="news-content"
-            dangerouslySetInnerHTML={{ __html: news.content }}
-          />
+            dangerouslySetInnerHTML={{
+              __html: linkifyHtml(news.content || "No content available"),
+            }}
+            style={{ whiteSpace: "pre-wrap" }}
+          ></div>
         </main>
 
         {/* Right Sidebar */}

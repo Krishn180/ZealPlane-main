@@ -90,6 +90,10 @@
       font-size: 16px;
       line-height: 1.7;
       color: #d7dadc;
+      text-align: justify;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
 
       p {
         margin-bottom: 16px;
@@ -101,7 +105,9 @@
         border-radius: 8px;
       }
 
-      h2, h3, h4 {
+      h2,
+      h3,
+      h4 {
         margin-top: 20px;
         margin-bottom: 10px;
         color: #fff;
@@ -116,6 +122,9 @@
         }
       }
     }
+  }
+  .news-contenta:hover {
+    text-decoration: none; /* Underline remove on hover */
   }
 
   .right-sidebar {

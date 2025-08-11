@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./CreateNews.scss";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import "./CreateNews.scss";
 
 const CreateNews = () => {
   const [title, setTitle] = useState("");
@@ -10,19 +13,44 @@ const CreateNews = () => {
   const [tags, setTags] = useState("");
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
+  // Function to detect links and make them clickable
+  const detectUrls = (text) => {
+    return text.replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" style="color:blue; text-decoration:underline;">$1</a>'
+    );
+  };
+
+  const handleContentChange = (value) => {
+    setContent(detectUrls(value));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const cleanedContent = content
+        .replace(/<\/?p>/g, "")
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/background-color:[^;]+;/gi, ""); // remove background-color styles
+
       const newsData = {
         title,
-        content,
+        content: cleanedContent,
         author,
         coverImage, // This is just a URL
-        tags: tags.split(",").map((tag) => tag.trim())
+        tags: tags.split(",").map((tag) => tag.trim()),
       };
 
       await axios.post(`${apiBaseUrl}/news`, newsData);
       alert("News added successfully!");
+
+      // Reset form after submit
+
+      //  setTitle("");
+      //  setContent("");
+      //  setAuthor("");
+      //  setCoverImage("");
+      //  setTags("");
     } catch (err) {
       console.error("Error adding news:", err);
       alert("Failed to add news");
@@ -40,12 +68,39 @@ const CreateNews = () => {
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <textarea
-          placeholder="Content"
+        {/* ReactQuill Editor for description/content */}
+        <ReactQuill
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          theme="snow"
+          onChange={handleContentChange}
           required
+          placeholder="Write your news content here..."
+          className="quill"
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline", "strike"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              ["link", "image"],
+              [{ color: [] }, { background: [] }],
+              ["clean"],
+            ],
+          }}
+          formats={[
+            "header",
+            "bold",
+            "italic",
+            "underline",
+            "strike",
+            "list",
+            "bullet",
+            "link",
+            "image",
+            "color",
+            "background",
+          ]}
         />
+
         <input
           type="text"
           placeholder="Author"
