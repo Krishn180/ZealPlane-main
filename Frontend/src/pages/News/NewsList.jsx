@@ -42,14 +42,14 @@ const NewsList = () => {
             <h2>📰 Comic Book News</h2>
 
             {/* ✅ Show Create News button only for allowed user */}
-            
+            {userId === allowedUserId && (
               <button
                 className="create-news-btn"
                 onClick={() => navigate("/add-news")}
               >
                 ➕ Create News
               </button>
-            
+            )}
           </div>
 
           {news.length > 0 ? (
