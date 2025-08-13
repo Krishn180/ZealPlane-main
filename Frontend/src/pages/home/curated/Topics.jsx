@@ -20,7 +20,7 @@ const Topics = () => {
     return (
         <div className="carouselSection">
             <ContentWrapper>
-                <span className="carouselTitle">Wnna know something Interesting ?</span>
+                <span className="carouselTitle">New Releases!</span>
                 <SwitchTabs data={["Day", "Week"]} onTabChange={onTabChange} />
             </ContentWrapper>
             <TopicCarousel/>

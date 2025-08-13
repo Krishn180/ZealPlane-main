@@ -12,6 +12,7 @@ import "./style.scss";
 const CarouselUser = ({ title, data = [], loading = true }) => {
   const carouselContainer = useRef();
   const navigate = useNavigate();
+  
 
   const navigation = (dir) => {
     const container = carouselContainer.current;
@@ -25,6 +26,14 @@ const CarouselUser = ({ title, data = [], loading = true }) => {
       behavior: "smooth",
     });
   };
+
+  const slugify = (text) =>
+  text
+    .toLowerCase()           // make lowercase
+    .trim()                  // remove leading/trailing spaces
+    .replace(/ /g, "-")      // replace spaces with -
+    .replace(/[^\w-]+/g, ""); // remove special characters
+
 
   const skItem = () => (
     <div className="skeletonItem">
@@ -54,11 +63,12 @@ const CarouselUser = ({ title, data = [], loading = true }) => {
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
             {data.map((item) => (
-              <div
-                key={item.id}
-                className="carouselItem"
-                onClick={() => navigate(`/details/${item.projectID}`)}
-              >
+             <div
+  key={item.id}
+  className="carouselItem"
+  onClick={() => navigate(`/news/${slugify(item.title)}`)}
+>
+
                 <div className="posterBlock">
                   <Img src={item.coverImage || PosterFallback} />
                   <img
