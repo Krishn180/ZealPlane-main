@@ -11,14 +11,14 @@ import PosterFallback from "../../../assets/no-poster.png";
 const projectsData = [
   {
     id: "10001",
-    name: "Game Of Death Novel",
-    Publisher: "Fiction Publication",
-    description: "A thrilling mystery novel that keeps readers on the edge of their seats.",
+    name: "Terrifying Tales(English)",
+    Publisher: "Swapnil Publication",
+    description: "A collection of bone chilling horror stories that will give you nightmare fuel",
     startDate: "2023-04-01",
     endDate: "2024-04-01",
     status: "In Progress",
     genre: "Mystery",
-    ThumnailLink: "https://i.ibb.co/pr8kLJ8/4-adult-man-standing-near-the-haunted-tree-where-lots-of-dolls-are-hanging-during-night-dark-comic-2.png",
+    ThumnailLink: "https://kabircomics.com/wp-content/uploads/2023/07/khaufnak-kisse.jpeg",
     teamMembers: [
       {
         id: "1",
@@ -28,7 +28,7 @@ const projectsData = [
       },
       {
         id: "2",
-        name: "Shushant Panda",
+        name: "Swapnil Singh",
         role: "Editor",
         email: "mark.twain@example.com"
       }
@@ -57,14 +57,14 @@ const projectsData = [
   },
   {
     id: "10002",
-    name: "Psychopath: Santa Killer",
-    Publisher: "Fiction publication",
-    description: "An exciting comic book series featuring superheroes and villains.",
+    name: "Forbidden Zone",
+    Publisher: "Swapnil publication",
+    description: "Forbidden Zone is a chilling horror comic book that takes readers deep into a place where the rules of reality no longer apply. Filled with eerie landscapes, monstrous creatures, and sinister secrets, it follows characters who venture into a cursed area from which few return. Every page drips with tension, fear, and the sense that something unspeakable is lurking just beyond the shadows.",
     genre: "Thriller",
     startDate: "2023-06-01",
     endDate: "2024-06-01",
     status: "In Progress",
-    ThumnailLink: "https://comicsbyte.com/wp-content/uploads/2023/03/Psychopath-Stories-5-Fiction-Comics.jpg",
+    ThumnailLink: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjjm3Lv6g7xw8YJ5YaIwHWnpLi0n1msYAnLVTrT3KtRPMuwulYe9o7ngGWGxyA2HXvsK39SLgDtQ8sMqa_0BSoZsDh8XtFHcPdll8CiZi13uXNshEqFYZB2cJMdYee0PGaSvWQdVGFznRiC7CUECucRCCvZwD9ulc0ZPHzK2UpI5BxKL_wY6zvLiU0d1i4/w1152/Untitled514.png",
     teamMembers: [
       {
         id: "7",
@@ -149,7 +149,7 @@ const projectsData = [
   },
   {
     id: "10004",
-    name: "Pagla Dadu",
+    name: "Goofy Dadu",
     Publisher: "Fiction Publication",
     description: "join the goofiness of Dadu, Fiction studio's leading designer cum destroyer.",
     startDate: "2023-05-01",
@@ -241,14 +241,106 @@ const projectsData = [
   },
   {
     id: "10006",
-    name: "Mausaji ke karname",
+    name: "KarateKing",
+    Publisher: "Fiction Publication",
+    description: "Lets move on to new journey of our goofy Dadu",
+    startDate: "2023-05-01",
+    endDate: "2024-01-01",
+    status: "Completed",
+    genre: "Comedy",
+    ThumnailLink: "https://fictionsaga.com/wp-content/uploads/2025/03/62.jpg",
+    teamMembers: [
+      {
+        id: "5",
+        name: "Marie Curie",
+        role: "Project Manager",
+        email: "marie.curie@example.com"
+      },
+      {
+        id: "6",
+        name: "Louis Pasteur",
+        role: "Developer",
+        email: "louis.pasteur@example.com"
+      }
+    ],
+    tasks: [
+      {
+        id: "105",
+        title: "Design UI/UX",
+        description: "Create the design for the user interface and user experience.",
+        status: "Completed",
+        assignedTo: "Marie Curie",
+        dueDate: "2023-07-01"
+      },
+      {
+        id: "106",
+        title: "Develop Core Features",
+        description: "Develop the core features of the app.",
+        status: "In Progress",
+        assignedTo: "Louis Pasteur",
+        dueDate: "2023-12-01"
+      }
+    ],
+    links: {
+      prototype: "https://example.com/health-app-prototype"
+    }
+  }
+  ,{
+    id: "10005",
+    name: "Sando",
     Publisher: "Fiction Publication",
     description: "A mobile application designed to help users manage their health and wellness routines.",
     startDate: "2023-05-01",
     endDate: "2024-01-01",
     status: "Completed",
     genre: "Comedy",
-    ThumnailLink: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHIzJgcRxkUQBf4H4DSqu-uKYXKlVhW_3KxxjXqIn1-VfjOa3xMt301uIL6QidpzKQSs5zcMFOjPgOPCImIZ0SPu-RT7ParZ8euP41QYuVDSrxKaYtjaeQMrE44fD3N6FWRX14sue6YUk/s1600/42.jpg",
+    ThumnailLink: "https://res.cloudinary.com/datgyuhmy/image/upload/v1755019262/project_images/1755019260872-17-SANDO--images-0.jpg",
+    teamMembers: [
+      {
+        id: "9",
+        name: "Sushant Panda",
+        role: "Writer",
+        email: "marie.curie@example.com"
+      },
+      {
+        id: "10",
+        name: "Santosh Kushwaha",
+        role: "Artist",
+        email: "louis.pasteur@example.com"
+      }
+    ],
+    tasks: [
+      {
+        id: "105",
+        title: "Design UI/UX",
+        description: "Create the design for the user interface and user experience.",
+        status: "Completed",
+        assignedTo: "Marie Curie",
+        dueDate: "2023-07-01"
+      },
+      {
+        id: "106",
+        title: "Develop Core Features",
+        description: "Develop the core features of the app.",
+        status: "In Progress",
+        assignedTo: "Louis Pasteur",
+        dueDate: "2023-12-01"
+      }
+    ],
+    links: {
+      prototype: "https://example.com/health-app-prototype"
+    }
+  },
+  {
+    id: "10007",
+    name: "Echoes of Anklets",
+    Publisher: "Swapnil Publication",
+    description: "Lets move on to new journey of our goofy Dadu A haunting jingle of tiny metallic bells, once a sign of celebration, now twisted into an omen. Their faint, rhythmic clinking slithers through the silence, echoing like a ghost’s footsteps—each note a whisper that something unseen is drawing closer.",
+    startDate: "2023-05-01",
+    endDate: "2024-01-01",
+    status: "Completed",
+    genre: "Comedy",
+    ThumnailLink: "https://res.cloudinary.com/datgyuhmy/image/upload/v1745136966/project_images/qbx2odx6gmglbsg2mvce.jpg",
     teamMembers: [
       {
         id: "5",
@@ -297,9 +389,15 @@ const TopicCarousel = ({ title }) => {
     // Function to generate custom links based on ID
     const getCustomLink = (id) => {
           const customLinks = {
-        "10003": "https://comicplane.site/viewer?images=%5B%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1739855856%2Fproject_images%2Frjochkpbhpx6m6mbnxzd.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1739855879%2Fproject_images%2Frwayis1iveott16znwlh.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1739855900%2Fproject_images%2Fmoxmdhnclvf5tyb4bjva.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1739855916%2Fproject_images%2Fc2a2rsjhwnmnumh1hayc.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1739855943%2Fproject_images%2Fltdiapx9vrrsnb5v0kb0.jpg%22%5D&start=0",
-        "10004": "https://comicplane.site/viewer?images=%5B%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751259094%2Fproject_images%2F1751259092839-91-karate-king-2-1_page-0006.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751259160%2Fproject_images%2F1751259158926-91-karate-king-2-1_page-0007.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751259231%2Fproject_images%2F1751259229875-91-karate-king-2-1_page-0008.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751259278%2Fproject_images%2F1751259276690-91-karate-king-2-1_page-0009.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751259420%2Fproject_images%2F1751259418403-91-karate-king-2-1_page-0010.jpg%22%5D&start=0",
-        "10005": "https://comicplane.site/viewer?images=%5B%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254356%2Fproject_images%2Fh1tjckuxfxdvksjifrut.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254389%2Fproject_images%2Fo5arqruhji3qpaviohos.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254422%2Fproject_images%2Fycfk2c2jbj6qgzthv8r0.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254462%2Fproject_images%2Fsw2b9uoppjrlxdczqqtf.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254496%2Fproject_images%2Fhzgjw2dptmzwntodtwus.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254521%2Fproject_images%2Fikmxggvtym9glf3y6ehv.jpg%22%2C%22https%3A%2F%2Fres.cloudinary.com%2Fdatgyuhmy%2Fimage%2Fupload%2Fv1751254572%2Fproject_images%2Fxgkbzaq4itmggkclryf8.jpg%22%5D&start=0",
+        "10001":"https://comicplane.site/viewer/687dfe4ce597f473fee4b2fa-red-scarf-english?start=0",
+        "10002":"https://comicplane.site/viewer/689b7bee841e0e7c176cf810-khoufnaak-kisse-nisshidh-sthal?start=0",
+        "10003": "https://comicplane.site/viewer/67b417e1b58fee068ef0be8d-chullu-aur-lootera-bhoot?start=0",
+        "10004": "https://comicplane.site/viewer/684d4a3c88b4ebf3500120f6-?start=0",
+        "10005": "https://comicplane.site/viewer/689b75c3841e0e7c176cf278-sando-ke-naye-kaarnaame?start=0",
+        "10006": "https://comicplane.site/viewer/6862177c99fa95d08709ecb1-pagla-dadu-ke-naye-karnamen?start=0",
+        "10007": "https://comicplane.site/viewer/6804accbdab5a44638dcab69-khauphanaak-kisse-ghunghat-ki-aawaaj?start=1",
+        "10008": "https://comicplane.site/viewer/6862054388b4ebf35001fba8-sando-ki-duniya?start=0",
+        "10009": "https://comicplane.site/viewer/6862177c99fa95d08709ecb1-pagla-dadu-ke-naye-karnamen?start=0",
     };
         return customLinks[id] || `/home/${id}`; // fallback to internal route
     };
