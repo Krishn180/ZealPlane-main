@@ -27,12 +27,16 @@ const CarouselUser = ({ title, data = [], loading = true }) => {
     });
   };
 
-  const slugify = (text) =>
+const slugify = (text) =>
   text
-    .toLowerCase()           // make lowercase
-    .trim()                  // remove leading/trailing spaces
-    .replace(/ /g, "-")      // replace spaces with -
-    .replace(/[^\w-]+/g, ""); // remove special characters
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")           // remove apostrophes and quotes
+    .replace(/\s+/g, "-")           // replace spaces with single hyphen
+    .replace(/&/g, "and")           // optional: replace & with "and"
+    .replace(/[^\w-]+/g, "")        // remove other special chars
+    .replace(/--+/g, "-");          // collapse multiple hyphens
+
 
 
   const skItem = () => (
