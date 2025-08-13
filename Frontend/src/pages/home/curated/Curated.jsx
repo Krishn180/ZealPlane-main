@@ -47,7 +47,6 @@ const Curated = () => {
     <div className="carouselSection">
       <ContentWrapper>
         <span className="carouselTitle">Top News of the Week</span>
-        <SwitchTabs data={["Comics", "Manga"]} onTabChange={onTabChange} />
       </ContentWrapper>
       <CarouselUser title="Top News" data={data} loading={loading} />
     </div>
