@@ -1,0 +1,132 @@
+.newsCarousel {
+  position: relative;
+  margin: 40px 0;
+
+  .newsCarousel-titleHeader {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 20px;
+  }
+
+  .newsCarousel-items {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .newsCarousel-item {
+    min-width: 300px; // increase width for news style
+    flex: 0 0 auto;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      z-index: 5;
+    }
+
+    .newsCarousel-posterBlock {
+      position: relative;
+      width: 100%;
+      height: 200px; // increased height for news style
+      border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .newsCarousel-avatarImage {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 3px solid white;
+        cursor: pointer;
+        object-fit: cover;
+        background-color: #fff;
+      }
+    }
+
+    .newsCarousel-textBlock {
+      margin-top: 15px;
+
+      .newsCarousel-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #111;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .newsCarousel-date {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .newsCarousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    color: #222;
+    cursor: pointer;
+    z-index: 20;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ff0055;
+    }
+  }
+
+  .newsCarousel-leftNav {
+    left: -15px; // slightly outside
+  }
+
+  .newsCarousel-rightNav {
+    right: -15px; // slightly outside
+  }
+
+  .newsCarousel-skeletonItem {
+    min-width: 300px;
+    flex: 0 0 auto;
+
+    .newsCarousel-posterBlock {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      background-color: #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    .newsCarousel-textBlock {
+      .newsCarousel-title,
+      .newsCarousel-date {
+        height: 16px;
+        width: 85%;
+        background-color: #e0e0e0;
+        margin-bottom: 6px;
+        border-radius: 4px;
+      }
+    }
+  }
+}

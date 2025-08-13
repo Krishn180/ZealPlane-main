@@ -13,12 +13,15 @@ const NewsList = () => {
   const userId = localStorage.getItem("Id");
   const allowedUserId = "63a87bd4-08ed-4c06-9080-2a891c0efbfa";
 
-  useEffect(() => {
-    axios
-      .get(`${apiBaseUrl}/news`)
-      .then((res) => setNews(res.data))
-      .catch((err) => console.error(err));
-  }, []);
+useEffect(() => {
+  axios
+    .get(`${apiBaseUrl}/news`)
+    .then((res) => {
+      console.log("news lists are", res.data);
+      setNews(res.data);
+    })
+    .catch((err) => console.error(err));
+}, []);
 
   return (
     <>
