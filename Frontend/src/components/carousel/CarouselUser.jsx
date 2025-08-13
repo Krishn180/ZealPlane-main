@@ -3,7 +3,7 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
 } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadImage/Img";
 import PosterFallback from "../../assets/no-poster.png";
@@ -12,7 +12,6 @@ import "./style.scss";
 const CarouselUser = ({ title, data = [], loading = true }) => {
   const carouselContainer = useRef();
   const navigate = useNavigate();
-  
 
   const navigation = (dir) => {
     const container = carouselContainer.current;
@@ -27,18 +26,6 @@ const CarouselUser = ({ title, data = [], loading = true }) => {
     });
   };
 
-const slugify = (text) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/['"]/g, "")           // remove apostrophes and quotes
-    .replace(/\s+/g, "-")           // replace spaces with single hyphen
-    .replace(/&/g, "and")           // optional: replace & with "and"
-    .replace(/[^\w-]+/g, "")        // remove other special chars
-    .replace(/--+/g, "-");          // collapse multiple hyphens
-
-
-
   const skItem = () => (
     <div className="skeletonItem">
       <div className="posterBlock skeleton"></div>
@@ -52,7 +39,6 @@ const slugify = (text) =>
   return (
     <div className="carousel">
       <ContentWrapper>
-        {/* Title in the same style as DemoCarousel */}
         {title && <span className="carouselTitle">{title}</span>}
 
         <BsFillArrowLeftCircleFill
@@ -67,27 +53,24 @@ const slugify = (text) =>
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
             {data.map((item) => (
-             <div
-  key={item.id}
-  className="carouselItem"
-  onClick={() => navigate(`/news/${slugify(item.title)}`)}
->
-
-                <div className="posterBlock">
-                  <Img src={item.coverImage || PosterFallback} />
-                  <img
-                    src={item.userProfilePic || PosterFallback}
-                    alt=""
-                    className="avatarImage"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate("/profile");
-                    }}
-                  />
-                </div>
-                <div className="textBlock">
-                  <span className="title">{item.title}</span>
-                </div>
+              <div key={item.id} className="carouselItem">
+                <Link to={`/news/${item.slug}`} className="carouselItem-link">
+                  <div className="posterBlock">
+                    <Img src={item.coverImage || PosterFallback} />
+                    <img
+                      src={item.userProfilePic || PosterFallback}
+                      alt=""
+                      className="avatarImage"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate("/profile");
+                      }}
+                    />
+                  </div>
+                  <div className="textBlock">
+                    <span className="title">{item.title}</span>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
