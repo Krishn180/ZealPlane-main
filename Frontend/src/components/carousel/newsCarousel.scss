@@ -1,132 +1,87 @@
-.newsCarousel {
-  position: relative;
-  margin: 40px 0;
+.carouselItem {
+  flex: 0 0 auto;
+  width: 320px; /* desktop width */
+  display: flex;
+  flex-direction: column;
+  // align-items: flex-start;
+  text-decoration: none;
 
-  .newsCarousel-titleHeader {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #222;
-    margin-bottom: 20px;
-  }
-
-  .newsCarousel-items {
-    display: flex;
-    gap: 25px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding-bottom: 20px;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  .newsCarousel-item {
-    min-width: 300px; // increase width for news style
-    flex: 0 0 auto;
-    cursor: pointer;
+  .newsPosterBlock {
+    width: 100%;
+    height: 220px; /* fix container height */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #222; /* fallback bg */
     position: relative;
-    transition: transform 0.3s ease;
 
-    &:hover {
-      transform: scale(1.05);
-      z-index: 5;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* crop without distortion */
+      object-position: center; /* center focus */
+      display: block;
+      background-color: #222; /* fills behind transparent images */
     }
 
-    .newsCarousel-posterBlock {
+    /* Optional: loading placeholder shimmer effect */
+    // &::before {
+    //   content: "";
+    //   position: absolute;
+    //   inset: 0;
+    //   background: linear-gradient(
+    //     90deg,
+    //     rgba(255, 255, 255, 0.05) 25%,
+    //     rgba(255, 255, 255, 0.15) 50%,
+    //     rgba(255, 255, 255, 0.05) 75%
+    //   );
+    //   animation: shimmer 1.5s infinite;
+    //   z-index: 0;
+    // }
+
+    img {
       position: relative;
-      width: 100%;
-      height: 200px; // increased height for news style
-      border-radius: 10px;
+      z-index: 1;
+    }
+  }
+
+  .postedBy {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    .postedText {
+      font-size: 13px;
+      color: #aaa;
+
+      strong {
+        color: #aaa;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .newsTitleBlock {
+    margin-top: 8px;
+
+    .newsTitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .newsCarousel-avatarImage {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: 3px solid white;
-        cursor: pointer;
-        object-fit: cover;
-        background-color: #fff;
-      }
-    }
-
-    .newsCarousel-textBlock {
-      margin-top: 15px;
-
-      .newsCarousel-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #111;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .newsCarousel-date {
-        font-size: 0.85rem;
-        color: #666;
-        margin-top: 5px;
-      }
     }
   }
+}
 
-  .newsCarousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2.5rem;
-    color: #222;
-    cursor: pointer;
-    z-index: 20;
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: #ff0055;
-    }
-  }
-
-  .newsCarousel-leftNav {
-    left: -15px; // slightly outside
-  }
-
-  .newsCarousel-rightNav {
-    right: -15px; // slightly outside
-  }
-
-  .newsCarousel-skeletonItem {
-    min-width: 300px;
-    flex: 0 0 auto;
-
-    .newsCarousel-posterBlock {
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      background-color: #e0e0e0;
-      margin-bottom: 12px;
-    }
-
-    .newsCarousel-textBlock {
-      .newsCarousel-title,
-      .newsCarousel-date {
-        height: 16px;
-        width: 85%;
-        background-color: #e0e0e0;
-        margin-bottom: 6px;
-        border-radius: 4px;
-      }
+/* Mobile view */
+@media (max-width: 768px) {
+  .carouselItem {
+    width: 240px; /* smaller card width */
+    .newsPosterBlock {
+      height: 180px; /* smaller but still fixed height */
     }
   }
 }

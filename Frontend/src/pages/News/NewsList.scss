@@ -197,12 +197,13 @@
 
 @media (max-width: 768px) {
   .news-layout {
-    padding: 70px 10px 20px;
+    padding: 70px 5px 20px;
   }
 
   .news-page {
     .news-list {
       grid-template-columns: 1fr;
+      padding-left: 1px;
     }
 
     .news-item a {
@@ -213,5 +214,11 @@
         height: 160px;
       }
     }
+  }
+  .news-layout .news-page .news-list .news-item a {
+    padding: 10px;
+  }
+  .news-layout .news-page .news-header h2 {
+    font-size: 23px;
   }
 }

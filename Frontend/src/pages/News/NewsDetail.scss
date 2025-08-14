@@ -92,7 +92,7 @@
       font-size: 16px;
       line-height: 1.7;
       color: #d7dadc;
-      text-align: justify;
+      // text-align: justify;
       word-wrap: break-word;
       overflow-wrap: break-word;
       white-space: pre-wrap;
@@ -183,18 +183,19 @@
 
 @media (max-width: 768px) {
   .news-detail-layout {
-    padding: 70px 10px 20px;
+    padding: 70px 6px 20px;
   }
 
-  .news-detail {
-    padding: 15px;
+  .news-detail-layout .news-detail {
+    padding: 10px;
 
     .news-title {
-      font-size: 24px;
+      font-size: 20px;
     }
 
     .news-content {
       font-size: 15px;
+      letter-spacing: 0.6px;
     }
 
     .news-cover img {

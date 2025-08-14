@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
+import linkifyHtml from "linkify-html";
 import "./NewsList.scss";
 
 const NewsList = () => {
@@ -13,15 +14,15 @@ const NewsList = () => {
   const userId = localStorage.getItem("Id");
   const allowedUserId = "63a87bd4-08ed-4c06-9080-2a891c0efbfa";
 
-useEffect(() => {
-  axios
-    .get(`${apiBaseUrl}/news`)
-    .then((res) => {
-      console.log("news lists are", res.data);
-      setNews(res.data);
-    })
-    .catch((err) => console.error(err));
-}, []);
+  useEffect(() => {
+    axios
+      .get(`${apiBaseUrl}/news`)
+      .then((res) => {
+        console.log("news lists are", res.data);
+        setNews(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>
@@ -65,7 +66,20 @@ useEffect(() => {
                     )}
                     <div className="news-details">
                       <h3>{item.title}</h3>
-                      <p>{item.content.slice(0, 120)}...</p>
+                      {/* <p>{item.content.slice(0, 120)}...</p> */}
+                      <div
+                        className="news-content"
+                        dangerouslySetInnerHTML={{
+                          __html: `<p>${linkifyHtml(
+                            (item.content || "No content available").slice(
+                              0,
+                              120
+                            ) + "..."
+                          )}</p>`,
+                        }}
+                        style={{ whiteSpace: "pre-wrap" }}
+                      ></div>
+
                       <span className="news-author">
                         By {item.author || "Unknown"}
                       </span>

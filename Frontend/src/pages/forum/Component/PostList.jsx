@@ -15,7 +15,6 @@ const slugify = (title) =>
     .replace(/[^a-z0-9\s-]/g, "") // special chars hatao
     .replace(/\s+/g, "-"); // space ko dash me badlo
 
-
 const PostList = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts || []);
   const token = localStorage.getItem("token");
@@ -29,7 +28,9 @@ const PostList = ({ initialPosts }) => {
   const handleUpvote = async (postId, isUpvoted) => {
     try {
       if (!token) {
-        toast.error("You are not authorized to perform this action. Please log in.");
+        toast.error(
+          "You are not authorized to perform this action. Please log in."
+        );
         navigate("/login");
         return;
       }
@@ -68,19 +69,27 @@ const PostList = ({ initialPosts }) => {
         const voteCount = post.votes.length || 0;
 
         return (
-           <Link
-          to={`/post/${slugify(post.title)}-${post._id}`}
-          key={post._id}
-          className="post-link"
-        >
+          <Link
+            to={`/post/${slugify(post.title)}-${post._id}`}
+            key={post._id}
+            className="post-link"
+          >
             <div className="post">
               <div className="post-header">
                 {post.profilePic && (
-                  <img src={post.profilePic} alt="Profile" className="profile-pic" />
+                  <img
+                    src={post.profilePic}
+                    alt="Profile"
+                    className="profile-pic"
+                  />
                 )}
                 <div className="post-title-container">
-                  <h3 className="post-title">{post.title || "No title available"}</h3>
-                  <span className="post-author">Posted by / {post.author || "Anonymous"}</span>
+                  <h3 className="post-title">
+                    {post.title || "No title available"}
+                  </h3>
+                  <span className="post-author">
+                    Posted by / {post.author || "Anonymous"}
+                  </span>
                   <span className="post-timestamp">
                     {post.timestamp
                       ? new Date(post.timestamp).toLocaleString()
@@ -114,7 +123,8 @@ const PostList = ({ initialPosts }) => {
                 </div>
                 <span className="post-comments">
                   <FaRegCommentAlt />{" "}
-                  {Array.isArray(post.comments) ? post.comments.length : 0} Comments
+                  {Array.isArray(post.comments) ? post.comments.length : 0}{" "}
+                  Comments
                 </span>
                 <span
                   className="post-share"
@@ -173,7 +183,5 @@ const PostBody = ({ body }) => {
     </div>
   );
 };
-
-
 
 export default PostList;

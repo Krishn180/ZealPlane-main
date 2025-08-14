@@ -4,7 +4,7 @@
   .contentWrapper {
     position: relative;
     // margin: 40px auto;
-    margin-bottom: 55px;
+    margin-bottom: 60px;
     padding: 20px;
     border: 1px solid #212121;
 
@@ -121,7 +121,7 @@
       padding: 0;
     }
     @include lg {
-      gap: 12px;
+      gap: 18px;
     }
     .carouselItem {
       width: 125px;
@@ -228,6 +228,7 @@
             font-size: 16px;
           }
         }
+
         .date {
           font-size: 14px;
           opacity: 0.5;
@@ -235,6 +236,9 @@
       }
     }
   }
+}
+a {
+  text-decoration: transparent !important;
 }
 .username {
   color: white; /* Dark color */
