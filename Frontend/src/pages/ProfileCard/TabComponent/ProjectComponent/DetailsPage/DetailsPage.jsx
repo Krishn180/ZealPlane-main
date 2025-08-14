@@ -562,7 +562,7 @@ const DetailsPage = () => {
                 <div className="description-container">
                   <div
                     className="description1"
-                    style={{ color: "#fff" }}
+                    // style={{ color: "#fff" }}
                     dangerouslySetInnerHTML={{
                       __html: linkifyHtml(projectData.description),
                     }}

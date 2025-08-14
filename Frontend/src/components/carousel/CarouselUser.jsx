@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import Img from "../lazyLoadImage/Img";
 import PosterFallback from "../../assets/no-poster.png";
-import "./style.scss";
+import "./newsCarousel.scss";
 
 const CarouselUser = ({ title, data = [], loading = true }) => {
   const carouselContainer = useRef();
@@ -52,23 +52,57 @@ const CarouselUser = ({ title, data = [], loading = true }) => {
 
         {!loading ? (
           <div className="carouselItems" ref={carouselContainer}>
+            {/* {data.map((item) => (
+                <div key={item.id} className="carouselItem">
+                  <Link to={`/news/${item.slug}`} className="carouselItem-link">
+                    <div className="posterBlock">
+                      <Img src={item.coverImage || PosterFallback} />
+                      <img
+                        src={item.userProfilePic || PosterFallback}
+                        alt=""
+                        className="avatarImage"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate("/profile");
+                        }}
+                      />
+                    </div>
+                    <div className="textBlock">
+                      <span className="title">{item.title}</span>
+                    </div>
+                  </Link>
+                </div>
+              ))} */}
             {data.map((item) => (
-              <div key={item.id} className="carouselItem">
+              <div
+                key={item.id}
+                className="carouselItem"
+                style={{
+                  width:
+                    window.innerWidth <= 768
+                      ? "80%" // mobile me ek item
+                      : window.innerWidth <= 1024
+                      ? "calc(50% - 15px)" // tablet me 2 item
+                      : "calc(25% - 15px)", // desktop me 4 item
+                  padding: "10px",
+                }}
+              >
                 <Link to={`/news/${item.slug}`} className="carouselItem-link">
-                  <div className="posterBlock">
+                  {/* Cover Image */}
+                  <div className="newsPosterBlock">
                     <Img src={item.coverImage || PosterFallback} />
-                    <img
-                      src={item.userProfilePic || PosterFallback}
-                      alt=""
-                      className="avatarImage"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate("/profile");
-                      }}
-                    />
                   </div>
-                  <div className="textBlock">
-                    <span className="title">{item.title}</span>
+
+                  {/* Posted by section */}
+                  <div className="postedBy">
+                    <span className="postedText">
+                      Posted by : <strong>{item.author || "Unknown"}</strong>
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <div className="newsTitleBlock">
+                    <span className="newsTitle">{item.title}</span>
                   </div>
                 </Link>
               </div>
