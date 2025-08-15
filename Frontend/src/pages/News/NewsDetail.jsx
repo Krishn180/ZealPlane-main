@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header/Header";
+import Feedback from "../../components/carousel/Projexts/Feedback";
 import linkifyHtml from "linkify-html";
 import "./NewsDetail.scss";
 
@@ -40,7 +41,7 @@ const NewsDetail = () => {
 
         {/* Main News Content */}
         <main className="news-detail">
-          <h1 className="news-title">{news.title}</h1> {/* 🔼 Moved above image */}
+          <h1 className="news-title">{news.title}</h1>
 
           {news.coverImage && (
             <div className="news-cover">
@@ -60,6 +61,11 @@ const NewsDetail = () => {
             }}
             style={{ whiteSpace: "pre-wrap" }}
           ></div>
+          <br/>
+
+
+          {/* Feedback Component */}
+       
         </main>
 
         {/* Right Sidebar */}

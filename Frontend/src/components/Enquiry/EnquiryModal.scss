@@ -1,0 +1,83 @@
+$bg: #121212;           // Dark modal background
+$btn-color: #ff4500;    // Orangered for button text and border
+
+.enquiry-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.enquiry-modal {
+  background: $bg;
+  padding: 24px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.enquiry-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+}
+
+.enquiry-title {
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.enquiry-title span {
+  color: #fff;
+}
+
+.enquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.enquiry-form input,
+.enquiry-form textarea {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid #333;  // neutral border
+  font-size: 1rem;
+}
+
+.enquiry-form input::placeholder,
+.enquiry-form textarea::placeholder {
+  color: #aaa;
+}
+
+.enquiry-submit {
+  background: transparent;
+  color: $btn-color;
+  border: 2px solid $btn-color;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.enquiry-submit:hover {
+  background: $btn-color;
+  color: $bg;
+}

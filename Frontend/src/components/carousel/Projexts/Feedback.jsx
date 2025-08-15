@@ -16,21 +16,34 @@ const Feedback = () => {
   const { projectId } = useParams();
   const token = localStorage.getItem("token");
   const uniqueId = token ? jwtDecode(token)?.uniqueId : null;
-  const maxWords = 100; // Set the word limit
+  const maxWords = 100;
 
-  const textAreaRef = useRef(null); // Reference for the text area
+  const textAreaRef = useRef(null);
 
-  // Fetch comments when the component mounts
+  // Default Hinglish comments
+ // Default Hinglish comments with colors
+const defaultComments = [
+  { text: "Bilkul Bakwaas 😒", color: "#ff4d4d" },
+  { text: "Thik-Thak 🙂", color: "#ffcc00" },
+  { text: "Mast Hai 😎", color: "#00bfff" },
+  { text: "Zabardast 🔥", color: "#ff7f27" },
+  { text: "Paisa Vasool 💯", color: "#28a745" }
+];
+
+// Click handler for default comments
+const handleDefaultCommentClick = (commentText) => {
+  setFeedbackText(commentText);
+};
+
+
+
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        // If the token is available, include it in the headers, otherwise send request without it
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
         const response = await axiosInstance.get(`/projects/id/${projectId}`, {
-          headers, // Only include the Authorization header if the token exists
+          headers,
         });
-
         setFeedbackList(response.data.project.comments || []);
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -38,45 +51,37 @@ const Feedback = () => {
     };
 
     fetchComments();
-  }, [projectId, token]); // Depend on both projectId and token
+  }, [projectId, token]);
 
-  // Focus on the text area when editing
   useEffect(() => {
     if (editingCommentId !== null) {
-      textAreaRef.current?.focus(); // Set focus to the text area when editing
+      textAreaRef.current?.focus();
     }
   }, [editingCommentId]);
 
-  // Handle feedback submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const wordCount = feedbackText.trim().split(/\s+/).length;
     if (wordCount > maxWords) {
       alert(
         `Your feedback cannot exceed ${maxWords} words. Current count: ${wordCount}`
       );
-      return; // Prevent submission if word count exceeds limit
+      return;
     }
 
     const newFeedback = { username, commentText: feedbackText };
 
     try {
-      // Submit the new comment
       await axiosInstance.post(`/projects/${projectId}`, newFeedback, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Fetch the updated project data
       const response = await axiosInstance.get(`/projects/id/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Update the comments list
       setFeedbackList(response.data.project.comments || []);
       setFeedbackText("");
-
-      // Optionally notify the user
       alert("Your feedback has been submitted!");
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -86,9 +91,8 @@ const Feedback = () => {
   const handleEdit = (comment) => {
     if (comment.uniqueId !== uniqueId) {
       alert("You can only edit your own comments.");
-      return; // Prevent editing if it's not the user's comment
+      return;
     }
-
     setEditingCommentId(comment._id);
     setFeedbackText(comment.commentText);
   };
@@ -109,31 +113,25 @@ const Feedback = () => {
       setFeedbackList(updatedList);
       setFeedbackText("");
       setEditingCommentId(null);
-
-      // Show success alert
       alert("Your comment has been successfully updated!");
     } catch (error) {
       console.error("Error updating feedback:", error);
     }
   };
 
-  // Delete comment
   const handleDelete = async (commentId, commentUsername) => {
     const decodedToken = jwtDecode(token);
-    const decodedUsername = decodedToken.username; // Assuming the token has the username field
+    const decodedUsername = decodedToken.username;
 
     if (commentUsername !== decodedUsername) {
       alert("You can only delete your own comments.");
-      return; // Prevent deletion if it's not the user's comment
+      return;
     }
 
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this comment?"
     );
-
-    if (!isConfirmed) {
-      return; // If user clicks 'Cancel', don't delete the comment
-    }
+    if (!isConfirmed) return;
 
     try {
       await axios.delete(`${apiBaseUrl}/projects/${projectId}/${commentId}`, {
@@ -143,8 +141,6 @@ const Feedback = () => {
       setFeedbackList(
         feedbackList.filter((comment) => comment._id !== commentId)
       );
-
-      // Show success alert
       alert("Your comment has been successfully deleted!");
     } catch (error) {
       console.error("Error deleting feedback:", error);
@@ -156,10 +152,31 @@ const Feedback = () => {
       <h3 className="feedback-title">
         {editingCommentId ? "Edit Feedback" : "Leave Feedback"}
       </h3>
+
       <form
         className="feedback-form"
         onSubmit={editingCommentId ? handleUpdate : handleSubmit}
       >
+        {/* Default Hinglish comments */}
+    <div className="default-comments">
+  {defaultComments.map((comment, index) => (
+    <button
+      key={index}
+      type="button"
+      className="default-comment-btn"
+      style={{
+        border: `2px solid ${comment.color}`,
+        color: comment.color,
+        backgroundColor: "transparent"
+      }}
+      onClick={() => handleDefaultCommentClick(comment.text)}
+    >
+      {comment.text}
+    </button>
+  ))}
+</div>
+
+
         <textarea
           ref={textAreaRef}
           className="feedback-input"

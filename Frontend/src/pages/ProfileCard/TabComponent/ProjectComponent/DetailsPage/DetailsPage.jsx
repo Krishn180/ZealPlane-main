@@ -31,6 +31,8 @@ import {
   FaHome,
   FaFolder,
   FaTrash,
+   FaShareAlt,
+   FaEnvelopeOpenText
 } from "react-icons/fa";
 import axios from "axios";
 import PosterFallback from "../../../../../assets/no-poster.png";
@@ -59,6 +61,8 @@ import ReportModal from "./Report/Report";
 import { FaEye } from "react-icons/fa";
 import linkifyHtml from "linkify-html";
 import { Footer } from "antd/es/layout/layout";
+import Share from "../../../../../components/Share/Share";
+import EnquiryModal from "../../../../../components/Enquiry/Enquiry";
 
 const DetailsPage = () => {
   const { projectId } = useParams();
@@ -96,6 +100,8 @@ const DetailsPage = () => {
   const [view, setView] = useState(false);
   const [userDetails, setUserDetails] = useState("");
   const hasFetched = useRef(false);
+  const [showShare, setShowShare] = useState(false);
+  const [showEnquiry, setShowEnquiry] = useState(false);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -660,41 +666,68 @@ const DetailsPage = () => {
             >
               Like My Project?
             </h4>
-            <div className="User-Profile">
-              <div className="avatar-container">
-                <img src={profilePic} alt="" className="avatarImage" />
-              </div>
-              <div className="user-details">
-                <h3 className="username">{userName}</h3>
-                {/* <p className="user-description">
-                  Web Developer | Graphic Designer | ZealPlane
-                </p> */}
-                {/* <br /> */}
-                <div className="user-actions">
-                  <div className="like-info">
-                    {likesCount > 0 ? (
-                      <p>
-                        {likesCount} {likesCount === 1 ? "like" : "likes"}
-                      </p>
-                    ) : (
-                      <p>Be the first to like the project</p>
-                    )}
-                  </div>
-                  <IconButton className="likeButton" onClick={handleLikeClick}>
-                    <FaThumbsUp style={{ color: liked ? "blue" : "orange" }} />
-                  </IconButton>
-                  <IconButton className="messageButton">
-                    <FaPlus style={{ color: "orange" }} />
-                  </IconButton>
-                  <IconButton
-                    className="messageButton"
-                    onClick={() => Enquiry()}
-                  >
-                    <FaShare style={{ color: "orange" }} />
-                  </IconButton>
-                </div>
-              </div>
+           <div className="User-Profile">
+        <div className="avatar-container">
+          <img src={profilePic} alt="" className="avatarImage" />
+        </div>
+
+        <div className="user-details">
+          <h3 className="username">{userName}</h3>
+
+          <div className="user-actions">
+            <div className="like-info">
+              {likesCount > 0 ? (
+                <p>
+                  {likesCount} {likesCount === 1 ? "like" : "likes"}
+                </p>
+              ) : (
+                <p>Be the first to like the project</p>
+              )}
             </div>
+
+            {/* Like button */}
+            <IconButton className="likeButton" onClick={handleLikeClick}>
+              <FaThumbsUp style={{ color: liked ? "blue" : "orange" }} />
+            </IconButton>
+
+            {/* Enquiry button (opens enquiry modal) */}
+          <IconButton
+  className="enquiryButton"
+  onClick={() => setShowEnquiry(true)}
+>
+  <FaPlus style={{ color: "orange", fontSize: "1.3rem" }} />
+</IconButton>
+
+            {/* Share button (opens modal) */}
+            <IconButton
+              className="shareButton"
+              onClick={() => setShowShare(true)}
+            >
+              <FaShareAlt style={{ color: "#ff5722", fontSize: "1.3rem" }} />
+            </IconButton>
+          </div>
+        </div>
+      </div>
+
+      {/* Share modal */}
+      {showShare && (
+        <Share
+          url={window.location.href}
+          title={`Check out ${userName}'s comic!`}
+          onClose={() => setShowShare(false)}
+        />
+      )}
+
+      {/* Enquiry modal */}
+ {showEnquiry && (
+ <EnquiryModal
+  isOpen={showEnquiry}
+  comicTitle={`Comic by ${userName}`}
+  onClose={() => setShowEnquiry(false)}
+  onSubmit={(data) => console.log("Enquiry sent:", data)}
+/>
+
+)}
             <br />
             <Feedback />
           </div>
