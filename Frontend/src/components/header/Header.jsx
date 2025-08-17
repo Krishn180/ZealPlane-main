@@ -11,6 +11,7 @@ import Searchbar from "./Searchbar";
 import Navbar from "../../AboutCard/Navbar";
 import Logout from "./logout/Logout";
 import logozp from "/src/assets/logoZP.png";
+import HeaderNotificationBell from "../Notification/NotificationBell";
 
 const Header = () => {
   const [show, setShow] = useState("top");
@@ -116,64 +117,65 @@ const Header = () => {
           </div>
           <Searchbar axiosInstance={axiosInstance} />
 
-          <ul className="menuItems">
-            <li className="menuItem2" onClick={handleForumClick}>
-              {window.innerWidth <= 568 ? (
-                <div className="iconWrapper">
-                  <FaUsers className="communityIcon" />
-                  <span className="hoverText">Communities</span>
-                </div>
-              ) : (
-                "Communities"
-              )}
-            </li>
+         <ul className="menuItems">
+  <li className="menuItem2" onClick={handleForumClick}>
+    {window.innerWidth <= 568 ? (
+      <div className="iconWrapper">
+        <FaUsers className="communityIcon" />
+        <span className="hoverText">Communities</span>
+      </div>
+    ) : (
+      "Communities"
+    )}
+  </li>
 
-            {/* Plus Icon for Modal */}
-            <li
-              className="menuItem1"
-              style={{ color: "white", cursor: "pointer" }}
-              onClick={() => setShowModal(true)}
-            >
-              <FaPlus />
-            </li>
+  {/* Plus Icon for Modal */}
+  <li
+    className="menuItem1"
+    style={{ color: "white", cursor: "pointer" }}
+    onClick={() => setShowModal(true)}
+  >
+    <FaPlus />
+  </li>
 
-            {/* Profile Section */}
-            <li
-              className="menuItem1 profile-container"
-              onMouseEnter={() => setShowProfileOptions(true)}
-              onMouseLeave={() => setShowProfileOptions(false)}
-            >
-              <img
-                src={profilePic || avatar}
-                alt="Profile"
-                className="avatarImage"
-                onClick={handleProfileClick}
-              />
-              {userName && (
-                <span className="username" onClick={handleProfileClick}>
-                  {userName}
-                </span>
-              )}
-              {showProfileOptions && (
-                <div
-                  className={`profile-options ${
-                    showProfileOptions ? "active" : ""
-                  }`}
-                >
-                  <ul>
-                    <li onClick={handleVisitProfile}>Profile</li>
-                    <hr />
-                    <li>
-                      <Logout />
-                    </li>
-                    <li onClick={() => navigate("/settings")}>
-                      <FiSettings className="header-icon" /> Settings
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </li>
-          </ul>
+  {/* Notification Bell Component */}
+  <li className="menuItem1">
+    < HeaderNotificationBell/>
+  </li>
+
+  {/* Profile Section */}
+  <li
+    className="menuItem1 profile-container"
+    onMouseEnter={() => setShowProfileOptions(true)}
+    onMouseLeave={() => setShowProfileOptions(false)}
+  >
+    <img
+      src={profilePic || avatar}
+      alt="Profile"
+      className="avatarImage"
+      onClick={handleProfileClick}
+    />
+    {userName && (
+      <span className="username" onClick={handleProfileClick}>
+        {userName}
+      </span>
+    )}
+    {showProfileOptions && (
+      <div className={`profile-options ${showProfileOptions ? "active" : ""}`}>
+        <ul>
+          <li onClick={handleVisitProfile}>Profile</li>
+          <hr />
+          <li>
+            <Logout />
+          </li>
+          <li onClick={() => navigate("/settings")}>
+            <FiSettings className="header-icon" /> Settings
+          </li>
+        </ul>
+      </div>
+    )}
+  </li>
+</ul>
         </ContentWrapper>
       </header>
 

@@ -1,0 +1,80 @@
+.bell-button {
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  padding: 4px;
+
+  &:hover {
+    color: #fff;
+  }
+
+  .unread-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: #e11d48;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 5px;
+  }
+
+  .dropdown-modal {
+    position: absolute;
+    top: 120%;   // below bell
+    right: 0;
+    width: 300px;
+    max-height: 350px;
+    background-color: #1a1a1a;
+    color: #f1f1f1;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    z-index: 1000;
+
+    .no-notifications {
+      padding: 10px;
+      text-align: center;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    .dropdown-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 300px;
+      overflow-y: auto;
+
+      .dropdown-item {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #333;
+
+        &:hover {
+          background-color: #111;
+        }
+
+        &.unread {
+          background-color: #111;
+          font-weight: 500;
+        }
+
+        .item-content {
+          p {
+            margin: 0;
+            font-size: 0.9rem;
+          }
+
+          span {
+            font-size: 0.75rem;
+            color: #999;
+          }
+        }
+      }
+    }
+  }
+}

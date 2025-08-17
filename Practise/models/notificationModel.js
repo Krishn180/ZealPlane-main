@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
-  recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // The user receiving the notification
-  sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },   // The user who triggered the notification
+  recipient: { type: String, required: true }, // UUID string of user receiving notification
+  sender: { type: String, required: true },    // UUID string of user who triggered notification
+  type: { 
+    type: String, 
+    enum: ["comment", "like", "follow", "system"], 
+    required: true 
+  },
   message: { type: String, required: true },
-  projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },  // The related project
+  projectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
+  commentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
   isRead: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });

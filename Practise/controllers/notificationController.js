@@ -1,68 +1,88 @@
-const Notification = require("../models/notificationModel"); // Adjust path as necessary
-const User = require("../models/userModel"); // Import the User model
+const Notification = require("../models/notificationModel");
+const User = require("../models/userModel");
 
-// Fetch public notifications
+// ✅ Fetch notifications for the logged-in user using UUID
 const getNotifications = async (req, res) => {
   try {
-    let notifications = await Notification.find({ isPublic: true }) // Fetch only public notifications
-      .populate("sender", "username")
-      .sort({ createdAt: -1 }); // Sort notifications by creation date, latest first
+    console.log("=== Fetch Notifications ===");
+    console.log("Request user object from token:", req.user);
 
-    if (notifications.length === 0) {
-      // If no notifications found, create a welcoming notification
-      const welcomingMessage = "Welcome! There are currently no notifications.";
-      const defaultSenderId = "YOUR_DEFAULT_SENDER_ID"; // Replace with a default sender ID
-
-      const defaultNotification = new Notification({
-        recipient: "PUBLIC_RECIPIENT_ID", // Replace with appropriate recipient ID or handle for public notifications
-        sender: defaultSenderId,
-        message: welcomingMessage,
-        isPublic: true,
-      });
-
-      await defaultNotification.save();
-      notifications = [defaultNotification]; // Add the welcoming notification to the response
+    const userUUID = req.user?.uniqueId; // fetch UUID from token
+    if (!userUUID) {
+      console.log("❌ No uniqueId found in token!");
+      return res.status(400).json({ message: "User uniqueId missing from token" });
     }
+
+    console.log("Fetching notifications for uniqueId:", userUUID);
+    const notifications = await Notification.find({ recipient: userUUID }) // fetch by UUID
+      .populate("sender", "username profilePic")
+      .sort({ createdAt: -1 });
+
+    console.log("✅ Notifications fetched from DB:", notifications);
 
     return res.status(200).json(notifications);
   } catch (error) {
-    console.error("Error fetching notifications:", error);
+    console.error("❌ Error fetching notifications:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-// Create a notification
-const createNotification = async (recipientId, senderId, message, projectId) => {
+
+
+// ✅ Create a notification (to be called from comment logic)
+const createNotification = async (recipientUniqueId, senderId, message, projectId, commentId) => {
+  console.log("=== Create Notification ===");
+  console.log("Recipient UUID:", recipientUniqueId);
+  console.log("SenderId:", senderId);
+  console.log("Message:", message);
+  console.log("ProjectId:", projectId);
+  console.log("CommentId:", commentId);
+
+  // Don't create notification if recipient is missing or same as sender
+  if (!recipientUniqueId || recipientUniqueId === senderId) {
+    console.log("❌ No notification needed (missing recipient or self-action)");
+    return;
+  }
+
   try {
     const notification = new Notification({
-      recipient: recipientId,
-      sender: senderId,
+      recipient: recipientUniqueId, // use UUID here
+      sender: senderId, // can still be Mongo ObjectId
+      type: "comment",
       message,
       projectId,
+      commentId,
     });
 
-    await notification.save();
+    const savedNotification = await notification.save();
+    console.log("✅ Notification created successfully:", savedNotification);
+    return savedNotification;
   } catch (error) {
-    console.error("Error creating notification:", error);
+    console.error("❌ Error creating notification:", error);
   }
 };
 
-// Mark a notification as read
+
+// ✅ Mark notification as read
 const markAsRead = async (req, res) => {
   try {
+    console.log("=== Mark Notification As Read ===");
     const notificationId = req.params.notificationId;
-    const notification = await Notification.findById(notificationId);
+    console.log("NotificationId to mark as read:", notificationId);
 
+    const notification = await Notification.findById(notificationId);
     if (!notification) {
+      console.log("❌ Notification not found");
       return res.status(404).json({ message: "Notification not found" });
     }
 
-    notification.isRead = true; // Mark as read
-    await notification.save();
+    notification.isRead = true;
+    const updatedNotification = await notification.save();
+    console.log("✅ Notification marked as read:", updatedNotification);
 
-    return res.status(200).json(notification);
+    return res.status(200).json(updatedNotification);
   } catch (error) {
-    console.error("Error marking notification as read:", error);
+    console.error("❌ Error marking notification as read:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };

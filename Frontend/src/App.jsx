@@ -38,6 +38,7 @@ import PrivacyPolicy from "./components/footer/privacy_policy";
 import NewsList from "./pages/News/NewsList";
 import NewsDetail from "./pages/News/NewsDetail";
 import CreateNews from "./pages/News/CreateNews";
+import NotificationBell from "./components/Notification/Notification";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/viewer/:projectSlug" element={<Viewer />} />
           <Route path="/blank" element={<BlankPage />} />
-          <Route path="/home/notification" element={<Notification />} />
+          <Route path="/home/notification" element={<NotificationBell/>} />
           <Route path="/details/:projectId" element={<DetailsPage />} />
           <Route path="/home/:id" element={<DemoProjectPage />} />
           <Route path="/register" element={<RegisterComponent />} />

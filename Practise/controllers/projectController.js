@@ -4,6 +4,7 @@ const Project = require("../models/projectModel");
 const Notification = require("../models/notificationModel");
 const User = require("../models/userModel");
 const convertPdfToImages = require("../utils/convertPdfToImages");
+const { createNotification } = require("./notificationController");
 
 
 const getAllProjects = async (req, res) => {
@@ -330,77 +331,84 @@ const getCommentById = async (req, res) => {
 
 const commentOnProject = async (req, res) => {
   try {
-    const { projectId } = req.params; // Extract projectId from request params
-    const { commentText, ratingValue } = req.body; // Get comment text and rating value
-    const userId = req.user.userId; // Get user ID from req.user (decoded token)
-    const username = req.user.username; // Get username from decoded token
-    const profilePic = req.user.profilePic; // Get profilePic from decoded token
-    const uniqueId = req.user.uniqueId;
-    // Check if commentText is provided
+    const { projectId } = req.params;
+    const { commentText, ratingValue } = req.body;
+
+    // Extract sender details from JWT
+    const senderUniqueId = req.user.uniqueId;
+    const username = req.user.username;
+    const profilePic = req.user.profilePic;
+
     if (!commentText || commentText.trim() === "") {
       return res.status(400).json({ message: "Comment text is required" });
     }
 
-    // Check if ratingValue is provided and valid (1-5)
     if (ratingValue && (ratingValue < 1 || ratingValue > 5)) {
       return res
         .status(400)
         .json({ message: "Rating value must be between 1 and 5" });
     }
 
-    // Find the project by its projectId
+    // Find the project
     const project = await Project.findOne({ projectId });
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // Create a new comment object
+    // Create new comment
     const newComment = {
-      userId,
-      uniqueId,
+      uniqueId: senderUniqueId,
       username,
       profilePic,
-      commentText, // Include commentText
-      date: new Date(), // Set the comment date to the current date
+      commentText,
+      date: new Date(),
     };
 
-    // Add the new comment to the project's comments array
     project.comments.push(newComment);
 
-    // Handle the rating if provided
+    // Handle ratings
     if (ratingValue) {
-      const newRating = {
-        userId,
-        ratingValue,
-        date: new Date(), // Set the rating date to the current date
-      };
-
-      // Add the rating to the project's ratings array
+      const newRating = { uniqueId: senderUniqueId, ratingValue, date: new Date() };
       project.ratings.push(newRating);
 
-      // Calculate the new average rating
       const totalRatings = project.ratings.length;
       const sumOfRatings = project.ratings.reduce(
         (sum, rating) => sum + rating.ratingValue,
         0
       );
-      project.averageRating = sumOfRatings / totalRatings; // Calculate average rating
+      project.averageRating = sumOfRatings / totalRatings;
     }
 
-    // Save the updated project with the new comment and/or rating
+    // Save project
     const updatedProject = await project.save();
+
+    // Retrieve the just-added comment's _id
+    const addedComment = project.comments[project.comments.length - 1];
+
+    // Send notification only if commenter is NOT the owner
+    if (String(project.uniqueId) !== String(senderUniqueId)) {
+      await createNotification(
+        project.uniqueId,      // recipient → project owner
+        senderUniqueId,             // sender → commenter
+        `${username} commented on your project "${project.name}"`,
+        project._id,                // project ID
+        addedComment._id            // comment ID
+      );
+    }
 
     return res.status(200).json({
       message: "Comment and rating added successfully",
-      comment: newComment, // Return the newly added comment
-      averageRating: project.averageRating, // Return updated average rating
-      updatedProject, // Optionally return the updated project
+      comment: addedComment,
+      averageRating: project.averageRating,
+      updatedProject,
     });
   } catch (err) {
-    console.error(err); // Log error for debugging
+    console.error("Error in commentOnProject:", err);
     return res.status(500).json({ message: err.message });
   }
 };
+
+
 
 const updateComment = async (req, res) => {
   const { projectId, commentId } = req.params; // Extract projectId and commentId from request params

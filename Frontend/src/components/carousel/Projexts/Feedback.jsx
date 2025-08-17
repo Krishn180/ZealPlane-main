@@ -11,6 +11,7 @@ const Feedback = () => {
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackList, setFeedbackList] = useState([]);
   const [editingCommentId, setEditingCommentId] = useState(null);
+
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const username = localStorage.getItem("username");
   const { projectId } = useParams();
@@ -21,22 +22,19 @@ const Feedback = () => {
   const textAreaRef = useRef(null);
 
   // Default Hinglish comments
- // Default Hinglish comments with colors
-const defaultComments = [
-  { text: "Bilkul Bakwaas 😒", color: "#ff4d4d" },
-  { text: "Thik-Thak 🙂", color: "#ffcc00" },
-  { text: "Mast Hai 😎", color: "#00bfff" },
-  { text: "Zabardast 🔥", color: "#ff7f27" },
-  { text: "Paisa Vasool 💯", color: "#28a745" }
-];
+  const defaultComments = [
+    { text: "Bilkul Bakwaas 😒", color: "#ff4d4d" },
+    { text: "Thik-Thak 🙂", color: "#ffcc00" },
+    { text: "Mast Hai 😎", color: "#00bfff" },
+    { text: "Zabardast 🔥", color: "#ff7f27" },
+    { text: "Paisa Vasool 💯", color: "#28a745" }
+  ];
 
-// Click handler for default comments
-const handleDefaultCommentClick = (commentText) => {
-  setFeedbackText(commentText);
-};
+  const handleDefaultCommentClick = (commentText) => {
+    setFeedbackText(commentText);
+  };
 
-
-
+  // Fetch existing comments
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -49,7 +47,6 @@ const handleDefaultCommentClick = (commentText) => {
         console.error("Error fetching comments:", error);
       }
     };
-
     fetchComments();
   }, [projectId, token]);
 
@@ -58,6 +55,17 @@ const handleDefaultCommentClick = (commentText) => {
       textAreaRef.current?.focus();
     }
   }, [editingCommentId]);
+
+  // Fetch notifications and log in console
+  const fetchNotifications = async () => {
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await axiosInstance.get(`${apiBaseUrl}/notification`, { headers });
+      console.log("Notifications fetched:", res.data);
+    } catch (err) {
+      console.error("Error fetching notifications:", err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,6 +91,9 @@ const handleDefaultCommentClick = (commentText) => {
       setFeedbackList(response.data.project.comments || []);
       setFeedbackText("");
       alert("Your feedback has been submitted!");
+
+      // 🔔 Fetch notifications in console after adding feedback
+      fetchNotifications();
     } catch (error) {
       console.error("Error submitting feedback:", error);
     }
@@ -114,6 +125,9 @@ const handleDefaultCommentClick = (commentText) => {
       setFeedbackText("");
       setEditingCommentId(null);
       alert("Your comment has been successfully updated!");
+
+      // 🔔 Fetch notifications in console after update
+      fetchNotifications();
     } catch (error) {
       console.error("Error updating feedback:", error);
     }
@@ -142,6 +156,9 @@ const handleDefaultCommentClick = (commentText) => {
         feedbackList.filter((comment) => comment._id !== commentId)
       );
       alert("Your comment has been successfully deleted!");
+
+      // 🔔 Fetch notifications in console after deletion
+      fetchNotifications();
     } catch (error) {
       console.error("Error deleting feedback:", error);
     }
@@ -157,25 +174,23 @@ const handleDefaultCommentClick = (commentText) => {
         className="feedback-form"
         onSubmit={editingCommentId ? handleUpdate : handleSubmit}
       >
-        {/* Default Hinglish comments */}
-    <div className="default-comments">
-  {defaultComments.map((comment, index) => (
-    <button
-      key={index}
-      type="button"
-      className="default-comment-btn"
-      style={{
-        border: `2px solid ${comment.color}`,
-        color: comment.color,
-        backgroundColor: "transparent"
-      }}
-      onClick={() => handleDefaultCommentClick(comment.text)}
-    >
-      {comment.text}
-    </button>
-  ))}
-</div>
-
+        <div className="default-comments">
+          {defaultComments.map((comment, index) => (
+            <button
+              key={index}
+              type="button"
+              className="default-comment-btn"
+              style={{
+                border: `2px solid ${comment.color}`,
+                color: comment.color,
+                backgroundColor: "transparent"
+              }}
+              onClick={() => handleDefaultCommentClick(comment.text)}
+            >
+              {comment.text}
+            </button>
+          ))}
+        </div>
 
         <textarea
           ref={textAreaRef}
