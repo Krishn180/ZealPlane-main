@@ -82,6 +82,8 @@ import { FaSuperpowers, FaPenNib, FaUsers } from "react-icons/fa";
 import background from "./../../assets/back.jpeg";
 import Arti from "./../../assets/arati.jpg";
 import krishna from "./../../assets/krishna.jpg";
+import Jayshree from "./../../assets/jaishree.jpeg";
+import Prince from "./../../assets/Prince.jpg";
 import Navbar from "../../AboutCard/Navbar";
 import Footer from "./Footer";
 
@@ -190,43 +192,87 @@ const About = () => {
         </div>
       </section> */}
       <h3 style={{ textAlign: "center", fontSize: "35px" }}> Meet Our Team</h3>{" "}
-      <section className="team-section">
-        <div className="team-member">
-          <div className="member-image">
-            <img src={krishna} alt="Rahul Sharma" />
-          </div>
-          <div className="member-info">
-            <h2>Krishna Kumar</h2>
-            <p>
-              <strong>Founder & CEO</strong>
-            </p>
-            <br />
-            <p className="bio-text">
-              Krishna Kumar is a skilled engineer, as well as a talented artist
-              and writer. His unique blend of technical expertise and creativity
-              allows him to excel in both fields.
-            </p>
-          </div>
-        </div>
-        <div className="team-member">
-          <div className="member-image">
-            <img src={Arti} alt="Arati Prasad" />
-          </div>
-          <div className="member-info">
-            <h2>Arati Prasad</h2>
-            <p>
-              <strong>Founder & COO</strong>
-            </p>
-            <br />
-            <p className="bio-text">
-              {" "}
-              Arati Prasad is a full-stack developer and a banker. She excels in
-              modern web technologies and financial management. Her diverse
-              expertise allows her to thrive in both fields.
-            </p>
-          </div>
-        </div>
-      </section>
+    <section className="team-section">
+  <div className="team-member">
+    <div className="member-image">
+      <img src={krishna} alt="Krishna Kumar" />
+    </div>
+    <div className="member-info">
+      <h2>Krishna Kumar</h2>
+      <p>
+        <strong>Founder & CEO</strong>
+      </p>
+      <br />
+      <p className="bio-text">
+        Krishna Kumar is a skilled engineer, as well as a talented artist
+        and writer. His unique blend of technical expertise and creativity
+        allows him to excel in both fields.
+      </p>
+    </div>
+  </div>
+
+  <div className="team-member">
+    <div className="member-image">
+      <img src={Arti} alt="Arati Prasad" />
+    </div>
+    <div className="member-info">
+      <h2>Arati Prasad</h2>
+      <p>
+        <strong>Founder & COO</strong>
+      </p>
+      <br />
+      <p className="bio-text">
+        Arati Prasad is a full-stack developer and a banker. She excels in
+        modern web technologies and financial management. Her diverse
+        expertise allows her to thrive in both fields.
+      </p>
+    </div>
+  </div>
+
+  {/* New Member: Jayshree */}
+  <div className="team-member">
+    <div className="member-image">
+      {/* Replace with Jayshree's photo when available */}
+      <img
+        src={Jayshree}
+        alt="Jayshree"
+      />
+    </div>
+    <div className="member-info">
+      <h2>Jayshree</h2>
+      <p>
+        <strong>Social Media Marketing Manager</strong>
+      </p>
+      <br />
+      <p className="bio-text">
+        Jayshree is the voice of ComicPlane on social media. She manages our
+        online presence, builds engaging campaigns, and connects with fans
+        across platforms to grow our vibrant community.
+      </p>
+    </div>
+  </div>
+  <div className="team-member">
+  <div className="member-image">
+    {/* Replace with Prince's photo when available */}
+    <img
+      src={Prince} 
+      alt="Prince"
+    />
+  </div>
+  <div className="member-info">
+    <h2>Prince</h2>
+    <p>
+      <strong>Content Delivery Manager</strong>
+    </p>
+    <br />
+    <p className="bio-text">
+      Prince ensures that ComicPlane’s content reaches readers seamlessly. 
+      He manages localization, oversees content delivery, and actively 
+      engages with users to enhance their overall experience on the platform.
+    </p>
+  </div>
+</div>
+</section>
       <section className="cta-section">
         <h2>Join the ComicPlane Community</h2>
         <p>

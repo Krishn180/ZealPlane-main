@@ -304,3 +304,26 @@
     color: #888;
   }
 }
+.insta-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  background: linear-gradient(
+    45deg,
+    #f58529,   // orange
+    #feda77,   // yellow
+    #dd2a7b,   // pink
+    #8134af,   // purple
+    #515bd4    // deep blue
+  );
+  background-size: 200% 200%;
+  transition: background-position 0.3s ease;
+
+  &:hover {
+    background-position: right center;
+  }
+}

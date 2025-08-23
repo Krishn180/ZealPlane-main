@@ -156,7 +156,7 @@
 // export default Footer;
 
 import React from "react";
-import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaLinkedin, FaWhatsapp, FaInstagram } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../store/userAction";
@@ -171,6 +171,8 @@ const Footer = () => {
     dispatch(logoutUser());
     navigate("/login");
   };
+
+  const iconSize = 24; // Adjust icon size here
 
   return (
     <footer className="footer">
@@ -190,30 +192,17 @@ const Footer = () => {
         {/* Center: Links + Social */}
         <div className="middle">
           <div className="footer-links">
-            <span
-              onClick={() => navigate("/terms-of-use")}
-              style={{ cursor: "pointer" }}
-            >
+            <span onClick={() => navigate("/terms-of-use")} style={{ cursor: "pointer" }}>
               Terms of Use
             </span>
-
-            <span
-              onClick={() => navigate("/privacy-policy")}
-              style={{ cursor: "pointer" }}
-            >
+            <span onClick={() => navigate("/privacy-policy")} style={{ cursor: "pointer" }}>
               Privacy Policy
             </span>
-            <span
-              onClick={() => navigate("/about")}
-              style={{ cursor: "pointer" }}
-            >
+            <span onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
               About
             </span>
             <a href="#">Blog</a>
-            <span
-              onClick={() => navigate("/faq")}
-              style={{ cursor: "pointer" }}
-            >
+            <span onClick={() => navigate("/faq")} style={{ cursor: "pointer" }}>
               FAQ
             </span>
           </div>
@@ -225,7 +214,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="social-icon facebook"
             >
-              <FaFacebookF />
+              <FaFacebookF size={iconSize} />
             </a>
             <a
               href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
@@ -233,7 +222,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="social-icon whatsapp"
             >
-              <FaWhatsapp />
+              <FaWhatsapp size={iconSize} />
             </a>
             <a
               href="https://x.com/plane38843"
@@ -241,7 +230,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="social-icon twitter"
             >
-              <FaTwitter />
+              <FaTwitter size={iconSize} />
             </a>
             <a
               href="#"
@@ -249,7 +238,16 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="social-icon linkedin"
             >
-              <FaLinkedin />
+              <FaLinkedin size={iconSize} />
+            </a>
+            <a
+              href="https://www.instagram.com/zealplane?igsh=MXI4OHRnMDUxdHI3Yw==" // Replace with your Instagram URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon instagram"
+              style={{ color: "#E1306C" }} // Instagram's magenta pink
+            >
+              <FaInstagram size={iconSize} />
             </a>
           </div>
         </div>
@@ -263,3 +261,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

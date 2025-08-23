@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header/Header";
-import Feedback from "../../components/carousel/Projexts/Feedback";
 import linkifyHtml from "linkify-html";
 import "./NewsDetail.scss";
+import Footer from "../../components/footer/Footer";
 
 const NewsDetail = () => {
   const { slug } = useParams();
@@ -45,7 +45,17 @@ const NewsDetail = () => {
 
           {news.coverImage && (
             <div className="news-cover">
-              <img src={news.coverImage} alt={news.title} />
+              <img
+                src={news.coverImage}
+                alt={news.title}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "500px", // ✅ prevents over-stretching
+                  objectFit: "cover", // ✅ keeps proportions
+                  imageRendering: "crisp-edges", // ✅ sharper rendering
+                }}
+              />
             </div>
           )}
 
@@ -61,11 +71,7 @@ const NewsDetail = () => {
             }}
             style={{ whiteSpace: "pre-wrap" }}
           ></div>
-          <br/>
-
-
-          {/* Feedback Component */}
-       
+          <br />
         </main>
 
         {/* Right Sidebar */}
@@ -79,6 +85,9 @@ const NewsDetail = () => {
           </ul>
         </aside>
       </div>
+
+      {/* ✅ Footer added */}
+      <Footer/>
     </>
   );
 };
