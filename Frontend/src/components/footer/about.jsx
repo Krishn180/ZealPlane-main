@@ -82,7 +82,7 @@ import { FaSuperpowers, FaPenNib, FaUsers } from "react-icons/fa";
 import background from "./../../assets/back.jpeg";
 import Arti from "./../../assets/arati.jpg";
 import krishna from "./../../assets/krishna.jpg";
-import Jayshree from "./../../assets/jaishree.jpeg";
+import Jayshree from "./../../assets/Jaishree.jpeg";
 import Prince from "./../../assets/Prince.jpg";
 import Navbar from "../../AboutCard/Navbar";
 import Footer from "./Footer";
