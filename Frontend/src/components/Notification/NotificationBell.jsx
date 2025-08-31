@@ -26,7 +26,7 @@ const HeaderNotificationBell = () => {
 
   useEffect(() => {
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 15000);
+    const interval = setInterval(fetchNotifications, 11000);
     return () => clearInterval(interval);
   }, []);
 
@@ -46,7 +46,11 @@ const HeaderNotificationBell = () => {
       const token = localStorage.getItem("token");
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      await axios.patch(`${apiBaseUrl}/notification/${notificationId}/read`, {}, { headers });
+      await axios.patch(
+        `${apiBaseUrl}/notification/${notificationId}/read`,
+        {},
+        { headers }
+      );
 
       setNotifications((prev) =>
         prev.map((n) => (n._id === notificationId ? { ...n, isRead: true } : n))
@@ -81,7 +85,9 @@ const HeaderNotificationBell = () => {
                     <li
                       key={n._id}
                       className={`dropdown-item ${!n.isRead ? "unread" : ""}`}
-                      onClick={() => handleNotificationClick(n._id, n.projectId)}
+                      onClick={() =>
+                        handleNotificationClick(n._id, n.projectId)
+                      }
                     >
                       <div className="item-content">
                         <p>{n.message}</p>
@@ -97,7 +103,7 @@ const HeaderNotificationBell = () => {
                     setDropdownOpen(false);
                   }}
                 >
-                  Read more
+                  View all Notifications
                 </div>
               </>
             )}

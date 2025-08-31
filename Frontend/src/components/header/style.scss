@@ -257,7 +257,7 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      padding: 0 10px;
+      padding: 0 4px;
 
       .logo {
         flex: 0; /* No extra space */
@@ -306,6 +306,9 @@
       background: transparent !important;
       border: none !important;
       padding: 0 !important;
+    }
+    .menuItem1 {
+      margin: 0 5px !important;
     }
   }
   .profile-options {

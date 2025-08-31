@@ -10,7 +10,9 @@ const getNotifications = async (req, res) => {
     const userUUID = req.user?.uniqueId; // fetch UUID from token
     if (!userUUID) {
       console.log("❌ No uniqueId found in token!");
-      return res.status(400).json({ message: "User uniqueId missing from token" });
+      return res
+        .status(400)
+        .json({ message: "User uniqueId missing from token" });
     }
 
     console.log("Fetching notifications for uniqueId:", userUUID);
@@ -27,10 +29,14 @@ const getNotifications = async (req, res) => {
   }
 };
 
-
-
 // ✅ Create a notification (to be called from comment logic)
-const createNotification = async (recipientUniqueId, senderId, message, projectId, commentId) => {
+const createNotification = async (
+  recipientUniqueId,
+  senderId,
+  message,
+  projectId,
+  commentId
+) => {
   console.log("=== Create Notification ===");
   console.log("Recipient UUID:", recipientUniqueId);
   console.log("SenderId:", senderId);
@@ -61,7 +67,6 @@ const createNotification = async (recipientUniqueId, senderId, message, projectI
     console.error("❌ Error creating notification:", error);
   }
 };
-
 
 // ✅ Mark notification as read
 const markAsRead = async (req, res) => {

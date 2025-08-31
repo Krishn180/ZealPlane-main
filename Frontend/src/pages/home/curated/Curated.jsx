@@ -48,7 +48,7 @@ const Curated = () => {
       <ContentWrapper>
         <span className="carouselTitle">Top News of the Week</span>
       </ContentWrapper>
-      <CarouselUser data={data} loading={loading} />
+      <CarouselUser title="Top News" data={data} loading={loading} />
     </div>
   );
 };
