@@ -43,6 +43,7 @@
   border: none;
   color: whitesmoke;
   font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   padding: 6px 10px;
   transition: background-color 0.3s;
@@ -63,7 +64,7 @@
 @media screen and (max-width: 850px) {
   .nav-top {
     padding: 0 10px;
-    height: 60px;
+    height: 50px;
   }
   .logo-img img {
     margin-left: 10px;
@@ -87,7 +88,7 @@
   }
   .nav-menu button.btn2 {
     background: #ff6600;
-    padding: 1px 12px;
+    padding: 0.1px 12px;
     border-radius: 30px;
   }
 }

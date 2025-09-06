@@ -248,10 +248,12 @@
       gap: 20px;
       margin-bottom: 15px;
 
-      a {
+      a,
+      span {
         color: #ccc;
         font-size: 16px;
         text-decoration: none;
+        cursor: pointer;
 
         @media (max-width: 767px), (min-width: 768px) and (max-width: 1280px) {
           font-size: 12px !important;
@@ -314,11 +316,15 @@
   text-decoration: none;
   background: linear-gradient(
     45deg,
-    #f58529,   // orange
-    #feda77,   // yellow
-    #dd2a7b,   // pink
-    #8134af,   // purple
-    #515bd4    // deep blue
+    #f58529,
+    // orange
+    #feda77,
+    // yellow
+    #dd2a7b,
+    // pink
+    #8134af,
+    // purple
+    #515bd4 // deep blue
   );
   background-size: 200% 200%;
   transition: background-position 0.3s ease;

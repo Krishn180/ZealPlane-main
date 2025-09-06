@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "./LandingHeroSecStyle.scss";
 
 import hero1 from "../assets/dehek-eng.jpg";
-import hero2 from "../assets/aghori9.jpg";
-import hero3 from "../assets/lastasuran2-gaurav-shrivastav.jpg";
-import hero4 from "../assets/dehek-hin-1.jpg";
-import hero5 from "../assets/heroimge.jpg";
-import hero6 from "../assets/landingimage.jpg";
+import hero2 from "../assets/sando.jpg";
+import hero3 from "../assets/aghori9.jpg";
+import hero4 from "../assets/chullu.jpg";
+import hero5 from "../assets/gost1.jpg";
+import hero6 from "../assets/heroimge.jpg";
+import hero7 from "../assets/landingimage.jpg";
 
-const images = [hero1, hero2, hero3, hero4, hero5, hero6];
+const images = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
 
 const LandingHeroSection = () => {
   const [currentImage, setCurrentImage] = useState(hero1);
@@ -50,10 +51,7 @@ const LandingHeroSection = () => {
           <button className="start-reading" onClick={() => navigate("/home")}>
             Start Reading
           </button>
-          <button
-            className="join-community"
-            onClick={() => navigate("/forum")}
-          >
+          <button className="join-community" onClick={() => navigate("/forum")}>
             Join Community
           </button>
         </div>

@@ -36,7 +36,7 @@ const Navbar = () => {
           style={{
             color: "red",
             fontWeight: "900",
-            fontSize: window.innerWidth <= 768 ? "17px" : "19px",
+            fontSize: window.innerWidth <= 768 ? "15px" : "19px",
           }}
         >
           ZEAL<span className="plane">PLANE</span>
