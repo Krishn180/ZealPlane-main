@@ -19,6 +19,7 @@ const Viewer = () => {
   const [scale, setScale] = useState(1);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
+  const hasTrackedRef = useRef(false); // ✅ ensures view tracked only once
 
   const { projectSlug } = useParams();
   const projectId = projectSlug?.split("-")[0];
@@ -57,6 +58,32 @@ const Viewer = () => {
       clearTimeout(hintTimer);
     };
   }, []);
+
+  // ✅ Track project view only once
+useEffect(() => {
+  if (!projectId || hasTrackedRef.current) return;
+
+  const trackView = async () => {
+    try {
+      console.log("Tracking view for project:", projectId);
+      const response = await axiosInstance.post(
+        `/projects/${projectId}/view`,
+        {},
+        {
+          headers: token
+            ? { Authorization: `Bearer ${token}` }
+            : undefined,
+        }
+      );
+      console.log("View recorded:", response.data);
+      hasTrackedRef.current = true;
+    } catch (err) {
+      console.error("Error tracking view:", err.response?.data || err.message);
+    }
+  };
+
+  trackView();
+}, [projectId]); // only projectId
 
   // Fetch images
   useEffect(() => {
@@ -97,7 +124,7 @@ const Viewer = () => {
     };
 
     fetchImages();
-  }, [projectId, token]);
+  }, [projectId, token, userId, username]);
 
   // Detect visible image while scrolling
   useEffect(() => {
@@ -126,11 +153,7 @@ const Viewer = () => {
             navigate(`${url.pathname}?${url.searchParams.toString()}`, { replace: true });
           }
 
-          if (index === images.length - 1) {
-            setShowOverlay(true);
-          } else {
-            setShowOverlay(false);
-          }
+          setShowOverlay(index === images.length - 1);
         }
       },
       {

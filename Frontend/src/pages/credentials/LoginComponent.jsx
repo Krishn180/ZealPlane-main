@@ -54,91 +54,86 @@ export default function LoginComponent() {
     autoLogin();
   }, []);
 
-  const login = async () => {
-    try {
-      toast.success("Signed In to ZealPlane!");
+const login = async () => {
+  try {
+    toast.success("Signed In to ZealPlane!");
 
-      const response = await axios.post(
-        `${apiBaseUrl}/users/login`,
-        // `http://localhost:5000/api/users/login`,
-        {
-          email: credentials.email,
-          password: credentials.password,
-        }
-      );
+    const response = await axios.post(`${apiBaseUrl}/users/login`, {
+      email: credentials.email,
+      password: credentials.password,
+    });
 
-      console.log("Response Data after logging in:", response.data);
+    console.log("Response Data after logging in:", response.data);
 
-      const { id: userId, username, token, refreshToken } = response.data;
+    const { id: userId, username, token, refreshToken, points } = response.data;
 
-      // Store tokens and user details
-      localStorage.setItem("Id", userId);
-      localStorage.setItem("username", username);
-      localStorage.setItem("token", token);
+    // Store tokens and user details
+    localStorage.setItem("Id", userId);
+    localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
 
-      if (refreshToken) {
-        localStorage.setItem("refreshToken", refreshToken);
-        console.log("Refresh Token received and saved:", refreshToken);
-      } else {
-        console.warn("No refresh token received in the response.");
-      }
+    // ⭐ Save points in localStorage
+    localStorage.setItem("points", points);
 
-      dispatch(setUserId(userId));
-      navigate("/home");
-    } catch (err) {
-      console.log("Login error:", err);
-      toast.error("Please Check your Credentials");
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log("Refresh Token received and saved:", refreshToken);
+    } else {
+      console.warn("No refresh token received in the response.");
     }
-  };
+
+    dispatch(setUserId(userId));
+    navigate("/home");
+  } catch (err) {
+    console.log("Login error:", err);
+    toast.error("Please Check your Credentials");
+  }
+};
+
 
   const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const googleToken = credentialResponse.credential;
-      console.log("Google Token:", googleToken);
+  try {
+    const googleToken = credentialResponse.credential;
+    console.log("Google Token:", googleToken);
 
-      // Send the Google token to your backend for verification
-      const response = await axios.post(`${apiBaseUrl}/users/google-login`, {
-        token: googleToken,
-      });
+    const response = await axios.post(`${apiBaseUrl}/users/google-login`, {
+      token: googleToken,
+    });
 
-      console.log(
-        "Response Data from backend after Google login:",
-        response.data
-      );
+    console.log("Response Data from backend after Google login:", response.data);
 
-      // Extract user details from the backend response
-      const {
-        id: userId,
-        username,
-        token,
-        refreshToken,
-        profilePic,
-      } = response.data.user;
+    const {
+      id: userId,
+      username,
+      token,
+      refreshToken,
+      profilePic,
+      points, // 👈 here also
+    } = response.data.user;
 
-      // Store tokens and user details in localStorage
-      localStorage.setItem("Id", userId);
-      localStorage.setItem("username", username);
-      localStorage.setItem("token", token);
-      localStorage.setItem("profilePic", profilePic); // Store profilePic
+    localStorage.setItem("Id", userId);
+    localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
+    localStorage.setItem("profilePic", profilePic);
 
-      if (refreshToken) {
-        localStorage.setItem("refreshToken", refreshToken);
-        console.log("Refresh Token received and saved:", refreshToken);
-      } else {
-        console.warn("No refresh token received in the response.");
-      }
+    // ⭐ Save points
+    localStorage.setItem("points", points);
 
-      // Dispatch user ID to Redux
-      dispatch(setUserId(userId));
-      toast.success("Google Sign-in Successful!");
-
-      // Redirect to the home page
-      navigate("/home");
-    } catch (err) {
-      console.error("Google Login error:", err);
-      toast.error("Google Sign-in failed. Please try again.");
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log("Refresh Token received and saved:", refreshToken);
+    } else {
+      console.warn("No refresh token received in the response.");
     }
-  };
+
+    dispatch(setUserId(userId));
+    toast.success("Google Sign-in Successful!");
+    navigate("/home");
+  } catch (err) {
+    console.error("Google Login error:", err);
+    toast.error("Google Sign-in failed. Please try again.");
+  }
+};
 
   const handleJoinNowClick = () => {
     navigate("/register"); // Redirect to the registration page

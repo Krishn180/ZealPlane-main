@@ -13,6 +13,9 @@ const refreshToken = require("./routes/refreshTokenRoutes");
 const productroutes = require("./routes/e-commerce routes/productroutes");
 const sitemapRoutes = require("./sitemapRoutes"); // ✅ Only this
 const newsRoutes = require("./routes/newsRoutes");
+const gamificationRoutes = require("./routes/gamificationRoutes");
+
+
 
 // Connect to the database
 connectDb();
@@ -57,6 +60,7 @@ app.use("/api/posts", forumPost);
 app.use("/api/notification", notification);
 app.use("/api/refresh-token", refreshToken);
 app.use("/api/news", newsRoutes);
+app.use("/api/gamification", gamificationRoutes);
 
 // Error handler
 app.use(errorHandler);

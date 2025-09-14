@@ -75,20 +75,18 @@ const registerUser = asynchandler(async (req, res) => {
       address,
       jobRole,
       level,
-      googleId, // Will be generated in backend if not provided
+      googleId, 
     } = req.body;
 
     // Step 2: Check if the username or email already exists
     const usernameExists = await User.findOne({ username });
     if (usernameExists) {
-      console.log("Username already exists:", usernameExists);
       res.status(400);
       throw new Error("Username already taken!");
     }
 
     const userAvailable = await User.findOne({ email });
     if (userAvailable) {
-      console.log("User already registered:", userAvailable);
       res.status(400);
       throw new Error("User with this email already registered!");
     }
@@ -97,49 +95,43 @@ const registerUser = asynchandler(async (req, res) => {
     if (!otp) {
       const generatedOtp = Math.floor(100000 + Math.random() * 900000);
       otpStore.set(email, generatedOtp);
-      console.log(`Generated OTP for ${email}: ${generatedOtp}`);
 
-      // Send OTP to user's email
       await sendOtpEmail(email, generatedOtp);
 
       return res.status(200).json({ message: "OTP sent to email!" });
     } else {
       const storedOtp = otpStore.get(email);
-      console.log(`Stored OTP for ${email}:`, storedOtp);
 
       if (!storedOtp || parseInt(otp) !== storedOtp) {
-        console.log("Invalid or expired OTP for email:", email);
         res.status(400);
         throw new Error("Invalid or expired OTP!");
       }
 
       otpStore.delete(email);
-      console.log("OTP verified successfully for email:", email);
     }
 
     // Step 4: Hash the password
     let hashedPassword = null;
     if (!googleId) {
-      console.log("Hashing password...");
       hashedPassword = await bcrypt.hash(password, 10);
-      console.log("Hashed Password:", hashedPassword);
     }
 
     // Step 5: Generate unique ID and status
     const uniqueId = uuidv4();
     const status = `Active-${uniqueId}`;
-    console.log("Generated Unique ID and Status:", uniqueId, status);
 
     // Step 6: If googleId is not provided, generate a dummy googleId
-    const generatedGoogleId = googleId || uuidv4(); // Generate googleId if not present
+    const generatedGoogleId = googleId || uuidv4();
 
-    // Step 7: Create a new user in the database
-    console.log("Creating user in database...");
+    // 🎯 Step 7: Assign registration points
+    const REGISTRATION_POINTS = 100; // You can change this value anytime
+
+    // Step 8: Create a new user in the database
     const user = await User.create({
       username,
       email,
-      password: googleId ? undefined : hashedPassword, // If googleId exists, skip the password field
-      googleId: generatedGoogleId, // If googleId exists, set it here
+      password: googleId ? undefined : hashedPassword,
+      googleId: generatedGoogleId,
       uniqueId,
       status,
       fullName: fullName || null,
@@ -152,30 +144,28 @@ const registerUser = asynchandler(async (req, res) => {
       address: address || null,
       jobRole: jobRole || null,
       level: level || null,
+      points: REGISTRATION_POINTS, // ✅ Add initial points
     });
 
-    console.log("User created successfully:", user);
-
-    // Step 8: Send success response
+    // Step 9: Send success response
     if (user) {
       res.status(201).json({
         _id: user.id,
         email: user.email,
         uniqueId: user.uniqueId,
         status: user.status,
+        points: user.points, // return points too
       });
-      console.log("User registration successful:", user.email);
     } else {
-      console.log("Invalid user data");
       res.status(400);
       throw new Error("User data is not valid");
     }
   } catch (error) {
-    console.error("Error during user registration:", error);
     res.status(500).json({ message: error.message });
   }
 });
 
+// Google Login
 // Google Login
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -205,66 +195,62 @@ const googleLoginUser = asynchandler(async (req, res) => {
     const { email, name, picture, sub: googleId } = payload;
 
     // Get the first name from the user's full name
-    const firstName = name.split(" ")[0]; // Extract first name and make it lowercase
+    const firstName = name.split(" ")[0];
     console.log("Extracted firstName:", firstName);
 
-    // Check if the user already exists in your database
+    // Points constants
+    const REGISTRATION_POINTS = 100;
+    const LOGIN_POINTS = 10;
+
+    // Check if the user already exists
     let user = await User.findOne({ email });
     console.log("User found in database:", user);
 
     if (!user) {
       // Use the first name as the base username
       let username = firstName;
-
       let isUsernameTaken = true;
       let counter = 1;
 
-      // Try creating a new user and handle duplicate username using error handling
+      // Try creating a new user and handle duplicate username
       while (isUsernameTaken) {
         try {
-          // Try creating the user with the generated username
           user = new User({
-            fullName: name, // Save Google name in fullName
+            fullName: name,
             email: email,
-            profilePic: user.profilePic || picture,
+            profilePic: picture,
             googleId: googleId,
-            username: username, // Save the username
-            password: "", // Password not required for Google-authenticated users
+            username: username,
+            password: "", // Not required for Google-auth
             uniqueId: uuidv4(),
             status: `Active-${uuidv4()}`,
+            points: REGISTRATION_POINTS, // 🎯 Reward points on signup
           });
 
-          await user.save(); // Attempt to save the new user
-          console.log("New user created:", user);
-          isUsernameTaken = false; // If save is successful, break out of the loop
+          await user.save();
+          console.log("New user created with points:", user);
+          isUsernameTaken = false;
         } catch (err) {
-          // If a MongoDB unique constraint error occurs, it means the username is already taken
           if (err.code === 11000) {
-            // Handle unique constraint violation error (duplicate username)
             console.log("Username is already taken. Trying again...");
-            // Modify the username by appending a counter
             username = `${firstName}_${counter}`;
             counter++;
           } else {
-            // For any other errors, rethrow them
             throw err;
           }
         }
       }
     } else {
-      // If user exists, update the fullName only if it's null
-      if (!user.fullName) {
-        user.fullName = name;
-      }
-      if (!user.profilePic) {
-        user.profilePic = picture;
-      }
+      // Existing user: reward login points
+      if (!user.fullName) user.fullName = name;
+      if (!user.profilePic) user.profilePic = picture;
 
+      user.points = (user.points || 0) + LOGIN_POINTS; // 🎯 Add login reward
       await user.save();
-      console.log("User updated with Google info:", user);
+      console.log("User updated with Google info & rewarded points:", user);
     }
 
-    // Generate a JWT for your application
+    // Generate tokens
     const accessToken = jwt.sign(
       {
         userId: user._id,
@@ -274,12 +260,13 @@ const googleLoginUser = asynchandler(async (req, res) => {
         profilePic: user.profilePic,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1h" } // Access token expires in 5 seconds
+      { expiresIn: "1h" }
     );
+
     const refreshToken = jwt.sign(
       { userId: user._id },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "30d" } // Refresh token expires in 30 days
+      { expiresIn: "30d" }
     );
 
     console.log("Generated access token:", accessToken);
@@ -289,8 +276,9 @@ const googleLoginUser = asynchandler(async (req, res) => {
         _id: user._id,
         email: user.email,
         fullName: user.fullName,
-        username: user.username, // Include the unique username in the response
+        username: user.username,
         id: user.uniqueId,
+        points: user.points, // 🎯 Include updated points
         token: accessToken,
         refreshToken: refreshToken,
       },
@@ -303,6 +291,7 @@ const googleLoginUser = asynchandler(async (req, res) => {
 });
 
 module.exports = { googleLoginUser };
+
 
 // reefresh token for autologin
 
@@ -370,7 +359,7 @@ const loginUser = asynchandler(async (req, res) => {
   }
   console.log("User found in database:", user);
 
-  // Step 2: Compare the password provided with the hashed password in the database
+  // Step 2: Compare the password
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
     res.status(401);
@@ -378,6 +367,25 @@ const loginUser = asynchandler(async (req, res) => {
     throw new Error("Invalid email or password");
   }
   console.log("Password matches for user:", email);
+
+  // 🎯 Step 2.1: Reward login points once per day
+  const LOGIN_POINTS = 50;
+  const today = new Date();
+
+  let rewardGiven = false;
+  if (!user.lastLogin || !isSameDay(user.lastLogin, today)) {
+    // Reward only if first login of the day
+    user.points = (user.points || 0) + LOGIN_POINTS;
+    user.lastLogin = today;
+    rewardGiven = true;
+    await user.save();
+    console.log(
+      `✅ User rewarded with ${LOGIN_POINTS} points. Total points:`,
+      user.points
+    );
+  } else {
+    console.log("⚠️ User already logged in today, no extra points given.");
+  }
 
   // Step 3: Generate access token
   const accessToken = jwt.sign(
@@ -389,7 +397,7 @@ const loginUser = asynchandler(async (req, res) => {
       profilePic: user.profilePic,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "1h" } // Access token expires in 1 hour
+    { expiresIn: "1h" }
   );
   console.log("Access token generated successfully for user:", email);
 
@@ -397,20 +405,20 @@ const loginUser = asynchandler(async (req, res) => {
   const refreshToken = jwt.sign(
     { userId: user._id },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: "30d" } // Refresh token expires in 30 days
+    { expiresIn: "30d" }
   );
   console.log("Refresh token generated successfully for user:", email);
 
   // Step 5: Send refresh token as an HTTP-only cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Use secure cookies in production (HTTPS)
+    secure: process.env.NODE_ENV === "production",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    sameSite: "Strict", // Ensures the cookie is sent only in requests to the same domain
+    sameSite: "Strict",
   });
   console.log("Refresh token set in cookies");
 
-  // Step 6: Send the access token and user details in the response body
+  // Step 6: Send response
   res.status(200).json({
     _id: user._id,
     email: user.email,
@@ -418,12 +426,23 @@ const loginUser = asynchandler(async (req, res) => {
     fullName: user.fullName,
     profilePic: user.profilePic,
     jobRole: user.jobRole,
-    token: accessToken, // Access token
-    refreshToken: refreshToken, // Refresh token
+    token: accessToken,
+    refreshToken: refreshToken,
     id: user.uniqueId,
+    points: user.points, // 🎯 updated points
+    rewardGiven, // ✅ tell frontend if reward applied today
   });
   console.log("User login successful for:", email);
 });
+
+// Helper function: compare only calendar day
+function isSameDay(d1, d2) {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
+}
 
 const sendOtpForReset = asynchandler(async (req, res) => {
   const { email } = req.body;

@@ -40,7 +40,7 @@ const HeaderNotificationBell = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Mark notification as read and navigate to project
+  // Mark single notification as read and navigate to project
   const handleNotificationClick = async (notificationId, projectId) => {
     try {
       const token = localStorage.getItem("token");
@@ -55,12 +55,34 @@ const HeaderNotificationBell = () => {
       setNotifications((prev) =>
         prev.map((n) => (n._id === notificationId ? { ...n, isRead: true } : n))
       );
-      setUnreadCount((prev) => prev - 1);
+      setUnreadCount((prev) => Math.max(prev - 1, 0));
 
       navigate(`/details/${projectId}`);
       setDropdownOpen(false);
     } catch (err) {
       console.error("Error marking notification as read:", err);
+    }
+  };
+
+  // Mark all notifications as read and navigate
+  const handleReadAll = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      // Call backend to mark all as read (make sure you have this endpoint)
+      await axios.patch(`${apiBaseUrl}/notification/readAll`, {}, { headers });
+
+      // Update local state
+      setNotifications((prev) =>
+        prev.map((n) => ({ ...n, isRead: true }))
+      );
+      setUnreadCount(0);
+
+      navigate("/home/notification");
+      setDropdownOpen(false);
+    } catch (err) {
+      console.error("Error marking all notifications as read:", err);
     }
   };
 
@@ -96,13 +118,7 @@ const HeaderNotificationBell = () => {
                     </li>
                   ))}
                 </ul>
-                <div
-                  className="read-more"
-                  onClick={() => {
-                    navigate("/home/notification");
-                    setDropdownOpen(false);
-                  }}
-                >
+                <div className="read-more" onClick={handleReadAll}>
                   View all Notifications
                 </div>
               </>

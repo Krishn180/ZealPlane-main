@@ -39,6 +39,7 @@ import NewsList from "./pages/News/NewsList";
 import NewsDetail from "./pages/News/NewsDetail";
 import CreateNews from "./pages/News/CreateNews";
 import NotificationBell from "./components/Notification/Notification";
+import GamificationDashboard from "./components/Chart/gamification/GamificationDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -97,6 +98,7 @@ function App() {
           <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/dashboard" element={<GamificationDashboard />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/news" element={<NewsList />} />

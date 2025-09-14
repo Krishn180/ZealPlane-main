@@ -118,6 +118,17 @@ const Header = () => {
           <Searchbar axiosInstance={axiosInstance} />
 
          <ul className="menuItems">
+
+            <li className="menuItem2" onClick={() => navigate("/dashboard")}>
+    {window.innerWidth <= 568 ? (
+      <div className="iconWrapper">
+        <span className="hoverText">Dashboard</span>
+      </div>
+    ) : (
+      "Dashboard"
+    )}
+  </li>
+
   <li className="menuItem2" onClick={handleForumClick}>
     {window.innerWidth <= 568 ? (
       <div className="iconWrapper">
@@ -128,6 +139,7 @@ const Header = () => {
       "Communities"
     )}
   </li>
+
 
   {/* Plus Icon for Modal */}
   <li

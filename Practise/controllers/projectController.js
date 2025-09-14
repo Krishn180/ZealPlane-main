@@ -5,6 +5,7 @@ const Notification = require("../models/notificationModel");
 const User = require("../models/userModel");
 const convertPdfToImages = require("../utils/convertPdfToImages");
 const { createNotification } = require("./notificationController");
+const { addPoints } = require("../controllers/gamificationController");
 
 
 const getAllProjects = async (req, res) => {
@@ -23,99 +24,96 @@ const getAllProjects = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 const getProjectById = async (req, res) => {
   try {
-    console.log("Received request to fetch project details.");
-
     const projectId = req.params.projectId;
-    console.log("Extracted projectId:", projectId);
-
-    const userId = req.user?.id; // Get unique userId from token
-    const usernameFromToken = req.user?.username; // Extract username from token
-    console.log("Extracted userId from token:", userId);
-    console.log("Extracted username from token:", usernameFromToken);
+    const userId = req.user?.id;
+    const usernameFromToken = req.user?.username;
 
     const userIp =
       req.headers["x-forwarded-for"]?.split(",")[0] ||
       req.connection.remoteAddress;
-    console.log("Extracted user IP:", userIp);
 
-    // Fetch the project from the database
     const project = await Project.findOne({ projectId });
+    if (!project) return res.status(404).json({ message: "Project not found" });
 
-    if (!project) {
-      console.log("Project not found in the database.");
-      return res.status(404).json({ message: "Project not found" });
+    const status = usernameFromToken === project.username ? "admin" : "visitor";
+
+    const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+    const hasRecentView = project.viewers.some((viewer) => {
+      const lastViewed = new Date(viewer.viewedAt);
+      if (userId && viewer.userId?.toString() === userId && lastViewed > sixHoursAgo)
+        return true;
+      if (!userId && viewer.ip === userIp && lastViewed > sixHoursAgo) return true;
+      return false;
+    });
+
+    const hasEverViewed = project.viewers.some((viewer) => {
+      if (userId && viewer.userId?.toString() === userId) return true;
+      if (!userId && viewer.ip === userIp) return true;
+      return false;
+    });
+
+    if (!hasRecentView) {
+      const viewerData = {
+        viewedAt: new Date(),
+        ...(userId ? { userId } : { ip: userIp }),
+      };
+
+      project.viewers.push(viewerData);
+      project.views = (project.views || 0) + 1;
+
+      // ✅ Award points using addPoints helper
+      if (userId && status === "visitor") {
+        project.awardedPoints = project.awardedPoints || [];
+
+        const alreadyAwarded = project.awardedPoints.some(
+          (record) => record.userId.toString() === userId
+        );
+
+        if (!alreadyAwarded) {
+          // Use the centralized addPoints controller
+          await addPoints(userId, 20, "viewProject", projectId);
+
+          // Mark points as awarded
+          project.awardedPoints.push({ userId });
+        }
+      }
+
+      await project.save();
     }
 
-    console.log("Project found:", project);
-    console.log("Project username:", project?.username);
-
-    // 🛑 New Strategy: Check if user is the owner
-    let status = "visitor"; // Default status
-    if (usernameFromToken === project.username) {
-      status = "admin";
-    }
-
-    console.log("User status:", status);
-
-    // Check if the userId or IP has already viewed the project
-    const hasViewed = project.viewers.some(
-      (viewer) =>
-        (userId && viewer.userId?.toString() === userId) ||
-        (!userId && viewer.ip === userIp)
-    );
-
-    console.log("Has user already viewed the project?", hasViewed);
-
-    let viewStatus = "View count updated.";
-    let updateData = { $inc: { views: 1 } };
-
-    if (!hasViewed) {
-      console.log("New viewer detected, adding to the viewers list.");
-
-      const readableTimestamp = new Date().toLocaleString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      });
-
-      console.log("Generated timestamp:", readableTimestamp);
-
-      const viewerData = userId
-        ? { userId, viewedAt: readableTimestamp }
-        : { ip: userIp, viewedAt: readableTimestamp };
-
-      console.log("Viewer data to be added:", viewerData);
-
-      updateData.$push = { viewers: viewerData };
-
-      viewStatus = "New viewer recorded successfully.";
-    }
-
-    // Update the project document
-    const updatedProject = await Project.findByIdAndUpdate(
-      project._id,
-      updateData,
-      { new: true }
-    );
-
-    console.log("Final response being sent.");
     res.status(200).json({
-      project: updatedProject,
-      status, // Include user status
-      totalViews: updatedProject.views,
-      viewers: updatedProject.viewers,
-      viewStatus,
+      project,
+      status,
+      totalViews: project.views,
+      viewers: project.viewers,
+      viewStatus: hasRecentView
+        ? "Already viewed within last 6 hours."
+        : "New view recorded.",
     });
   } catch (err) {
     console.error("Error fetching project:", err.message);
     res.status(500).json({ message: err.message });
   }
 };
+
+
+/* 
+================ Test Case Example =================
+1. User A views User B's project for the first time:
+   - status = "visitor"
+   - points awarded = 20
+2. User B views their own project:
+   - status = "admin"
+   - points awarded = 0
+3. User A views same project again within 6 hours:
+   - view count increases, but no points awarded
+4. Anonymous visitor (no userId) views project:
+   - view count increases, but no points awarded
+=====================================================
+*/
 
 // Get all projects by username (search query)
 const getProjectsByUsername = async (req, res) => {
@@ -139,7 +137,81 @@ const getProjectsByUsername = async (req, res) => {
   }
 };
 
-// Create a new project
+// const trackProjectView = async (req, res) => {
+//   try {
+//     console.log("🔹 Incoming request headers:", req.headers);
+//     console.log("🔹 Params:", req.params);
+
+//     const slug = req.params.projectId;
+//     const projectId = slug.split("-")[0]; // Extract ObjectId
+
+//     // 1. Check for token
+//     const authHeader = req.headers.authorization;
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       console.log("⚠️ Authorization header missing or invalid");
+//       return res.status(401).json({ message: "Unauthorized: Token missing" });
+//     }
+
+//     const token = authHeader.split(" ")[1];
+//     let decoded;
+//     try {
+//       decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       console.log("🔹 Decoded token:", decoded);
+//     } catch (err) {
+//       console.log("⚠️ Invalid token:", err.message);
+//       return res.status(401).json({ message: "Unauthorized: Invalid token" });
+//     }
+
+//     // 2. Check if uniqueId present
+//     const uniqueId = decoded?.uniqueId;
+//     if (!uniqueId) {
+//       console.log("⚠️ uniqueId missing in token payload");
+//       return res.status(401).json({ message: "Unauthorized: UniqueId missing" });
+//     }
+
+//     // 3. Find project
+//     const project = await Project.findById(projectId);
+//     if (!project) {
+//       console.log("⚠️ Project not found:", projectId);
+//       return res.status(404).json({ message: "Project not found" });
+//     }
+
+//     // 4. Check if this uniqueId already viewed
+//     const alreadyViewed = project.viewers.some((v) => v.uniqueId === uniqueId);
+
+//     if (!alreadyViewed) {
+//       console.log("🔹 Adding new viewer:", uniqueId);
+//       project.viewers.push({
+//         uniqueId,
+//         viewedAt: new Date(),
+//       });
+//       project.views += 1;
+
+//       await User.findOneAndUpdate(
+//         { uniqueId },
+//         { $inc: { points: 20 } },
+//         { new: true }
+//       );
+//     } else {
+//       console.log("ℹ️ User already viewed:", uniqueId);
+//     }
+
+//     await project.save();
+//     console.log("✅ View tracked successfully, total views:", project.views);
+
+//     return res.json({
+//       message: "✅ View tracked successfully",
+//       views: project.views,
+//     });
+//   } catch (err) {
+//     console.error("❌ trackProjectView error:", err);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+
+
+
 const createProject = async (req, res) => {
   const {
     name,
@@ -154,6 +226,8 @@ const createProject = async (req, res) => {
     ratings,
     profilePic,
   } = req.body;
+
+  const userId = req.user?.id; // Assuming user ID comes from auth middleware
 
   const thumbnailImage = req.file ? req.file.path : null;
   const images = req.files ? req.files.map((file) => file.path) : [];
@@ -181,6 +255,13 @@ const createProject = async (req, res) => {
 
   try {
     const newProject = await project.save();
+
+    // ✅ Award points for creating a project
+    if (userId) {
+      await addPoints(userId, 50, "createProject", newProject.projectId.toString()); 
+      // 50 points is just an example, you can change the value
+    }
+
     res.status(201).json(newProject);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -336,6 +417,7 @@ const commentOnProject = async (req, res) => {
 
     // Extract sender details from JWT
     const senderUniqueId = req.user.uniqueId;
+    const userId = req.user.id; // MongoDB _id for addPoints
     const username = req.user.username;
     const profilePic = req.user.profilePic;
 
@@ -389,11 +471,19 @@ const commentOnProject = async (req, res) => {
     if (String(project.uniqueId) !== String(senderUniqueId)) {
       await createNotification(
         project.uniqueId,      // recipient → project owner
-        senderUniqueId,             // sender → commenter
+        senderUniqueId,        // sender → commenter
         `${username} commented on your project "${project.name}"`,
-        project._id,                // project ID
-        addedComment._id            // comment ID
+        projectId,             // project ID
+        addedComment._id       // comment ID
       );
+    }
+
+    // ✅ Award points for commenting
+    if (userId) {
+      await addPoints(userId, 10, "commentOnProject", projectId); // 10 points example
+      if (ratingValue) {
+        await addPoints(userId, 5, "rateProject", projectId); // optional extra for rating
+      }
     }
 
     return res.status(200).json({
@@ -565,5 +655,5 @@ module.exports = {
   likeProject,
   addThumbnailImage,
   getCommentById,
-  deleteProject,
+  deleteProject
 };
