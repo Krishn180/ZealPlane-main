@@ -361,7 +361,6 @@ const DetailsPage = () => {
       {projectData ? (
         <ContentWrapper>
           <div className="detailsBanner">
-            <ToastContainer />
             <div className="title">
               <h1>{projectData.name}</h1>
             </div>

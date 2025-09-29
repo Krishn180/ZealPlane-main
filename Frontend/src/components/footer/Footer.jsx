@@ -216,14 +216,14 @@ const Footer = () => {
             >
               <FaFacebookF size={iconSize} />
             </a>
-            <a
+            {/* <a
               href="https://chat.whatsapp.com/LyKc7CvcEL6KWf3XApw9p2"
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon whatsapp"
             >
               <FaWhatsapp size={iconSize} />
-            </a>
+            </a> */}
             <a
               href="https://x.com/plane38843"
               target="_blank"

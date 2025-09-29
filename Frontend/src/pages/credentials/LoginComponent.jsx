@@ -45,10 +45,11 @@ export default function LoginComponent() {
         dispatch(setUserId(userId));
         navigate("/home");
       } catch (err) {
-        console.log("Auto-login failed:", err);
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("token");
-      }
+  console.log("Auto-login failed:", err);
+  toast.warn("Session expired. Please login again.");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("token");
+}
     };
 
     autoLogin();
@@ -56,37 +57,54 @@ export default function LoginComponent() {
 
 const login = async () => {
   try {
-    toast.success("Signed In to ZealPlane!");
+    if (!credentials.email || !credentials.password) {
+      toast.error("Please enter both Email and Password");
+      return;
+    }
 
     const response = await axios.post(`${apiBaseUrl}/users/login`, {
       email: credentials.email,
       password: credentials.password,
     });
 
-    console.log("Response Data after logging in:", response.data);
+    const {
+      id: userId,
+      username,
+      token,
+      refreshToken,
+      points = 0,     // 👈 fallback
+      rewardGiven,    // 👈 whether points rewarded today
+    } = response.data;
 
-    const { id: userId, username, token, refreshToken, points } = response.data;
-
-    // Store tokens and user details
+    // Save tokens & details
     localStorage.setItem("Id", userId);
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
-
-    // ⭐ Save points in localStorage
     localStorage.setItem("points", points);
 
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
-      console.log("Refresh Token received and saved:", refreshToken);
-    } else {
-      console.warn("No refresh token received in the response.");
     }
 
     dispatch(setUserId(userId));
+
+    // 🎯 Handle reward info
+    if (rewardGiven) {
+      toast.success(`Welcome back! 🎉 You earned 50 points. Total: ${points}`);
+    } else {
+      toast.info(`Welcome back ${username}! Your total points: ${points}`);
+    }
+
     navigate("/home");
   } catch (err) {
-    console.log("Login error:", err);
-    toast.error("Please Check your Credentials");
+    if (err.response?.status === 401) {
+      toast.error("Invalid credentials. Please try again.");
+    } else if (err.response?.status === 404) {
+      toast.error("User not found.");
+    } else {
+      toast.error("Login failed. Please check your connection.");
+    }
+    console.error("Login error:", err);
   }
 };
 
@@ -94,13 +112,15 @@ const login = async () => {
   const handleGoogleLogin = async (credentialResponse) => {
   try {
     const googleToken = credentialResponse.credential;
-    console.log("Google Token:", googleToken);
+
+    if (!googleToken) {
+      toast.error("Google login failed. No token received.");
+      return;
+    }
 
     const response = await axios.post(`${apiBaseUrl}/users/google-login`, {
       token: googleToken,
     });
-
-    console.log("Response Data from backend after Google login:", response.data);
 
     const {
       id: userId,
@@ -108,32 +128,35 @@ const login = async () => {
       token,
       refreshToken,
       profilePic,
-      points, // 👈 here also
+      points = 0,
+      rewardGiven,
     } = response.data.user;
 
     localStorage.setItem("Id", userId);
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
     localStorage.setItem("profilePic", profilePic);
-
-    // ⭐ Save points
     localStorage.setItem("points", points);
 
     if (refreshToken) {
       localStorage.setItem("refreshToken", refreshToken);
-      console.log("Refresh Token received and saved:", refreshToken);
-    } else {
-      console.warn("No refresh token received in the response.");
     }
 
     dispatch(setUserId(userId));
-    toast.success("Google Sign-in Successful!");
+
+    if (rewardGiven) {
+      toast.success(`🎉 Google Login Successful! You earned 50 points. Total: ${points}`);
+    } else {
+      toast.info(`Google Login Successful! Welcome ${username}. Points: ${points}`);
+    }
+
     navigate("/home");
   } catch (err) {
     console.error("Google Login error:", err);
     toast.error("Google Sign-in failed. Please try again.");
   }
 };
+
 
   const handleJoinNowClick = () => {
     navigate("/register"); // Redirect to the registration page

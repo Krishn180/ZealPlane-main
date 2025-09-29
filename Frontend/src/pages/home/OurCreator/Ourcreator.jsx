@@ -46,9 +46,9 @@ const MeetOurCreator = () => {
     <div className="our-creator-section">
       {/* 🔒 Trusted Section */}
       <div className="trusted-section">
-        <h2>Trusted by 4,000+ Readers Worldwide </h2>
+        <h2>Trusted by 10,000+ Readers Worldwide </h2>
         <p>
-          <strong>4,000 readers</strong> have already joined our journey,
+          <strong>10,000 readers</strong> have already joined our journey,
           exploring thought-provoking stories and engaging artwork. We proudly
           feature <strong>original content from verified publishers</strong>,
           ensuring every panel you read is authentic, inspiring, and one of a

@@ -35,7 +35,7 @@ app.use(
       "http://comicplane.site",
       "https://www.comicplane.site",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })

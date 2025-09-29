@@ -8,6 +8,7 @@ const HeaderNotificationBell = () => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isMarkingAllRead, setIsMarkingAllRead] = useState(false); // Loading state
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -67,13 +68,33 @@ const HeaderNotificationBell = () => {
   // Mark all notifications as read and navigate
   const handleReadAll = async () => {
     try {
+      setIsMarkingAllRead(true); // Set loading state
       const token = localStorage.getItem("token");
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      // Call backend to mark all as read (make sure you have this endpoint)
-      await axios.patch(`${apiBaseUrl}/notification/readAll`, {}, { headers });
+      // Get all unread notifications
+      const unreadNotifications = notifications.filter(n => !n.isRead);
+      
+      if (unreadNotifications.length === 0) {
+        // If no unread notifications, just navigate
+        navigate("/home/notification");
+        setDropdownOpen(false);
+        return;
+      }
 
-      // Update local state
+      // Mark each unread notification as read individually using existing backend route
+      const markAsReadPromises = unreadNotifications.map(notification => 
+        axios.patch(
+          `${apiBaseUrl}/notification/${notification._id}/read`, 
+          {}, 
+          { headers }
+        )
+      );
+
+      // Wait for all requests to complete
+      await Promise.all(markAsReadPromises);
+
+      // Update local state - mark all notifications as read
       setNotifications((prev) =>
         prev.map((n) => ({ ...n, isRead: true }))
       );
@@ -83,6 +104,12 @@ const HeaderNotificationBell = () => {
       setDropdownOpen(false);
     } catch (err) {
       console.error("Error marking all notifications as read:", err);
+      
+      // Optional: Show user-friendly error message
+      // You could add a toast notification here if you have a toast library
+      alert("Failed to mark all notifications as read. Please try again.");
+    } finally {
+      setIsMarkingAllRead(false); // Reset loading state
     }
   };
 
@@ -118,8 +145,15 @@ const HeaderNotificationBell = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="read-more" onClick={handleReadAll}>
-                  View all Notifications
+                <div 
+                  className={`read-more ${isMarkingAllRead ? 'loading' : ''}`}
+                  onClick={!isMarkingAllRead ? handleReadAll : undefined}
+                  style={{ 
+                    cursor: isMarkingAllRead ? 'not-allowed' : 'pointer',
+                    opacity: isMarkingAllRead ? 0.6 : 1 
+                  }}
+                >
+                  {isMarkingAllRead ? "Marking as read..." : "View all Notifications"}
                 </div>
               </>
             )}
