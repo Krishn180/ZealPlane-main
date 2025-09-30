@@ -13,7 +13,7 @@ const {
 // ✅ Add points to user profile
 // Body: { points, activityType, relatedId }
 // Example: user gets points for posting/commenting/etc.
-router.post("/points", ValidateToken, async (req, res) => {
+router.post("/points", async (req, res) => {
   try {
     const { points, activityType, relatedId } = req.body;
     const user = await addPoints(req.user.id, points, activityType, relatedId);
@@ -26,7 +26,7 @@ router.post("/points", ValidateToken, async (req, res) => {
 // ✅ Add a badge to user profile
 // Body: { badgeName, icon, description }
 // Example: "Top Contributor", "Bug Hunter", etc.
-router.post("/badges", ValidateToken, async (req, res) => {
+router.post("/badges", async (req, res) => {
   try {
     const { badgeName, icon, description } = req.body;
     const badges = await addBadge(req.user.id, badgeName, icon, description);
@@ -39,14 +39,20 @@ router.post("/badges", ValidateToken, async (req, res) => {
 // ✅ Get user's gamification stats
 // Returns: { totalPoints, level, badges, lootboxes }
 // Example: frontend dashboard will show these stats
-router.get("/stats", ValidateToken, async (req, res) => {
+router.get("/stats", async (req, res) => {
   try {
-    const stats = await getGamificationStats(req.user.id);
+    const userId = req.query.userId; // query se userId le rahe
+    if (!userId) return res.status(400).json({ message: "userId is required" });
+
+    const stats = await getGamificationStats(userId); // controller me pass karenge
     res.status(200).json(stats);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
+
+
+
 
 // ✅ Claim a lootbox based on level
 // Param: /lootbox/:level
