@@ -62,7 +62,7 @@ const login = async () => {
       return;
     }
 
-    const response = await axios.post(`http://localhost:5000/api/users/login`, {
+    const response = await axios.post(`${apiBaseUrl}/users/login`, {
       email: credentials.email,
       password: credentials.password,
     });

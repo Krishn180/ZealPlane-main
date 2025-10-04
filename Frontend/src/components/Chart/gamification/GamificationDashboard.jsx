@@ -156,6 +156,7 @@ import CardContent from "../../cardcontent/CardContent";
 import Header from "../../header/Header";
 import Footer from "../../footer/Footer"; // ✅ Import Footer
 import "./GamificationDashboard.scss";
+import axiosInstance from "../../../Auth/Axios";
 
 export default function GamificationDashboard() {
   const [userStats, setUserStats] = useState(null);
@@ -169,7 +170,7 @@ export default function GamificationDashboard() {
     try {
       if (!userId) throw new Error("User ID not found");
 
-      const res = await axios.get(`http://localhost:5000/api/gamification/stats?userId=${userId}`);
+      const res = await axiosInstance.get(`/gamification/stats?userId=${userId}`);
       setUserStats(res.data);
     } catch (err) {
       console.error("Error fetching stats:", err);
