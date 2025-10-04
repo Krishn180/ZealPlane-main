@@ -153,13 +153,14 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, 
 import { Lock } from "lucide-react";
 import Card from "../../card/Card";
 import CardContent from "../../cardcontent/CardContent";
+import Header from "../../header/Header";
+import Footer from "../../footer/Footer"; // ✅ Import Footer
 import "./GamificationDashboard.scss";
 
 export default function GamificationDashboard() {
   const [userStats, setUserStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // UserId from Redux or localStorage
   const userIdRedux = localStorage.getItem("userIdRedux");
   const userIdLocalStorage = localStorage.getItem("Id");
   const userId = userIdRedux || userIdLocalStorage;
@@ -184,17 +185,8 @@ export default function GamificationDashboard() {
   if (loading) return <p>Loading...</p>;
   if (!userStats) return <p>No data available</p>;
 
-  const {
-    points,
-    dailyLoginStreak,
-    level,
-    badges = [],
-    activityLog = [],
-    xpHistory = [],
-    rewards,
-  } = userStats;
+  const { points, dailyLoginStreak, level, badges = [], activityLog = [], xpHistory = [], rewards } = userStats;
 
-  // Level progress for Pie chart
   const levelProgress = level?.progress ? ((level.progress / 100) * 100).toFixed(0) : 0;
   const pieData = [
     { name: "XP Completed", value: level?.progress || 0 },
@@ -203,114 +195,118 @@ export default function GamificationDashboard() {
   const COLORS = ["#ec4899", "#2a2a2a"];
 
   return (
-    <div className="GamificationDashboard">
-      {/* Top Stats */}
-      <div className="stats-grid">
+    <>
+      <Header />
+      {/* Add padding top/bottom to avoid overlap */}
+      <div className="GamificationDashboard content-container">
+        {/* Top Stats */}
+        <div className="stats-grid">
+          <Card>
+            <CardContent>
+              <h3>💎 Points</h3>
+              <p>{points}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <h3>Level</h3>
+              <p>{level?.current || 0}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <h3>🔥 Streak</h3>
+              <p>Day {dailyLoginStreak}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <h3>🎁 Rewards</h3>
+              {rewards?.unlocked ? (
+                <button className="reward-button">Claim Reward</button>
+              ) : (
+                <p>Next at Level {rewards?.nextRewardLevel || "-"}</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* XP Progress & Line Chart */}
+        <div className="charts-grid">
+          <Card className="xp-chart-card">
+            <CardContent>
+              <h3>XP Progress</h3>
+              <ResponsiveContainer width="100%" height={150}>
+                <LineChart data={xpHistory}>
+                  <XAxis dataKey="day" stroke="#aaa" />
+                  <YAxis stroke="#aaa" />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="xp" stroke="#ec4899" strokeWidth={3} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          <Card className="level-pie-card">
+            <CardContent className="centered">
+              <h3>Level Progress</h3>
+              <PieChart width={150} height={150}>
+                <Pie
+                  data={pieData}
+                  innerRadius={50}
+                  outerRadius={70}
+                  startAngle={90}
+                  endAngle={-270}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+              </PieChart>
+              <p>{levelProgress}%</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Badges */}
         <Card>
           <CardContent>
-            <h3>💎 Points</h3>
-            <p>{points}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <h3>Level</h3>
-            <p>{level?.current || 0}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <h3>🔥 Streak</h3>
-            <p>Day {dailyLoginStreak}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <h3>🎁 Rewards</h3>
-            {rewards?.unlocked ? (
-              <button className="reward-button">Claim Reward</button>
+            <h3>🏆 Badges</h3>
+            {badges.length === 0 ? (
+              <p>Reach Level 1 to earn your first badge 🎯</p>
             ) : (
-              <p>Next at Level {rewards?.nextRewardLevel || "-"}</p>
+              <div className="badges-grid">
+                {badges.map((badge, idx) => (
+                  <div key={idx} className={`badge ${badge.earnedAt ? "unlocked" : "locked"}`}>
+                    <span>{badge.icon || <Lock />}</span>
+                    <p>{badge.name}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Activity Log */}
+        <Card>
+          <CardContent>
+            <h3>📜 Activity Log</h3>
+            {activityLog.length === 0 ? (
+              <p>No activity to display</p>
+            ) : (
+              <ul className="activity-log">
+                {activityLog.map((activity, idx) => (
+                  <li key={idx}>
+                    {activity.type} → +{activity.pointsEarned} points
+                  </li>
+                ))}
+              </ul>
             )}
           </CardContent>
         </Card>
       </div>
-
-      {/* XP Progress & Line Chart */}
-      <div className="charts-grid">
-        <Card className="xp-chart-card">
-          <CardContent>
-            <h3>XP Progress</h3>
-            <ResponsiveContainer width="100%" height={150}>
-              <LineChart data={xpHistory}>
-                <XAxis dataKey="day" stroke="#aaa" />
-                <YAxis stroke="#aaa" />
-                <Tooltip />
-                <Line type="monotone" dataKey="xp" stroke="#ec4899" strokeWidth={3} />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card className="level-pie-card">
-          <CardContent className="centered">
-            <h3>Level Progress</h3>
-            <PieChart width={150} height={150}>
-              <Pie
-                data={pieData}
-                innerRadius={50}
-                outerRadius={70}
-                startAngle={90}
-                endAngle={-270}
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-            </PieChart>
-            <p>{levelProgress}%</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Badges */}
-     {/* Badges */}
-<Card>
-  <CardContent>
-    <h3>🏆 Badges</h3>
-    {badges.length === 0 ? (
-      <p>Reach Level 1 to earn your first badge 🎯</p>
-    ) : (
-      <div className="badges-grid">
-        {badges.map((badge, idx) => (
-          <div key={idx} className={`badge ${badge.earnedAt ? "unlocked" : "locked"}`}>
-            <span>{badge.icon || <Lock />}</span>
-            <p>{badge.name}</p>
-          </div>
-        ))}
-      </div>
-    )}
-  </CardContent>
-</Card>
-
-{/* Activity Log */}
-<Card>
-  <CardContent>
-    <h3>📜 Activity Log</h3>
-    {activityLog.length === 0 ? (
-      <p>No activity to display</p>
-    ) : (
-      <ul className="activity-log">
-        {activityLog.map((activity, idx) => (
-          <li key={idx}>
-            {activity.type} → +{activity.pointsEarned} points
-          </li>
-        ))}
-      </ul>
-    )}
-  </CardContent>
-</Card>
-    </div>
+      <Footer />
+    </>
   );
 }

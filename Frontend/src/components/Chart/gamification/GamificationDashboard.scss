@@ -162,3 +162,7 @@
     color: var(--white);
   }
 }
+.GamificationDashboard.content-container {
+  padding-top: 80px;  // header height
+  padding-bottom: 60px; // footer height
+}

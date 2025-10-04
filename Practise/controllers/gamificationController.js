@@ -1,5 +1,7 @@
 const asynchandler = require("express-async-handler");
 const User = require("../models/userModel");
+const Notification = require("../models/notificationModel");
+const { createNotification } = require("./notificationController"); 
 
 /* =============================
       GAMIFICATION CONTROLLER
@@ -40,12 +42,33 @@ const addPoints = asynchandler(async (userId, points, activityType, relatedId = 
     date: new Date(),
   });
 
-  // ✅ Level up logic
-  const LEVEL_THRESHOLD = 100; // points required per level
-  user.level.progress += points;
-  while (user.level.progress >= LEVEL_THRESHOLD) {
-    user.level.current += 1;
-    user.level.progress -= LEVEL_THRESHOLD;
+  // ✅ Level calculation based on total points
+  // Level 1 = 1000 points, Level 2 = 2000, etc.
+  const newLevel = Math.floor(user.points / 1000);
+  if (newLevel > user.level.current) {
+    user.level.current = newLevel;
+  }
+
+  // ✅ Check for Level 1 badge (1000 points)
+  if (user.points >= 1000) {
+    const hasBadge = user.badges.some(b => b.name === "Level 1 Achiever");
+    if (!hasBadge) {
+      // Add Level 1 badge
+      user.badges.push({
+        name: "Level 1 Achiever",
+        earnedAt: new Date(),
+        description: "Reached 1000 points and unlocked Level 1!",
+      });
+
+      // ✅ Send notification to the user about Level 1
+      await createNotification(
+        user.uniqueId,   // recipient UUID
+        null,            // senderId = null because system notification
+        "🎉 Congrats! You reached Level 1 and unlocked your first badge!", 
+        null,            // projectId = null
+        null             // commentId = null
+      );
+    }
   }
 
   await user.save();
@@ -106,17 +129,48 @@ const getGamificationStats = asynchandler(async (userId) => {
   const user = await User.findOne({ uniqueId: userId });
   if (!user) throw new Error("User not found");
 
+  // ==========================
+  // Level 1 check (1000 points)
+  // ==========================
+  const LEVEL_1_POINTS = 1000;
+  const hasLevel1Badge = user.badges.some(b => b.name === "Level 1");
+
+  if (user.points >= LEVEL_1_POINTS && !hasLevel1Badge) {
+    // Add Level 1 badge
+    user.badges.push({
+      name: "Level 1",
+      icon: "🏆",
+      earnedAt: new Date()
+    });
+
+    // Update level
+    user.level = Math.max(user.level || 0, 1);
+
+    await user.save(); // Save user with new badge & level
+
+    // Send notification to user
+    await createNotification(
+      user.uniqueId, // recipient → user themselves
+      null,          // sender → system
+      "🎉 You've reached Level 1 and earned a badge!"
+    );
+  }
+
+  // ==========================
+  // Return gamification stats
+  // ==========================
   return {
     points: user.points,
     dailyLoginStreak: user.dailyLoginStreak,
     lastLoginDate: user.lastLoginDate,
-    level: user.level,
+    level: {
+      current: user.level,
+      progress: Math.min((user.points / LEVEL_1_POINTS) * 100, 100)
+    },
     badges: user.badges,
     activityLog: user.activityLog,
   };
 });
-
-
 
 /**
  * ✅ Claim lootbox

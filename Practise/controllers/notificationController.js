@@ -1,6 +1,7 @@
 const Notification = require("../models/notificationModel");
 const User = require("../models/userModel");
 
+
 // ✅ Fetch notifications for the logged-in user using UUID
 const getNotifications = async (req, res) => {
   try {
