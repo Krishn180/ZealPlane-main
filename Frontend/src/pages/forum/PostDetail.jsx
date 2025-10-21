@@ -303,30 +303,33 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const config = token
-          ? { headers: { Authorization: `Bearer ${token}` } }
-          : {};
-        const response = await axios.get(`${apiBaseUrl}/posts/${id}`, config);
+  // 🚨 Redirect if user is not logged in
+  if (!token) {
+    toast.warning("Please login to continue!");
+    navigate("/login");
+    return; // stop further execution
+  }
 
-        setPost({
-          ...response.data.post,
-          votes: response.data.post.votes || [],
-        });
-        setStatus(response.data.status);
-        setComments(response.data.post.comments || []);
-      } catch (error) {
-        toast.error("Failed to fetch post details!");
-      }
-    };
+  const fetchPost = async () => {
+    try {
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(`${apiBaseUrl}/posts/${id}`, config);
 
-    fetchPost();
-
-    if (token) {
-      fetchUserVote();
+      setPost({
+        ...response.data.post,
+        votes: response.data.post.votes || [],
+      });
+      setStatus(response.data.status);
+      setComments(response.data.post.comments || []);
+    } catch (error) {
+      toast.error("Failed to fetch post details!");
     }
-  }, [id, token]);
+  };
+
+  fetchPost();
+  fetchUserVote();
+}, [id, token, navigate]);
+
 
   const handleVote = async (voteType) => {
     try {

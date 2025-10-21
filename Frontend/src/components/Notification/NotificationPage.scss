@@ -1,8 +1,9 @@
 .notification-page {
   background-color: #121212; // dark background
-  color: #e5e5e5;           // light text
+  color: #e5e5e5; // light text
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
+  padding: 0 12px;
 
   main.notification-list-container {
     max-width: 800px;
@@ -41,13 +42,82 @@
 
         p {
           margin: 0;
+          font-size: 1rem;
+          line-height: 1.4;
         }
 
         .timestamp {
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           color: #9ca3af;
           white-space: nowrap;
           margin-left: 16px;
+        }
+      }
+    }
+  }
+
+  /* 📱 Small devices (phones, ≤480px) */
+  @media (max-width: 480px) {
+    main.notification-list-container {
+      margin: 60px auto 20px auto;
+      padding: 0 10px;
+
+      ul.notification-list {
+        li.notification-item {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 12px 14px;
+
+          p {
+            font-size: 0.9rem;
+          }
+
+          .timestamp {
+            margin-left: 0;
+            margin-top: 6px;
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
+  }
+
+  /* 💻 Medium devices (tablets, 481px–768px) */
+  @media (min-width: 481px) and (max-width: 768px) {
+    main.notification-list-container {
+      max-width: 600px;
+      padding: 0 12px;
+
+      ul.notification-list {
+        li.notification-item {
+          padding: 14px 16px;
+
+          p {
+            font-size: 0.95rem;
+          }
+
+          .timestamp {
+            font-size: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+
+  /* 🖥️ Large devices (desktops, ≥769px) */
+  @media (min-width: 769px) {
+    main.notification-list-container {
+      max-width: 800px;
+
+      ul.notification-list {
+        li.notification-item {
+          p {
+            font-size: 1rem;
+          }
+
+          .timestamp {
+            font-size: 0.8rem;
+          }
         }
       }
     }

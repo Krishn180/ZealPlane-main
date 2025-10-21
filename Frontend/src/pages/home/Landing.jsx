@@ -15,6 +15,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserId } from "../../store/userAction";
 import Topics from "./curated/Topics";
+import InstagramVideo from "./video/Instagram";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ const Landing = () => {
       <br />
       <br />
       <br />
+      <InstagramVideo/>
       <br />
       <br />
       <br />
