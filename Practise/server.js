@@ -14,6 +14,8 @@ const productroutes = require("./routes/e-commerce routes/productroutes");
 const sitemapRoutes = require("./sitemapRoutes"); // ✅ Only this
 const newsRoutes = require("./routes/newsRoutes");
 const gamificationRoutes = require("./routes/gamificationRoutes");
+const newsletterRoutes = require("./routes/newsletterRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 
 
@@ -61,6 +63,8 @@ app.use("/api/notification", notification);
 app.use("/api/refresh-token", refreshToken);
 app.use("/api/news", newsRoutes);
 app.use("/api/gamification", gamificationRoutes);
+app.use("/api/newsletter", newsletterRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // Error handler
 app.use(errorHandler);

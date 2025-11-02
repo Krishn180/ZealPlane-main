@@ -207,6 +207,58 @@ const AvatarComponent = () => {
     if (userId && id) checkFollowStatus();
   }, [userId, id]);
 
+const handlePayment = async () => {
+  try {
+    const amount = 500; // ₹5 support
+
+    const response = await axiosInstance.post("/payment/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount }),
+    });
+
+    // ✅ Check for failed response before parsing JSON
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    if (!data || !data.key || !data.order_id) {
+      throw new Error("Invalid response from server");
+    }
+
+    const options = {
+      key: data.key, // Razorpay API key from backend
+      amount: data.amount,
+      currency: data.currency,
+      order_id: data.order_id,
+      name: "Zealplane",
+      description: "Support the Creator",
+      handler: function (response) {
+        alert("✅ Payment successful! Thank you for your support 💖");
+        console.log("Payment Details:", response);
+      },
+      prefill: {
+        name: userDetails?.fullName || "Anonymous",
+        email: userDetails?.email || "",
+      },
+      theme: {
+        color: "#F37254",
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error("Payment initiation failed:", error);
+    alert("Something went wrong while starting the payment. Please try again.");
+  }
+};
+
+
+
   const handleSendConnectionRequest = async () => {
     try {
       const response = await axiosInstance.post(`users/toggle-follow`, {
@@ -509,72 +561,78 @@ const AvatarComponent = () => {
                         />
                       </Col>
                     </Row>
-                    <div className="text-center text-sm-left mb-2 mb-sm-0">
-                      {isEditMode ? (
-                        <>
-                          <input type="text" onChange={(e) => {}} />
-                          <input type="text" onChange={(e) => {}} />
-                          <button type="button">Save</button>
-                        </>
-                      ) : (
-                        <>
-                          {user || userDetails ? (
-                            <>
-                              <h5 className="pt-sm-2 pb-1 mb-0 mt-3 text-nowrap">
-                                <h5 className="pt-sm-2 pb-1 mb-0 mt-3 text-nowrap">
-                                  {userDetails?.fullName || "User name"}{" "}
-                                  {/* Fallback to "Demo Name" if fullName is missing */}
-                                </h5>
-                              </h5>
-                              <p
-                                className="mb-2"
-                                style={{ marginBottom: "2rem" }}
-                              >
-                                @{user || userDetails.username}
-                              </p>
-                              <p
-                                className="mb-0"
-                                style={{
-                                  fontSize: "16px",
-                                  fontWeight: "bold",
-                                  color: "#00bcd4",
-                                }}
-                              >
-                                Level: {level}
-                              </p>
-                            </>
-                          ) : (
-                            <p>User data not available</p>
-                          )}
-                        </>
-                      )}
-                      <Row justify="center" style={{ marginTop: "20px" }}>
-                        <Col>
-                          <Button
-                            type="button"
-                            className="custom-button"
-                            onClick={handleEnquiryOpen}
-                          >
-                            Enquiry
-                          </Button>
-                        </Col>
-                        <Col style={{ marginLeft: "10px" }}>
-                          <Button
-                            type="button"
-                            className="custom-button"
-                            onClick={handleSendConnectionRequest}
-                          >
-                            {isFollowing ? "Unfollow" : "Follow"}
-                          </Button>
-                        </Col>
-                      </Row>
+                   <div className="text-center text-sm-left mb-2 mb-sm-0">
+  {isEditMode ? (
+    <>
+      <input type="text" onChange={(e) => {}} />
+      <input type="text" onChange={(e) => {}} />
+      <button type="button">Save</button>
+    </>
+  ) : (
+    <>
+      {user || userDetails ? (
+        <>
+          <h5 className="pt-sm-2 pb-1 mb-0 mt-3 text-nowrap">
+            {userDetails?.fullName || "User name"}
+          </h5>
+          <p className="mb-2" style={{ marginBottom: "2rem" }}>
+            @{user || userDetails.username}
+          </p>
+          <p
+            className="mb-0"
+            style={{
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "#00bcd4",
+            }}
+          >
+            Level: {level}
+          </p>
+        </>
+      ) : (
+        <p>User data not available</p>
+      )}
+    </>
+  )}
 
-                      <div className="text-muted">
-                        <small style={{ color: "white" }}>
-                          Last seen status
-                        </small>
-                      </div>
-                    </div>
+  {/* Action buttons */}
+  <Row justify="center" style={{ marginTop: "20px" }}>
+    <Col>
+      <Button
+        type="button"
+        className="custom-button"
+        onClick={handleEnquiryOpen}
+      >
+        Enquiry
+      </Button>
+    </Col>
+    <Col style={{ marginLeft: "10px" }}>
+      <Button
+        type="button"
+        className="custom-button"
+        onClick={handleSendConnectionRequest}
+      >
+        {isFollowing ? "Unfollow" : "Follow"}
+      </Button>
+    </Col>
+
+    {/* ✅ Support the Creator Button */}
+    <Col style={{ marginLeft: "10px" }}>
+      <Button
+        type="button"
+        className="support-button"
+        onClick={handlePayment}
+      >
+        Support
+      </Button>
+    </Col>
+  </Row>
+
+  <div className="text-muted">
+    <small style={{ color: "white" }}>Last seen status</small>
+  </div>
+</div>
+
                   </div>
                 </div>
 

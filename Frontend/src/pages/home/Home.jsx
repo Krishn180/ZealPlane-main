@@ -16,6 +16,7 @@ import Header from "../../components/header/Header";
 import Curated from "./curated/Curated";
 import Topics from "./curated/Topics";
 import Footer from "../../components/footer/Footer";
+import Newsletter from "../../components/Newsletter/Newsletter";
 
 const Home = () => {
   const [userDetails, setUserDetails] = useState(null);
@@ -69,6 +70,7 @@ const Home = () => {
        <Trending />
       <Topics/>
        <Curated/>
+          <Newsletter/>
             <Trending />
             {/* <Popular />
             <TopRated /> */}
