@@ -19,6 +19,7 @@ import axiosInstance from "../../Auth/Axios";
 import EnquiryModal from "./EnquiryModal/EnquiryModal";
 import { toast, ToastContainer } from "react-toastify";
 import Footer from "../../components/footer/Footer";
+import SupportModal from "../payment/SupportModal";
 
 const AvatarComponent = () => {
   const [activeTabKey, setActiveTabKey] = useState("postroom");
@@ -206,56 +207,6 @@ const AvatarComponent = () => {
 
     if (userId && id) checkFollowStatus();
   }, [userId, id]);
-
-const handlePayment = async () => {
-  try {
-    const amount = 500; // ₹5 support
-
-    const response = await axiosInstance.post("/payment/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount }),
-    });
-
-    // ✅ Check for failed response before parsing JSON
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Server error: ${errorText}`);
-    }
-
-    const data = await response.json();
-
-    if (!data || !data.key || !data.order_id) {
-      throw new Error("Invalid response from server");
-    }
-
-    const options = {
-      key: data.key, // Razorpay API key from backend
-      amount: data.amount,
-      currency: data.currency,
-      order_id: data.order_id,
-      name: "Zealplane",
-      description: "Support the Creator",
-      handler: function (response) {
-        alert("✅ Payment successful! Thank you for your support 💖");
-        console.log("Payment Details:", response);
-      },
-      prefill: {
-        name: userDetails?.fullName || "Anonymous",
-        email: userDetails?.email || "",
-      },
-      theme: {
-        color: "#F37254",
-      },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } catch (error) {
-    console.error("Payment initiation failed:", error);
-    alert("Something went wrong while starting the payment. Please try again.");
-  }
-};
 
 
 
@@ -617,15 +568,14 @@ const handlePayment = async () => {
     </Col>
 
     {/* ✅ Support the Creator Button */}
-    <Col style={{ marginLeft: "10px" }}>
-      <Button
-        type="button"
-        className="support-button"
-        onClick={handlePayment}
-      >
-        Support
-      </Button>
-    </Col>
+  <Col style={{ marginLeft: "10px" }}>
+  <SupportModal>
+    <Button type="button" className="support-button">
+      Support
+    </Button>
+  </SupportModal>
+</Col>
+
   </Row>
 
   <div className="text-muted">

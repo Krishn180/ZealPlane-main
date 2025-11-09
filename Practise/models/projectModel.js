@@ -44,6 +44,7 @@ const projectSchema = new mongoose.Schema(
     thumbnailImage: { type: String },
     thumbnailImages: [{ type: String }],
     images: [{ type: String }],
+    comicPages: [{ type: String }],
     username: { type: String, required: true }, // Project creator's username
     uniqueId: { type: String }, // Associate the project with a specific user
     projectId: {

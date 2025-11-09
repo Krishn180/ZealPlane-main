@@ -119,66 +119,74 @@ const DetailsPage = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchProjectDetails = async () => {
-      try {
-        // Get the user's IP address
-        const ipResponse = await axios.get(
-          "https://api64.ipify.org?format=json"
-        );
-        const userIp = ipResponse.data.ip;
-
-        // Prepare headers
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-        // Fetch project details only once
-        if (!projectData || projectData.id !== projectId) {
-          const response = await axiosInstance.get(
-            `${apiBaseUrl}/projects/id/${projectId}`,
-            {
-              headers,
-              params: { userId, userIp }, // Send userId and userIp as query parameters
-            }
-          );
-
-          console.log("Project details are", response.data);
-
-          // Set state variables
-          setProjectData(response.data.project);
-          setLiked(response.data.project.likes);
-          setLikesCount(response.data.project.likes || 0);
-          setPreviousImage(response.data.project.thumbnailImages);
-          console.log("Previous images are", previousImages);
-          setStatus(response.data.status);
-          setProfilePic(response.data.project.profilePic);
-          setUserName(response.data.project.username);
-          setView(response.data.project.views); // Use updated views from backend
-          console.log("Status is", status);
-          console.log("Views are", response.data.totalViews);
-          console.log("View Status:", response.data.viewStatus);
-        }
-      } catch (error) {
-        console.error("Error fetching project details:", error);
-      }
-    };
-
-    fetchProjectDetails();
-  }, [projectId, token]); // Only re-run when projectId or token changes
-
-  const onProjectUpdate = async () => {
+ useEffect(() => {
+  const fetchProjectDetails = async () => {
     try {
-      // Instead of making another request, update only changed fields if available
-      const response = await axiosInstance.get(
-        `${apiBaseUrl}/projects/id/${projectId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      // Get the user's IP address
+      const ipResponse = await axios.get("https://api64.ipify.org?format=json");
+      const userIp = ipResponse.data.ip;
 
-      console.log("Updated project details:", response.data.project);
-      setProjectData(response.data.project);
+      // Prepare headers
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      // Fetch project details only once
+      if (!projectData || projectData.id !== projectId) {
+        const response = await axiosInstance.get(
+          `${apiBaseUrl}/projects/id/${projectId}`,
+          { headers, params: { userId, userIp } }
+        );
+
+        const project = response.data.project;
+
+        // Combine thumbnailImages + comicPages into one array for Swiper
+        const allImages = [
+          ...(project.thumbnailImages || []),
+          ...(project.comicPages || [])
+        ];
+
+        console.log("Project details are", project);
+        console.log("All images:", allImages);
+
+        // Set state variables
+        setProjectData({ ...project, allImages });
+        setLiked(project.likes);
+        setLikesCount(project.likes || 0);
+        setPreviousImage(project.thumbnailImages || []);
+        setStatus(response.data.status);
+        setProfilePic(project.profilePic);
+        setUserName(project.username);
+        setView(project.views);
+      }
     } catch (error) {
-      console.error("Error refreshing project data:", error);
+      console.error("Error fetching project details:", error);
     }
   };
+
+  fetchProjectDetails();
+}, [projectId, token]);
+
+const onProjectUpdate = async () => {
+  try {
+    const response = await axiosInstance.get(
+      `${apiBaseUrl}/projects/id/${projectId}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    const project = response.data.project;
+
+    // Combine images for Swiper
+    const allImages = [
+      ...(project.thumbnailImages || []),
+      ...(project.comicPages || [])
+    ];
+
+    console.log("Updated project details:", project);
+    setProjectData({ ...project, allImages });
+  } catch (error) {
+    console.error("Error refreshing project data:", error);
+  }
+};
+
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -439,55 +447,55 @@ const DetailsPage = () => {
                     className="swiper-main-wrapper"
                     style={{ overflowX: "auto" }}
                   >
-                    <Swiper
-                      style={{
-                        "--swiper-navigation-color": "#fff",
-                        "--swiper-pagination-color": "green",
-                      }}
-                      lazy={true}
-                      pagination={{
-                        el: ".custom-pagination",
-                        clickable: true,
-                        dynamicBullets: true,
-                        dynamicMainBullets: 3,
-                      }}
-                      thumbs={{ swiper: thumbsSwiper }}
-                      navigation={{
-                        nextEl: ".custom-next",
-                        prevEl: ".custom-prev",
-                      }}
-                      modules={[Pagination, Navigation, Thumbs]}
-                      className="mySwiper"
-                    >
-                      {projectData.thumbnailImages?.length > 0 ? (
-                        projectData.thumbnailImages.map((image, index) => (
-                          <SwiperSlide
-                            key={index}
-                            onClick={() =>
-                              openViewer(
-                                projectData.projectId,
-                                projectData.name,
-                                index
-                              )
-                            }
-                          >
-                            <Img
-                              className="thumbImg"
-                              src={image || PosterFallback}
-                              alt={`Thumbnail ${index + 1}`}
-                            />
-                          </SwiperSlide>
-                        ))
-                      ) : (
-                        <SwiperSlide>
-                          <Img
-                            className="thumbImg"
-                            src={PosterFallback}
-                            alt="Thumbnail"
-                          />
-                        </SwiperSlide>
-                      )}
-                    </Swiper>
+                   <Swiper
+  style={{
+    "--swiper-navigation-color": "#fff",
+    "--swiper-pagination-color": "green",
+  }}
+  lazy={true}
+  pagination={{
+    el: ".custom-pagination",
+    clickable: true,
+    dynamicBullets: true,
+    dynamicMainBullets: 3,
+  }}
+  thumbs={{ swiper: thumbsSwiper }}
+  navigation={{
+    nextEl: ".custom-next",
+    prevEl: ".custom-prev",
+  }}
+  modules={[Pagination, Navigation, Thumbs]}
+  className="mySwiper"
+>
+  {projectData.allImages?.length > 0 ? (
+    projectData.allImages.map((image, index) => (
+      <SwiperSlide
+        key={index}
+        onClick={() =>
+          openViewer(
+            projectData.projectId,
+            projectData.name,
+            index
+          )
+        }
+      >
+        <Img
+          className="thumbImg"
+          src={image || PosterFallback}
+          alt={`Image ${index + 1}`}
+        />
+      </SwiperSlide>
+    ))
+  ) : (
+    <SwiperSlide>
+      <Img
+        className="thumbImg"
+        src={PosterFallback}
+        alt="Thumbnail"
+      />
+    </SwiperSlide>
+  )}
+</Swiper>
 
                     <div className="swiper-nav-buttons">
                       <div className="swiper-button-prev custom-prev"></div>
@@ -511,35 +519,36 @@ const DetailsPage = () => {
                   </p>
 
                   <div className="swiper-thumbs-wrapper">
-                    <Swiper
-                      onSwiper={setThumbsSwiper}
-                      spaceBetween={10}
-                      slidesPerView={4}
-                      freeMode={true}
-                      watchSlidesProgress={true}
-                      modules={[Navigation, Thumbs]}
-                      className="mySwiper-thumbs"
-                    >
-                      {projectData.thumbnailImages?.length > 0 ? (
-                        projectData.thumbnailImages.map((image, index) => (
-                          <SwiperSlide key={index}>
-                            <Img
-                              className="thumbImg"
-                              src={image || PosterFallback}
-                              alt={`Thumbnail ${index + 1}`}
-                            />
-                          </SwiperSlide>
-                        ))
-                      ) : (
-                        <SwiperSlide>
-                          <Img
-                            className="thumbImg"
-                            src={PosterFallback}
-                            alt="Thumbnail"
-                          />
-                        </SwiperSlide>
-                      )}
-                    </Swiper>
+              <Swiper
+  onSwiper={setThumbsSwiper}
+  spaceBetween={10}
+  slidesPerView={4}
+  freeMode={true}
+  watchSlidesProgress={true}
+  modules={[Navigation, Thumbs]}
+  className="mySwiper-thumbs"
+>
+  {projectData.allImages?.length > 0 ? (
+    projectData.allImages.map((image, index) => (
+      <SwiperSlide key={index}>
+        <Img
+          className="thumbImg"
+          src={image || PosterFallback}
+          alt={`Image ${index + 1}`}
+        />
+      </SwiperSlide>
+    ))
+  ) : (
+    <SwiperSlide>
+      <Img
+        className="thumbImg"
+        src={PosterFallback}
+        alt="Thumbnail"
+      />
+    </SwiperSlide>
+  )}
+</Swiper>
+
 
                     {status !== "visitor" && (
                       <div

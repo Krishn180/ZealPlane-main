@@ -9,12 +9,16 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-router.post("/create-order", async (req, res) => {
+router.post("/support", async (req, res) => {
   try {
     const options = {
-      amount: req.body.amount * 100,
+      amount: 50 * 100, // ₹50 in paise
       currency: "INR",
-      receipt: `receipt_order_${Math.random().toString(36).substring(7)}`,
+      receipt: `support_${Math.random().toString(36).substring(7)}`,
+      notes: {
+        purpose: "Support Creator",
+        userEmail: req.body.email || "Anonymous",
+      },
     };
 
     const order = await razorpay.orders.create(options);
@@ -22,12 +26,12 @@ router.post("/create-order", async (req, res) => {
     res.status(200).json({
       success: true,
       order_id: order.id,
+      key: process.env.RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
-      key: process.env.RAZORPAY_KEY_ID,
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error("Error creating support order:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });

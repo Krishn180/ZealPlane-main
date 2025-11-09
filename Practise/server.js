@@ -16,6 +16,7 @@ const newsRoutes = require("./routes/newsRoutes");
 const gamificationRoutes = require("./routes/gamificationRoutes");
 const newsletterRoutes = require("./routes/newsletterRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const uploadRoute = require("./routes/uploadRoutes");
 
 
 
@@ -65,6 +66,7 @@ app.use("/api/news", newsRoutes);
 app.use("/api/gamification", gamificationRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/upload", uploadRoute);
 
 // Error handler
 app.use(errorHandler);
