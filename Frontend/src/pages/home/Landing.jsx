@@ -110,7 +110,7 @@ const Landing = () => {
       <br />
       <br />
       <br />
-      <InstagramVideo/>
+      {/* <InstagramVideo/> */}
       <br />
       <br />
       <br />
