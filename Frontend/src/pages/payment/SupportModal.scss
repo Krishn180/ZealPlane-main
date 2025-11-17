@@ -98,3 +98,55 @@
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+.success-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.success-modal {
+  background: #111;
+  color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(50, 220, 50, 0.4);
+  animation: scaleIn 0.3s ease-in-out;
+
+  h2 {
+    color: #4aff8a;
+    margin-bottom: 8px;
+  }
+
+  .payment-id {
+    margin-top: 10px;
+    font-size: 14px;
+
+    span {
+      color: #4aff8a;
+      font-weight: bold;
+    }
+  }
+
+  .close-btn {
+    background: #4aff8a;
+    color: #000;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+
+    &:hover {
+      background: lighten(#4aff8a, 5%);
+    }
+  }
+}

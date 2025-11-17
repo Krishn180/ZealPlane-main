@@ -260,3 +260,31 @@ h1, h2, h3, .title {
   animation: float 8s infinite ease-in-out alternate;
 }
 */
+
+/* 🎬 Slider/Theatre Skeleton */
+.slider-skeleton {
+  width: 100%;
+  max-width: 1200px; /* adjust as your slider width */
+  height: 400px;     /* approximate height of your slider */
+  margin: 20px auto;
+  border-radius: 12px;
+  background-color: var(--black-lighter);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.1) 20%,
+      rgba(255,255,255,0.2) 60%,
+      rgba(255,255,255,0)
+    );
+    animation: shimmer 2s infinite;
+  }
+}

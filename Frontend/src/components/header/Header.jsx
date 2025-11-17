@@ -110,7 +110,7 @@ const Header = () => {
             <img src={logozp} alt="Logo" />
             <span
               className="logo-text"
-              style={{ color: "red", fontWeight: "900", fontSize: "18px" }}
+              style={{ color: "red", fontWeight: "900", fontSize: "20px" }}
             >
               ZEAL<span className="plane">PLANE</span>
             </span>

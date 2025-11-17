@@ -7,7 +7,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BiLogIn } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import "../style.scss";
+import "../Header.scss";
 
 import logozp from "/src/assets/logoZP.png"; // Import your logo
 import Sidebar from "./Sidebar";

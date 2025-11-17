@@ -557,7 +557,7 @@ const AvatarComponent = () => {
         Enquiry
       </Button>
     </Col>
-    <Col style={{ marginLeft: "10px" }}>
+    {/* <Col style={{ marginLeft: "10px" }}>
       <Button
         type="button"
         className="custom-button"
@@ -565,7 +565,7 @@ const AvatarComponent = () => {
       >
         {isFollowing ? "Unfollow" : "Follow"}
       </Button>
-    </Col>
+    </Col> */}
 
     {/* ✅ Support the Creator Button */}
   <Col style={{ marginLeft: "10px" }}>
