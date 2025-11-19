@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Setting.scss";
 import axiosInstance from "../../Auth/Axios";
+import Header from "../../components/header/Header";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
@@ -123,6 +124,9 @@ const SettingsPage = () => {
 
   return (
     <div className="settings-page">
+      <Header/>
+      <br />
+      <br />
       <h1>Settings</h1>
 
       {/* Verification Section */}

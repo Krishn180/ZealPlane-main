@@ -10,6 +10,7 @@ import Img from "../../../../components/lazyLoadImage/Img";
 import "./ProjectComponent.scss";
 import axiosInstance from "../../../../Auth/Axios";
 import { jwtDecode } from "jwt-decode";
+import { useLocation } from "react-router-dom";
 
 const ProjectComponent = () => {
   const [submittedData, setSubmittedData] = useState([]);
@@ -17,6 +18,7 @@ const ProjectComponent = () => {
   const [uploading, setUploading] = useState(false); // Uploading state for progress
   const [error, setError] = useState(null);
   const [fetchedUsername, setFetchedUsername] = useState("");
+  const location = useLocation();
 
   const { id } = useParams();
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -176,6 +178,29 @@ const ProjectComponent = () => {
       fetchData();
     }
   }, [fetchedUsername]);
+
+  useEffect(() => {
+  const openModalHandler = () => {
+    setModalOpen(true);
+  };
+
+  window.addEventListener("open-project-modal", openModalHandler);
+
+  return () => {
+    window.removeEventListener("open-project-modal", openModalHandler);
+  };
+}, []);
+
+useEffect(() => {
+  if (location.state?.openAddProject) {
+    setModalOpen(true);
+
+    // Clear the state so it doesn’t auto-open again on refresh
+    navigate(location.pathname, { replace: true });
+  }
+}, [location]);
+
+
 
   return (
     <div>

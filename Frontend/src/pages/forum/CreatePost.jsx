@@ -14,6 +14,7 @@ import "./createPost.scss";
 import Header from "./Component/Header";
 import Sidebar from "./Component/Sidebar";
 import Spinner from "../../components/spinner/Spinner";
+import { FiArrowLeft } from "react-icons/fi"; 
 
 const CreatePost = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -191,6 +192,9 @@ const CreatePost = () => {
               {/* You can add a spinner here */}
             </div>
           )}
+<button className="back-button" onClick={() => navigate(-1)}>
+  <FiArrowLeft />
+</button>
 
           <h2>Create a New Post</h2>
           <div className="user-info">

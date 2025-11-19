@@ -3,7 +3,6 @@ import { FaUsers, FaPlus } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "./style.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import avatar from "../../assets/avatar.png";
 import axiosInstance from "../../Auth/Axios";
@@ -12,6 +11,7 @@ import Navbar from "../../AboutCard/Navbar";
 import Logout from "./logout/Logout";
 import logozp from "/src/assets/logoZP.png";
 import HeaderNotificationBell from "../Notification/NotificationBell";
+import "./style.scss";
 
 const Header = () => {
   const [show, setShow] = useState("top");
@@ -196,11 +196,19 @@ const Header = () => {
         <div className="custom-modal-overlay">
           <div className="custom-modal">
             <h2>What do you want to do?</h2>
-            <button onClick={() => navigate(`/profile/${userId}`)}>
-              Add Project
-            </button>
+           <button
+  onClick={() => {
+    setShowModal(false);
+    navigate(`/profile/${userId}`, {
+      state: { openAddProject: true }
+    });
+  }}
+>
+  Add Project
+</button>
+
             <button onClick={() => navigate("/forum/create-post")}>
-              Make a Post
+              community Post
             </button>
             <button className="close-btn" onClick={() => setShowModal(false)}>
               Close
