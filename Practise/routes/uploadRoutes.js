@@ -82,24 +82,25 @@ if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 const baseName = path.basename(filePath, ".pdf");
 const outputPrefix = path.join(outputDir, baseName);
 
-// Windows Poppler path (your existing one)
+// Windows Poppler path
 const pdftoppmPath =
   '"C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"';
 
-// ✅ Auto Switch: If running on Linux (VPS), use global pdftoppm
+// 🟩 Auto Switch to Linux Poppler
 let finalPdftoppmPath = pdftoppmPath;
 if (process.platform !== "win32") {
-  finalPdftoppmPath = "/usr/bin/pdftoppm"; // Linux path
+  finalPdftoppmPath = "/usr/bin/pdftoppm"; 
 }
 
-// ⭐ FIX: Use finalPdftoppmPath, not the Windows hardcoded one
+// FINAL command (uses Linux OR Windows automatically)
 const cmd = `${finalPdftoppmPath} -jpeg "${filePath}" "${outputPrefix}-%d"`;
 
 console.log("Running Poppler:", cmd);
 
+// RUN conversion
 await execPromise(cmd);
 
-// ⭐ FIX: Filter correctly for numbered images
+// READ generated images
 const imageFiles = fs
   .readdirSync(outputDir)
   .filter((f) => f.startsWith(baseName + "-"));
