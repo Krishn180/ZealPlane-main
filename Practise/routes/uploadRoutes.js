@@ -76,28 +76,25 @@ router.post("/", ValidateToken, upload.single("file"), async (req, res) => {
     // ------------------------------------------------
     // 📘 PDF → Convert to JPG pages using Poppler
     // ------------------------------------------------
-    const outputDir = "uploads/pdf_images";
-    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+// 📘 PDF → Convert to JPG pages, then upload
+const outputDir = "uploads/pdf_images";
+if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-    const baseName = path.basename(filePath, ".pdf");
-    const outputPrefix = path.join(outputDir, baseName);
+const outputPrefix = path.join(outputDir, path.basename(filePath, ".pdf"));
 
-    const pdftoppmPath =
-      '"C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"';
+// ---------------------- IMPORTANT FIX ↓↓↓ ----------------------
+const isWindows = process.platform === "win32";
 
-      // ✅ Auto Switch: If running on Linux (VPS), use global pdftoppm
-let finalPdftoppmPath = pdftoppmPath;
-if (process.platform !== "win32") {
-  finalPdftoppmPath = "pdftoppm"; // Linux / Ubuntu / Cloud servers
-}
+const pdftoppmPath = isWindows
+  ? "C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"
+  : "/usr/bin/pdftoppm"; // Linux poppler utils path
+// ---------------------------------------------------------------
 
+const cmd = `${pdftoppmPath} -jpeg "${filePath}" "${outputPrefix}"`;
+console.log("Running:", cmd);
 
-    // IMPORTANT FIX → Add -%d to generate numbered images
-    const cmd = `${pdftoppmPath} -jpeg "${filePath}" "${outputPrefix}-%d"`;
+await execPromise(cmd); // Now works on both OS
 
-    console.log("Running Poppler:", cmd);
-
-    await execPromise(cmd);
 
     // ------------------------------------------------
     // Find all output images
