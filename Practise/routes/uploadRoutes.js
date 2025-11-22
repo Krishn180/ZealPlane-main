@@ -76,37 +76,33 @@ router.post("/", ValidateToken, upload.single("file"), async (req, res) => {
     // ------------------------------------------------
     // 📘 PDF → Convert to JPG pages using Poppler
     // ------------------------------------------------
-// PDF → Convert to JPG pages
 const outputDir = "uploads/pdf_images";
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
 const baseName = path.basename(filePath, ".pdf");
 const outputPrefix = path.join(outputDir, baseName);
 
-// OS detection (Windows / Linux)
-const isWindows = process.platform === "win32";
+// Windows Poppler path (your existing one)
+const pdftoppmPath =
+  '"C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"';
 
-const pdftoppmPath = isWindows
-  ? "C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"
-  : "/usr/bin/pdftoppm";
+// ✅ Auto Switch: If running on Linux (VPS), use global pdftoppm
+let finalPdftoppmPath = pdftoppmPath;
+if (process.platform !== "win32") {
+  finalPdftoppmPath = "/usr/bin/pdftoppm"; // Linux path
+}
 
-const cmd = `${pdftoppmPath} -jpeg "${filePath}" "${outputPrefix}"`;
-console.log("Running:", cmd);
+// ⭐ FIX: Use finalPdftoppmPath, not the Windows hardcoded one
+const cmd = `${finalPdftoppmPath} -jpeg "${filePath}" "${outputPrefix}-%d"`;
+
+console.log("Running Poppler:", cmd);
 
 await execPromise(cmd);
 
-// Read all generated JPG files
+// ⭐ FIX: Filter correctly for numbered images
 const imageFiles = fs
   .readdirSync(outputDir)
-  .filter((f) => f.startsWith(baseName));
-
-
-    // ------------------------------------------------
-    // Find all output images
-    // ------------------------------------------------
-    const imageFiles = fs
-      .readdirSync(outputDir)
-      .filter((f) => f.startsWith(baseName + "-"));
+  .filter((f) => f.startsWith(baseName + "-"));
 
     // Upload each image to Cloudinary
     const uploads = await Promise.all(
