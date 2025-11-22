@@ -1,0 +1,94 @@
+.comic-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  background: #f6f6f6;
+  position: relative;
+  padding: 20px;
+  border: 2px solid black;
+  box-shadow: 8px 8px 0 black;
+  animation: popIn 0.4s ease;
+}
+
+/* Character (simple comic mascot) */
+.character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float 1.8s infinite ease-in-out;
+
+  .head {
+    width: 38px;
+    height: 38px;
+    background: #ffda79;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+
+  .body {
+    width: 28px;
+    height: 45px;
+    background: #74b9ff;
+    border-radius: 6px;
+    border: 2px solid black;
+    margin-top: 6px;
+  }
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  background: white;
+  border: 2px solid black;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-family: "Bangers", sans-serif;
+  font-size: 20px;
+  position: relative;
+  max-width: 160px;
+  animation: bubblePop 1s infinite;
+
+  p {
+    margin: 0;
+  }
+}
+
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-right-color: white;
+}
+
+/* Animations */
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes bubblePop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}

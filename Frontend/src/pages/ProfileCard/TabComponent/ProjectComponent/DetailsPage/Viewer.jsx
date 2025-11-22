@@ -86,45 +86,68 @@ useEffect(() => {
 }, [projectId]); // only projectId
 
   // Fetch images
-  useEffect(() => {
-    const fetchImages = async () => {
-      const queryParams = new URLSearchParams(window.location.search);
-      const queryImages = queryParams.get("images");
-      const queryStartIndex = queryParams.get("start");
+useEffect(() => {
+  const fetchImages = async () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const queryImages = queryParams.get("images");
+    const queryStartIndex = queryParams.get("start");
 
-      if (queryStartIndex) {
-        setStartIndex(parseInt(queryStartIndex, 10));
+    if (queryStartIndex) {
+      setStartIndex(parseInt(queryStartIndex, 10));
+    }
+
+    // ⭐ If images came from Swiper → use them
+    if (queryImages) {
+      try {
+        const parsedImages = JSON.parse(decodeURIComponent(queryImages));
+        setImages(parsedImages || []);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error parsing images from query", err);
+        setImages([]);
+        setLoading(false);
       }
+    }
 
-      if (queryImages) {
-        try {
-          const parsedImages = JSON.parse(decodeURIComponent(queryImages));
-          setImages(parsedImages || []);
-          setLoading(false);
-        } catch (err) {
-          console.error("Error parsing images from query", err);
-          setImages([]);
-          setLoading(false);
-        }
-      } else if (projectId) {
-        try {
-          const res = await axiosInstance.get(`/projects/id/${projectId}`, {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-            params: { userId, username },
-          });
+    // ⭐ Else load from Backend
+    else if (projectId) {
+      try {
+        const res = await axiosInstance.get(`/projects/id/${projectId}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          params: { userId, username },
+        });
 
-          setImages(res.data.project.thumbnailImages || []);
-          setLoading(false);
-        } catch (err) {
-          console.error("Error fetching images from backend", err);
-          setImages([]);
-          setLoading(false);
+        const project = res.data.project;
+
+        const thumbnails = project.thumbnailImages || [];
+        const pdfPages = project.comicPages || [];
+        const allImages = project.allImages || [];
+
+        let merged = [];
+
+        // ⭐ Priority 1 → Backend-provided master order
+        if (Array.isArray(allImages) && allImages.length > 0) {
+          merged = allImages;
         }
+
+        // ⭐ Priority 2 → Merge JPG + PDF in natural order
+        else {
+          merged = [...thumbnails, ...pdfPages];
+        }
+
+        setImages(merged);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching images from backend", err);
+        setImages([]);
+        setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchImages();
-  }, [projectId, token, userId, username]);
+  fetchImages();
+}, [projectId, token, userId, username]);
+
 
   // Detect visible image while scrolling
   useEffect(() => {
