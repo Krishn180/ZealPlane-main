@@ -76,24 +76,29 @@ router.post("/", ValidateToken, upload.single("file"), async (req, res) => {
     // ------------------------------------------------
     // 📘 PDF → Convert to JPG pages using Poppler
     // ------------------------------------------------
-// 📘 PDF → Convert to JPG pages, then upload
+// PDF → Convert to JPG pages
 const outputDir = "uploads/pdf_images";
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
-const outputPrefix = path.join(outputDir, path.basename(filePath, ".pdf"));
+const baseName = path.basename(filePath, ".pdf");
+const outputPrefix = path.join(outputDir, baseName);
 
-// ---------------------- IMPORTANT FIX ↓↓↓ ----------------------
+// OS detection (Windows / Linux)
 const isWindows = process.platform === "win32";
 
 const pdftoppmPath = isWindows
   ? "C:\\Users\\Krishna Kumar\\Downloads\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin\\pdftoppm.exe"
-  : "/usr/bin/pdftoppm"; // Linux poppler utils path
-// ---------------------------------------------------------------
+  : "/usr/bin/pdftoppm";
 
 const cmd = `${pdftoppmPath} -jpeg "${filePath}" "${outputPrefix}"`;
 console.log("Running:", cmd);
 
-await execPromise(cmd); // Now works on both OS
+await execPromise(cmd);
+
+// Read all generated JPG files
+const imageFiles = fs
+  .readdirSync(outputDir)
+  .filter((f) => f.startsWith(baseName));
 
 
     // ------------------------------------------------
