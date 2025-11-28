@@ -264,6 +264,7 @@ import axiosInstance from "../../Auth/Axios";
 import { jwtDecode } from "jwt-decode";
 import PostList from "./Component/PostList";
 import CuratedSidebar from "./Component/right-sidebar/right-sidebar"; // ✅ ADD THIS
+import ForumSkeleton from "./ForumSkeleton";
 
 const PostDetail = () => {
   const { slug } = useParams();
@@ -303,33 +304,32 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
-  // 🚨 Redirect if user is not logged in
-  if (!token) {
-    toast.warning("Please login to continue!");
-    navigate("/login");
-    return; // stop further execution
-  }
-
-  const fetchPost = async () => {
-    try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      const response = await axios.get(`${apiBaseUrl}/posts/${id}`, config);
-
-      setPost({
-        ...response.data.post,
-        votes: response.data.post.votes || [],
-      });
-      setStatus(response.data.status);
-      setComments(response.data.post.comments || []);
-    } catch (error) {
-      toast.error("Failed to fetch post details!");
+    // 🚨 Redirect if user is not logged in
+    if (!token) {
+      toast.warning("Please login to continue!");
+      navigate("/login");
+      return; // stop further execution
     }
-  };
 
-  fetchPost();
-  fetchUserVote();
-}, [id, token, navigate]);
+    const fetchPost = async () => {
+      try {
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const response = await axios.get(`${apiBaseUrl}/posts/${id}`, config);
 
+        setPost({
+          ...response.data.post,
+          votes: response.data.post.votes || [],
+        });
+        setStatus(response.data.status);
+        setComments(response.data.post.comments || []);
+      } catch (error) {
+        toast.error("Failed to fetch post details!");
+      }
+    };
+
+    fetchPost();
+    fetchUserVote();
+  }, [id, token, navigate]);
 
   const handleVote = async (voteType) => {
     try {
@@ -365,7 +365,8 @@ const PostDetail = () => {
             ...prev,
             votes: updatedVotes,
             votesCount:
-              prev.votesCount + (hasVoted ? voteValue - userVoteValue : voteValue),
+              prev.votesCount +
+              (hasVoted ? voteValue - userVoteValue : voteValue),
           };
         });
       }
@@ -409,7 +410,7 @@ const PostDetail = () => {
     }
   };
 
-  if (!post) return <Spinner />;
+  if (!post) return <ForumSkeleton />;
 
   const votesCount = post.votes ? post.votes.length : 0;
 
@@ -422,7 +423,9 @@ const PostDetail = () => {
         </div>
 
         <div className="post-content">
-          <div className="empty"><br /></div>
+          <div className="empty">
+            <br />
+          </div>
           <PostInfo
             post={post}
             status={status}
@@ -437,7 +440,11 @@ const PostDetail = () => {
             votesCount={votesCount}
             hasVoted={hasVoted}
           />
-          <CommentsSection comments={comments} setComments={setComments} postId={id} />
+          <CommentsSection
+            comments={comments}
+            setComments={setComments}
+            postId={id}
+          />
           <PostList votesCount={votesCount} />
         </div>
 
@@ -451,4 +458,3 @@ const PostDetail = () => {
 };
 
 export default PostDetail;
-

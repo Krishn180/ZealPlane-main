@@ -552,6 +552,7 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import Anonimous from "../../../../public/anonymous-profile-silhouette-b714qekh29tu1anb.png";
+import HeroBannerSkeleton from "./HeroBannerSkeleton";
 
 const TruncatedDescription = ({ description, maxLength = 100 }) => {
   return (
@@ -607,26 +608,24 @@ const HeroBanner = ({ selectedPosterUrl }) => {
   }, []);
 
   useEffect(() => {
-  const fetchProjects = async () => {
-    try {
-      const res = await axios.get(`${apiBaseUrl}/projects`);
+    const fetchProjects = async () => {
+      try {
+        const res = await axios.get(`${apiBaseUrl}/projects`);
 
-      const validProjects = res.data.filter(
-        (project) =>
-          project.thumbnailImage && project.thumbnailImages.length > 0
-      );
+        const validProjects = res.data.filter(
+          (project) =>
+            project.thumbnailImage && project.thumbnailImages.length > 0
+        );
 
-      setDatas(shuffleArray(validProjects));
-
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    } finally {
-      setLoading(false);   // 🔥 important
-    }
-  };
-  fetchProjects();
-}, []);
-
+        setDatas(shuffleArray(validProjects));
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      } finally {
+        setLoading(false); // 🔥 important
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const onProfileClick = (uniqueId) => {
     if (uniqueId) {
@@ -661,172 +660,170 @@ const HeroBanner = ({ selectedPosterUrl }) => {
   };
   const swiperWrappedRef = useRef(null);
 
-return (
-  <div className="swiper-slider-container">
-
-    {/* 🔥 Show Skeleton While Loading */}
-    {loading ? (
-      <div className="slider-skeleton">
-        <div className="skeleton-bg"></div>
-        <div className="skeleton-content">
-          <div className="skeleton-title"></div>
-          <div className="skeleton-desc"></div>
-          <div className="skeleton-user"></div>
-        </div>
-      </div>
-    ) : (
-      <>
-        {/* 🔥 Actual Swiper Slider After Loading */}
-        <Swiper
-          className="theater-swiper"
-          key={datas.length}
-          grabCursor
-          centeredSlides
-          navigation={{
-            nextEl: ".custom-swiper-button-next",
-            prevEl: ".custom-swiper-button-prev",
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-            dynamicMainBullets: 3,
-          }}
-          loop={true}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          speed={800}
-          modules={[Pagination, Navigation, Autoplay]}
-          onSwiper={(swiper) => {
-            swiperWrappedRef.current = swiper.wrapperEl;
-          }}
-        >
-          {datas.map((project) => (
-            <SwiperSlide key={project.projectId}>
-              <div className="slide-wrapper-top">
-                <div
-                  className="slide-bg"
-                  style={{ backgroundImage: `url(${project.thumbnailImage})` }}
-                  onClick={() => navigate(`/details/${project.projectId}`)}
-                ></div>
-
-                <img
-                  src={project.thumbnailImage}
-                  alt={project.name}
-                  className="slide-img"
-                  onClick={() => navigate(`/details/${project.projectId}`)}
-                />
-
-                <div className="content-slider">
+  return (
+    <div className="swiper-slider-container">
+      {/* 🔥 Show Skeleton While Loading */}
+      {loading ? (
+        <HeroBannerSkeleton />
+      ) : (
+        <>
+          {/* 🔥 Actual Swiper Slider After Loading */}
+          <Swiper
+            className="theater-swiper"
+            key={datas.length}
+            grabCursor
+            centeredSlides
+            navigation={{
+              nextEl: ".custom-swiper-button-next",
+              prevEl: ".custom-swiper-button-prev",
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+              dynamicMainBullets: 3,
+            }}
+            loop={true}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            speed={800}
+            modules={[Pagination, Navigation, Autoplay]}
+            onSwiper={(swiper) => {
+              swiperWrappedRef.current = swiper.wrapperEl;
+            }}
+          >
+            {datas.map((project) => (
+              <SwiperSlide key={project.projectId}>
+                <div className="slide-wrapper-top">
                   <div
-                    className="title-slider"
+                    className="slide-bg"
+                    style={{
+                      backgroundImage: `url(${project.thumbnailImage})`,
+                    }}
                     onClick={() => navigate(`/details/${project.projectId}`)}
-                  >
-                    <h1>{project.name}</h1>
-                  </div>
+                  ></div>
 
-                  <div
-                    className="description-slider"
+                  <img
+                    src={project.thumbnailImage}
+                    alt={project.name}
+                    className="slide-img"
                     onClick={() => navigate(`/details/${project.projectId}`)}
-                  >
-                    <TruncatedDescription description={project.description} />
-                  </div>
+                  />
 
-                  <div className="avtar-username">
-                    <div className="avtar-photo">
-                      <img
-                        src={project.profilePic ? project.profilePic : Anonimous}
-                        alt={project.username || "Anonymous User"}
-                        className="avatar"
-                        onClick={() => onProfileClick(project.uniqueId)}
-                      />
-                      <span
-                        className="username"
-                        onClick={() => onProfileClick(project.uniqueId)}
-                      >
-                        {project.username || "Anonymous User"}
-                      </span>
+                  <div className="content-slider">
+                    <div
+                      className="title-slider"
+                      onClick={() => navigate(`/details/${project.projectId}`)}
+                    >
+                      <h1>{project.name}</h1>
                     </div>
 
-                    <div className="icons">
-                      <div className="icon-group">
-                        <div
-                          className="icon-wrapper like"
-                          onClick={() => handleLikeClick(project.projectId)}
-                        >
-                          <FaHeart
-                            className="heart-icon"
-                            style={{ color: project.isLiked ? "red" : "white" }}
-                          />
-                        </div>
-                        <span className="likeCount">{project.likes}</span>
-                        <div
-                          className="icon-wrapper share"
-                          onClick={() => handleShareClick(project)}
-                        >
-                          <MdShare />
-                        </div>
-                        <button
-                          className="read"
-                          onClick={() =>
-                            navigate(`/details/${project.projectId}`)
+                    <div
+                      className="description-slider"
+                      onClick={() => navigate(`/details/${project.projectId}`)}
+                    >
+                      <TruncatedDescription description={project.description} />
+                    </div>
+
+                    <div className="avtar-username">
+                      <div className="avtar-photo">
+                        <img
+                          src={
+                            project.profilePic ? project.profilePic : Anonimous
                           }
+                          alt={project.username || "Anonymous User"}
+                          className="avatar"
+                          onClick={() => onProfileClick(project.uniqueId)}
+                        />
+                        <span
+                          className="username"
+                          onClick={() => onProfileClick(project.uniqueId)}
                         >
-                          Read More
-                        </button>
+                          {project.username || "Anonymous User"}
+                        </span>
+                      </div>
+
+                      <div className="icons">
+                        <div className="icon-group">
+                          <div
+                            className="icon-wrapper like"
+                            onClick={() => handleLikeClick(project.projectId)}
+                          >
+                            <FaHeart
+                              className="heart-icon"
+                              style={{
+                                color: project.isLiked ? "red" : "white",
+                              }}
+                            />
+                          </div>
+                          <span className="likeCount">{project.likes}</span>
+                          <div
+                            className="icon-wrapper share"
+                            onClick={() => handleShareClick(project)}
+                          >
+                            <MdShare />
+                          </div>
+                          <button
+                            className="read"
+                            onClick={() =>
+                              navigate(`/details/${project.projectId}`)
+                            }
+                          >
+                            Read More
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          <div className="custom-swiper-button-prev">&#8592;</div>
+          <div className="custom-swiper-button-next">&#8594;</div>
+
+          {/* Share Modal */}
+          {selectedProject && (
+            <Modal
+              title={
+                <div className="modalTitle">Share {selectedProject.name}</div>
+              }
+              visible={isShareModalVisible}
+              onCancel={handleCancel}
+              footer={null}
+              className="shareModal"
+            >
+              <div className="shareOptions">
+                <FacebookShareButton
+                  url={`${window.location.origin}/details/${selectedProject.projectId}`}
+                >
+                  <FacebookIcon size={32} round />
+                </FacebookShareButton>
+                <TwitterShareButton
+                  url={`${window.location.origin}/details/${selectedProject.projectId}`}
+                >
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+                <LinkedinShareButton
+                  url={`${window.location.origin}/details/${selectedProject.projectId}`}
+                >
+                  <LinkedinIcon size={32} round />
+                </LinkedinShareButton>
+                <WhatsappShareButton
+                  url={`${window.location.origin}/details/${selectedProject.projectId}`}
+                >
+                  <WhatsappIcon size={32} round />
+                </WhatsappShareButton>
+                <RedditShareButton
+                  url={`${window.location.origin}/details/${selectedProject.projectId}`}
+                >
+                  <RedditIcon size={32} round />
+                </RedditShareButton>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        <div className="custom-swiper-button-prev">&#8592;</div>
-        <div className="custom-swiper-button-next">&#8594;</div>
-
-        {/* Share Modal */}
-        {selectedProject && (
-          <Modal
-            title={
-              <div className="modalTitle">Share {selectedProject.name}</div>
-            }
-            visible={isShareModalVisible}
-            onCancel={handleCancel}
-            footer={null}
-            className="shareModal"
-          >
-            <div className="shareOptions">
-              <FacebookShareButton
-                url={`${window.location.origin}/details/${selectedProject.projectId}`}
-              >
-                <FacebookIcon size={32} round />
-              </FacebookShareButton>
-              <TwitterShareButton
-                url={`${window.location.origin}/details/${selectedProject.projectId}`}
-              >
-                <TwitterIcon size={32} round />
-              </TwitterShareButton>
-              <LinkedinShareButton
-                url={`${window.location.origin}/details/${selectedProject.projectId}`}
-              >
-                <LinkedinIcon size={32} round />
-              </LinkedinShareButton>
-              <WhatsappShareButton
-                url={`${window.location.origin}/details/${selectedProject.projectId}`}
-              >
-                <WhatsappIcon size={32} round />
-              </WhatsappShareButton>
-              <RedditShareButton
-                url={`${window.location.origin}/details/${selectedProject.projectId}`}
-              >
-                <RedditIcon size={32} round />
-              </RedditShareButton>
-            </div>
-          </Modal>
-        )}
-      </>
-    )}
-  </div>
-);
+            </Modal>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
 export default HeroBanner;

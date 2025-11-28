@@ -1,0 +1,127 @@
+/* === MAIN WRAPPER === */
+.forum-layout {
+  display: grid;
+
+  /* fix left sidebar width + fix right sidebar width + middle auto */
+  grid-template-columns: 260px 1fr 340px;
+
+  /* equal spacing on both sides */
+  padding: 0 40px;
+
+  gap: 40px;
+  margin-top: 110px;
+  width: 100%;
+  max-width: 1600px; /* ⭐ max center width like real site */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* LEFT SIDEBAR GAP placeholder */
+.left-sidebar-gap {
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === MIDDLE CONTENT === */
+.forum-left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sk-post-card {
+  background: #363636;
+  padding: 25px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Title */
+.sk-title {
+  width: 55%;
+  height: 32px;
+  border-radius: 6px;
+}
+
+/* Posted by */
+.sk-posted {
+  width: 35%;
+  height: 20px;
+  border-radius: 5px;
+}
+
+/* Main Image */
+.sk-main-img {
+  width: 100%;
+  height: 620px;
+  border-radius: 10px;
+}
+
+/* === RIGHT SIDEBAR === */
+.forum-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sk-sidebar-title {
+  width: 70%;
+  height: 25px;
+  border-radius: 6px;
+}
+
+.sk-side-box {
+  width: 100%;
+  height: 110px;
+  border-radius: 12px;
+}
+
+/* === SHIMMER === */
+.shimmer {
+  background: #545353;
+  background-image: linear-gradient(
+    120deg,
+    #1e1e1e 0%,
+    #292929 30%,
+    #1e1e1e 60%
+  );
+  background-size: 1000px 100%;
+  animation: shimmerMove 1.3s infinite linear;
+}
+
+@keyframes shimmerMove {
+  from {
+    background-position: -1000px 0;
+  }
+  to {
+    background-position: 1000px 0;
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1100px) {
+  .forum-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 0 20px;
+  }
+
+  .forum-right {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .sk-main-img {
+    height: 450px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sk-main-img {
+    height: 350px;
+  }
+}

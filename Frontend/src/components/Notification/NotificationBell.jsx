@@ -79,7 +79,11 @@ const HeaderNotificationBell = () => {
 
       await Promise.all(
         unreadNotifications.map((notification) =>
-          axios.patch(`${apiBaseUrl}/notification/${notification._id}/read`, {}, { headers })
+          axios.patch(
+            `${apiBaseUrl}/notification/${notification._id}/read`,
+            {},
+            { headers }
+          )
         )
       );
 

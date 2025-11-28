@@ -345,3 +345,31 @@
 //       width: 300px;
 //     }
 //   }
+.logo {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 40px;
+    border-radius: 100%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 142, 53, 0.4);
+    box-shadow: 0 0 10px rgba(255, 142, 53, 0.3);
+    transition: 0.3s;
+
+    &:hover {
+      transform: rotate(-4deg) scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 142, 53, 0.7);
+    }
+  }
+}
+
+.logo-text {
+  display: inline;
+  margin-left: 8px;
+  font-family: "Bangers", cursive;
+  color: #ff8e35;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255, 142, 53, 0.8);
+}

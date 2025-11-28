@@ -764,6 +764,17 @@
           width: 33px;
         }
       }
+      .menuItem1 {
+        gap: 5px;
+        margin: 0 7px;
+        font-size: 16px;
+      }
+      .menuItem2 {
+        margin: 0 5px;
+        background: transparent;
+        border: none;
+        padding: 3px 6px;
+      }
       .logo-text {
         display: none;
       }
@@ -785,6 +796,9 @@
           padding: 0.3rem 0.2rem 0.2rem 2rem;
           max-width: 110%;
         }
+      }
+      .profile-options {
+        margin-left: -140px;
       }
     }
   }
@@ -910,5 +924,10 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+@media screen and (max-width: 568px) {
+  .dash {
+    display: none !important;
   }
 }

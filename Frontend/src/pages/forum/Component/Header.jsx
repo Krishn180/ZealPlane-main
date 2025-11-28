@@ -7,7 +7,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BiLogIn } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import axios from "axios";
-// import "../Header.scss";
+import "./Header.scss";
 
 import logozp from "/src/assets/logoZP.png"; // Import your logo
 import Sidebar from "./Sidebar";
@@ -91,16 +91,12 @@ const Header = () => {
         >
           <Sidebar />
         </div>
-        <div className="header-logo">
+        <div className="logo">
           <Link to="/home" style={{ textDecoration: "none" }}>
-            <img src={logozp} alt="Logo" className="logo" />{" "}
+            <img src={logozp} alt="Logo" className="logo1" />{" "}
             <span
               className="logo-text"
-              style={{
-                color: "red",
-                fontWeight: "900",
-                fontSize: "18px",
-              }}
+              style={{ color: "red", fontWeight: "900", fontSize: "20px" }}
             >
               ZEAL<span className="plane">PLANE</span>
             </span>
