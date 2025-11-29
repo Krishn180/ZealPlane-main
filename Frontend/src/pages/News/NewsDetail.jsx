@@ -66,9 +66,9 @@ const showDeleteButton = news.authorId
           <h1 className="news-title">{news.title}</h1>
 
           {/* SHOW DELETE BUTTON ONLY TO AUTHOR */}
-            <button className="delete-news-btn" onClick={handleDelete}>
+            {/* <button className="delete-news-btn" onClick={handleDelete}>
               Delete News
-            </button>
+            </button> */}
         
 
           {news.coverImage && (
