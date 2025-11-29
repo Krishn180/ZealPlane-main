@@ -4,7 +4,7 @@ const ValidateToken = require("../midleware/validateTokenHandler");
 const router = express.Router();
 
 // Create news article
-router.post("/", ValidateToken, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { title, content, author, coverImage, tags } = req.body;
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
