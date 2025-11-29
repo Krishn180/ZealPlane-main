@@ -13,7 +13,6 @@ const NewsList = () => {
   // ✅ Get userId from localStorage
   const userId = localStorage.getItem("Id");
   const allowedUserId = "63a87bd4-08ed-4c06-9080-2a891c0efbfa";
-  // const allowedUserId = "d836e39a-9964-4499-8c23-a85e8c78156f";
 
   useEffect(() => {
     axios
