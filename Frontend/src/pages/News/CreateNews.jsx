@@ -13,6 +13,7 @@ const CreateNews = () => {
   const [author, setAuthor] = useState("");
   const [coverImage, setCoverImage] = useState("");
   const [tags, setTags] = useState("");
+  const token = localStorage.getItem("token");
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
   // Function to detect links and make them clickable
@@ -27,29 +28,43 @@ const CreateNews = () => {
     setContent(detectUrls(value));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const cleanedContent = content
-        .replace(/<\/?p>/g, "")
-        .replace(/<br\s*\/?>/gi, "\n")
-        .replace(/background-color:[^;]+;/gi, ""); // remove background-color styles
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const newsData = {
-        title,
-        content: cleanedContent,
-        author,
-        coverImage, // This is just a URL
-        tags: tags.split(",").map((tag) => tag.trim()),
-      };
+  try {
+    const cleanedContent = content
+      .replace(/<\/?p>/g, "")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/background-color:[^;]+;/gi, ""); // remove background-color styles
 
-      await axios.post(`${apiBaseUrl}/news`, newsData);
-      alert("News added successfully!");
-    } catch (err) {
-      console.error("Error adding news:", err);
-      alert("Failed to add news");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You must be logged in to post news.");
+      return;
     }
-  };
+
+    const newsData = {
+      title,
+      content: cleanedContent,
+      author,
+      coverImage,
+      tags: tags.split(",").map((tag) => tag.trim()),
+    };
+
+    await axios.post(`${apiBaseUrl}/news`, newsData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ Token added
+      },
+    });
+
+    alert("News added successfully!");
+  } catch (err) {
+    console.error("Error adding news:", err);
+    alert("Failed to add news");
+  }
+};
+
 
   return (
     <div className="create-news-container">

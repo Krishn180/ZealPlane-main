@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../components/header/Header";
 import linkifyHtml from "linkify-html";
@@ -8,20 +8,42 @@ import Footer from "../../components/footer/Footer";
 
 const NewsDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [news, setNews] = useState(null);
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  // Hardcoded authorized user ID
+  const authorizedUserId = "d836e39a-9964-4499-8c23-a85e8c78156f";
 
   useEffect(() => {
     axios
       .get(`${apiBaseUrl}/news/${slug}`)
-      .then((res) => {
-        console.log("Fetched news data:", res.data);
-        setNews(res.data);
-      })
+      .then((res) => setNews(res.data))
       .catch((err) => console.error("Error fetching news:", err));
   }, [slug]);
 
+  // DELETE Handler
+ const handleDelete = async () => {
+  if (!window.confirm("Are you sure you want to delete this news article?")) return;
+
+  try {
+    await axios.delete(`${apiBaseUrl}/news/${slug}`);
+    alert("News deleted successfully");
+    navigate("/news");
+  } catch (err) {
+    alert("Error deleting news");
+    console.error(err);
+  }
+};
+
+
   if (!news) return <p className="loading">Loading...</p>;
+
+  // Show delete button if the news author's ID matches the hardcoded ID
+const showDeleteButton = news.authorId 
+  ? news.authorId === authorizedUserId 
+  : true; // or false depending on your testing
+
 
   return (
     <>
@@ -43,6 +65,12 @@ const NewsDetail = () => {
         <main className="news-detail">
           <h1 className="news-title">{news.title}</h1>
 
+          {/* SHOW DELETE BUTTON ONLY TO AUTHOR */}
+            <button className="delete-news-btn" onClick={handleDelete}>
+              Delete News
+            </button>
+        
+
           {news.coverImage && (
             <div className="news-cover">
               <img
@@ -51,9 +79,9 @@ const NewsDetail = () => {
                 style={{
                   width: "100%",
                   height: "auto",
-                  maxHeight: "500px", // ✅ prevents over-stretching
-                  objectFit: "cover", // ✅ keeps proportions
-                  imageRendering: "crisp-edges", // ✅ sharper rendering
+                  maxHeight: "500px",
+                  objectFit: "cover",
+                  imageRendering: "crisp-edges",
                 }}
               />
             </div>
@@ -71,7 +99,6 @@ const NewsDetail = () => {
             }}
             style={{ whiteSpace: "pre-wrap" }}
           ></div>
-          <br />
         </main>
 
         {/* Right Sidebar */}
@@ -86,8 +113,7 @@ const NewsDetail = () => {
         </aside>
       </div>
 
-      {/* ✅ Footer added */}
-      <Footer/>
+      <Footer />
     </>
   );
 };
