@@ -87,9 +87,8 @@ const Header = () => {
     navigate("/forum");
   };
   const handleNewsClick = () => {
-  navigate("/news"); // Navigate to the News page
-};
-
+    navigate("/news"); // Navigate to the News page
+  };
 
   if (!token) {
     return <Navbar />;
@@ -117,77 +116,82 @@ const Header = () => {
           </div>
           <Searchbar axiosInstance={axiosInstance} />
 
-         <ul className="menuItems">
+          <ul className="menuItems">
+            <li
+              className="menuItem2 dash"
+              onClick={() => navigate("/dashboard")}
+            >
+              {window.innerWidth <= 568 ? (
+                <div className="iconWrapper">
+                  <span className="hoverText">Dashboard</span>
+                </div>
+              ) : (
+                "Dashboard"
+              )}
+            </li>
 
-            <li className="menuItem2" onClick={() => navigate("/dashboard")}>
-    {window.innerWidth <= 568 ? (
-      <div className="iconWrapper">
-        <span className="hoverText">Dashboard</span>
-      </div>
-    ) : (
-      "Dashboard"
-    )}
-  </li>
+            <li className="menuItem2" onClick={handleForumClick}>
+              {window.innerWidth <= 568 ? (
+                <div className="iconWrapper">
+                  <FaUsers className="communityIcon" />
+                  <span className="hoverText">Communities</span>
+                </div>
+              ) : (
+                "Communities"
+              )}
+            </li>
 
-  <li className="menuItem2" onClick={handleForumClick}>
-    {window.innerWidth <= 568 ? (
-      <div className="iconWrapper">
-        <FaUsers className="communityIcon" />
-        <span className="hoverText">Communities</span>
-      </div>
-    ) : (
-      "Communities"
-    )}
-  </li>
+            {/* Plus Icon for Modal */}
+            <li
+              className="menuItem1"
+              style={{ color: "white", cursor: "pointer" }}
+              onClick={() => setShowModal(true)}
+            >
+              <FaPlus />
+            </li>
 
+            {/* Notification Bell Component */}
+            <li className="menuItem1">
+              <HeaderNotificationBell />
+            </li>
 
-  {/* Plus Icon for Modal */}
-  <li
-    className="menuItem1"
-    style={{ color: "white", cursor: "pointer" }}
-    onClick={() => setShowModal(true)}
-  >
-    <FaPlus />
-  </li>
-
-  {/* Notification Bell Component */}
-  <li className="menuItem1">
-    < HeaderNotificationBell/>
-  </li>
-
-  {/* Profile Section */}
-  <li
-    className="menuItem1 profile-container"
-    onMouseEnter={() => setShowProfileOptions(true)}
-    onMouseLeave={() => setShowProfileOptions(false)}
-  >
-    <img
-      src={profilePic || avatar}
-      alt="Profile"
-      className="avatarImage"
-      onClick={handleProfileClick}
-    />
-    {userName && (
-      <span className="username" onClick={handleProfileClick}>
-        {userName}
-      </span>
-    )}
-    {showProfileOptions && (
-      <div className={`profile-options ${showProfileOptions ? "active" : ""}`}>
-        <ul>
-          <li onClick={handleVisitProfile}>Profile</li>
-          <hr />
-          <li>
-            <Logout />
-          </li>
-          <li onClick={() => navigate("/settings")}>
-            <FiSettings className="header-icon" /> Settings
-          </li>
-        </ul>
-      </div>
-    )}
-  </li>
-</ul>
+            {/* Profile Section */}
+            <li
+              className="menuItem1 profile-container"
+              onMouseEnter={() => setShowProfileOptions(true)}
+              onMouseLeave={() => setShowProfileOptions(false)}
+            >
+              <img
+                src={profilePic || avatar}
+                alt="Profile"
+                className="avatarImage"
+                onClick={handleProfileClick}
+              />
+              {userName && (
+                <span className="username" onClick={handleProfileClick}>
+                  {userName}
+                </span>
+              )}
+              {showProfileOptions && (
+                <div
+                  className={`profile-options ${
+                    showProfileOptions ? "active" : ""
+                  }`}
+                >
+                  <ul>
+                    <li onClick={handleVisitProfile}>Profile</li>
+                    <hr />
+                    <li>
+                      <Logout />
+                    </li>
+                    <li onClick={() => navigate("/settings")}>
+                      <FiSettings className="header-icon" /> Settings
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </li>
+          </ul>
         </ContentWrapper>
       </header>
 
@@ -196,16 +200,16 @@ const Header = () => {
         <div className="custom-modal-overlay">
           <div className="custom-modal">
             <h2>What do you want to do?</h2>
-           <button
-  onClick={() => {
-    setShowModal(false);
-    navigate(`/profile/${userId}`, {
-      state: { openAddProject: true }
-    });
-  }}
->
-  Add Project
-</button>
+            <button
+              onClick={() => {
+                setShowModal(false);
+                navigate(`/profile/${userId}`, {
+                  state: { openAddProject: true },
+                });
+              }}
+            >
+              Add Project
+            </button>
 
             <button onClick={() => navigate("/forum/create-post")}>
               community Post

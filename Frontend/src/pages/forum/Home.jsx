@@ -3,10 +3,11 @@ import axios from "axios";
 import PostList from "./Component/PostList";
 import Header from "./Component/Header";
 import Sidebar from "./Component/Sidebar";
-import CuratedSidebar from "./Component/right-sidebar/right-sidebar";  // New CuratedSidebar Component
+import CuratedSidebar from "./Component/right-sidebar/right-sidebar"; // New CuratedSidebar Component
 import "./style.scss";
 import Spinner from "../../components/spinner/Spinner";
 import axiosInstance from "../../Auth/Axios";
+import ForumSkeleton from "./ForumSkeleton";
 
 const Home = () => {
   const [posts, setPosts] = useState([]); // State for storing posts
@@ -43,14 +44,14 @@ const Home = () => {
         <div className="main-content" style={{ marginTop: "55px" }}>
           <main className="content-container">
             {loading ? (
-              <Spinner /> // Show spinner while data is loading
+              <ForumSkeleton /> // Show spinner while data is loading
             ) : (
               <PostList initialPosts={combinedPosts} /> // Show posts when data is loaded
             )}
           </main>
         </div>
         <div className="curated-sidebar">
-          <CuratedSidebar /> 
+          <CuratedSidebar />
         </div>
       </div>
     </div>

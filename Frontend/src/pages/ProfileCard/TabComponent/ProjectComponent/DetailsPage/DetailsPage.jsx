@@ -31,8 +31,8 @@ import {
   FaHome,
   FaFolder,
   FaTrash,
-   FaShareAlt,
-   FaEnvelopeOpenText
+  FaShareAlt,
+  FaEnvelopeOpenText,
 } from "react-icons/fa";
 import axios from "axios";
 import PosterFallback from "../../../../../assets/no-poster.png";
@@ -63,6 +63,7 @@ import linkifyHtml from "linkify-html";
 import { Footer } from "antd/es/layout/layout";
 import Share from "../../../../../components/Share/Share";
 import EnquiryModal from "../../../../../components/Enquiry/Enquiry";
+import DetailsSkeleton from "./DetailsSkeleton";
 
 const DetailsPage = () => {
   const { projectId } = useParams();
@@ -119,74 +120,75 @@ const DetailsPage = () => {
     }
   };
 
- useEffect(() => {
-  const fetchProjectDetails = async () => {
-    try {
-      // Get the user's IP address
-      const ipResponse = await axios.get("https://api64.ipify.org?format=json");
-      const userIp = ipResponse.data.ip;
-
-      // Prepare headers
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
-      // Fetch project details only once
-      if (!projectData || projectData.id !== projectId) {
-        const response = await axiosInstance.get(
-          `${apiBaseUrl}/projects/id/${projectId}`,
-          { headers, params: { userId, userIp } }
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        // Get the user's IP address
+        const ipResponse = await axios.get(
+          "https://api64.ipify.org?format=json"
         );
+        const userIp = ipResponse.data.ip;
 
-        const project = response.data.project;
+        // Prepare headers
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-        // Combine thumbnailImages + comicPages into one array for Swiper
-        const allImages = [
-          ...(project.thumbnailImages || []),
-          ...(project.comicPages || [])
-        ];
+        // Fetch project details only once
+        if (!projectData || projectData.id !== projectId) {
+          const response = await axiosInstance.get(
+            `${apiBaseUrl}/projects/id/${projectId}`,
+            { headers, params: { userId, userIp } }
+          );
 
-        console.log("Project details are", project);
-        console.log("All images:", allImages);
+          const project = response.data.project;
 
-        // Set state variables
-        setProjectData({ ...project, allImages });
-        setLiked(project.likes);
-        setLikesCount(project.likes || 0);
-        setPreviousImage(project.thumbnailImages || []);
-        setStatus(response.data.status);
-        setProfilePic(project.profilePic);
-        setUserName(project.username);
-        setView(project.views);
+          // Combine thumbnailImages + comicPages into one array for Swiper
+          const allImages = [
+            ...(project.thumbnailImages || []),
+            ...(project.comicPages || []),
+          ];
+
+          console.log("Project details are", project);
+          console.log("All images:", allImages);
+
+          // Set state variables
+          setProjectData({ ...project, allImages });
+          setLiked(project.likes);
+          setLikesCount(project.likes || 0);
+          setPreviousImage(project.thumbnailImages || []);
+          setStatus(response.data.status);
+          setProfilePic(project.profilePic);
+          setUserName(project.username);
+          setView(project.views);
+        }
+      } catch (error) {
+        console.error("Error fetching project details:", error);
       }
+    };
+
+    fetchProjectDetails();
+  }, [projectId, token]);
+
+  const onProjectUpdate = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${apiBaseUrl}/projects/id/${projectId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const project = response.data.project;
+
+      // Combine images for Swiper
+      const allImages = [
+        ...(project.thumbnailImages || []),
+        ...(project.comicPages || []),
+      ];
+
+      console.log("Updated project details:", project);
+      setProjectData({ ...project, allImages });
     } catch (error) {
-      console.error("Error fetching project details:", error);
+      console.error("Error refreshing project data:", error);
     }
   };
-
-  fetchProjectDetails();
-}, [projectId, token]);
-
-const onProjectUpdate = async () => {
-  try {
-    const response = await axiosInstance.get(
-      `${apiBaseUrl}/projects/id/${projectId}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    const project = response.data.project;
-
-    // Combine images for Swiper
-    const allImages = [
-      ...(project.thumbnailImages || []),
-      ...(project.comicPages || [])
-    ];
-
-    console.log("Updated project details:", project);
-    setProjectData({ ...project, allImages });
-  } catch (error) {
-    console.error("Error refreshing project data:", error);
-  }
-};
-
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -447,55 +449,55 @@ const onProjectUpdate = async () => {
                     className="swiper-main-wrapper"
                     style={{ overflowX: "auto" }}
                   >
-                   <Swiper
-  style={{
-    "--swiper-navigation-color": "#fff",
-    "--swiper-pagination-color": "green",
-  }}
-  lazy={true}
-  pagination={{
-    el: ".custom-pagination",
-    clickable: true,
-    dynamicBullets: true,
-    dynamicMainBullets: 3,
-  }}
-  thumbs={{ swiper: thumbsSwiper }}
-  navigation={{
-    nextEl: ".custom-next",
-    prevEl: ".custom-prev",
-  }}
-  modules={[Pagination, Navigation, Thumbs]}
-  className="mySwiper"
->
-  {projectData.allImages?.length > 0 ? (
-    projectData.allImages.map((image, index) => (
-      <SwiperSlide
-        key={index}
-        onClick={() =>
-          openViewer(
-            projectData.projectId,
-            projectData.name,
-            index
-          )
-        }
-      >
-        <Img
-          className="thumbImg"
-          src={image || PosterFallback}
-          alt={`Image ${index + 1}`}
-        />
-      </SwiperSlide>
-    ))
-  ) : (
-    <SwiperSlide>
-      <Img
-        className="thumbImg"
-        src={PosterFallback}
-        alt="Thumbnail"
-      />
-    </SwiperSlide>
-  )}
-</Swiper>
+                    <Swiper
+                      style={{
+                        "--swiper-navigation-color": "#fff",
+                        "--swiper-pagination-color": "green",
+                      }}
+                      lazy={true}
+                      pagination={{
+                        el: ".custom-pagination",
+                        clickable: true,
+                        dynamicBullets: true,
+                        dynamicMainBullets: 3,
+                      }}
+                      thumbs={{ swiper: thumbsSwiper }}
+                      navigation={{
+                        nextEl: ".custom-next",
+                        prevEl: ".custom-prev",
+                      }}
+                      modules={[Pagination, Navigation, Thumbs]}
+                      className="mySwiper"
+                    >
+                      {projectData.allImages?.length > 0 ? (
+                        projectData.allImages.map((image, index) => (
+                          <SwiperSlide
+                            key={index}
+                            onClick={() =>
+                              openViewer(
+                                projectData.projectId,
+                                projectData.name,
+                                index
+                              )
+                            }
+                          >
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Image ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
 
                     <div className="swiper-nav-buttons">
                       <div className="swiper-button-prev custom-prev"></div>
@@ -519,36 +521,35 @@ const onProjectUpdate = async () => {
                   </p>
 
                   <div className="swiper-thumbs-wrapper">
-              <Swiper
-  onSwiper={setThumbsSwiper}
-  spaceBetween={10}
-  slidesPerView={4}
-  freeMode={true}
-  watchSlidesProgress={true}
-  modules={[Navigation, Thumbs]}
-  className="mySwiper-thumbs"
->
-  {projectData.allImages?.length > 0 ? (
-    projectData.allImages.map((image, index) => (
-      <SwiperSlide key={index}>
-        <Img
-          className="thumbImg"
-          src={image || PosterFallback}
-          alt={`Image ${index + 1}`}
-        />
-      </SwiperSlide>
-    ))
-  ) : (
-    <SwiperSlide>
-      <Img
-        className="thumbImg"
-        src={PosterFallback}
-        alt="Thumbnail"
-      />
-    </SwiperSlide>
-  )}
-</Swiper>
-
+                    <Swiper
+                      onSwiper={setThumbsSwiper}
+                      spaceBetween={10}
+                      slidesPerView={4}
+                      freeMode={true}
+                      watchSlidesProgress={true}
+                      modules={[Navigation, Thumbs]}
+                      className="mySwiper-thumbs"
+                    >
+                      {projectData.allImages?.length > 0 ? (
+                        projectData.allImages.map((image, index) => (
+                          <SwiperSlide key={index}>
+                            <Img
+                              className="thumbImg"
+                              src={image || PosterFallback}
+                              alt={`Image ${index + 1}`}
+                            />
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide>
+                          <Img
+                            className="thumbImg"
+                            src={PosterFallback}
+                            alt="Thumbnail"
+                          />
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
 
                     {status !== "visitor" && (
                       <div
@@ -674,74 +675,75 @@ const onProjectUpdate = async () => {
             >
               Like My Project?
             </h4>
-           <div className="User-Profile">
-        <div className="avatar-container">
-          <img src={profilePic} alt="" className="avatarImage" />
-        </div>
+            <div className="User-Profile">
+              <div className="avatar-container">
+                <img src={profilePic} alt="" className="avatarImage" />
+              </div>
 
-        <div className="user-details">
-          <h3 className="username">{userName}</h3>
+              <div className="user-details">
+                <h3 className="username">{userName}</h3>
 
-          <div className="user-actions">
-            <div className="like-info">
-              {likesCount > 0 ? (
-                <p>
-                  {likesCount} {likesCount === 1 ? "like" : "likes"}
-                </p>
-              ) : (
-                <p>Be the first to like the project</p>
-              )}
+                <div className="user-actions">
+                  <div className="like-info">
+                    {likesCount > 0 ? (
+                      <p>
+                        {likesCount} {likesCount === 1 ? "like" : "likes"}
+                      </p>
+                    ) : (
+                      <p>Be the first to like the project</p>
+                    )}
+                  </div>
+
+                  {/* Like button */}
+                  <IconButton className="likeButton" onClick={handleLikeClick}>
+                    <FaThumbsUp style={{ color: liked ? "blue" : "orange" }} />
+                  </IconButton>
+
+                  {/* Enquiry button (opens enquiry modal) */}
+                  <IconButton
+                    className="enquiryButton"
+                    onClick={() => setShowEnquiry(true)}
+                  >
+                    <FaPlus style={{ color: "orange", fontSize: "1.3rem" }} />
+                  </IconButton>
+
+                  {/* Share button (opens modal) */}
+                  <IconButton
+                    className="shareButton"
+                    onClick={() => setShowShare(true)}
+                  >
+                    <FaShareAlt
+                      style={{ color: "#ff5722", fontSize: "1.3rem" }}
+                    />
+                  </IconButton>
+                </div>
+              </div>
             </div>
 
-            {/* Like button */}
-            <IconButton className="likeButton" onClick={handleLikeClick}>
-              <FaThumbsUp style={{ color: liked ? "blue" : "orange" }} />
-            </IconButton>
+            {/* Share modal */}
+            {showShare && (
+              <Share
+                url={window.location.href}
+                title={`Check out ${userName}'s comic!`}
+                onClose={() => setShowShare(false)}
+              />
+            )}
 
-            {/* Enquiry button (opens enquiry modal) */}
-          <IconButton
-  className="enquiryButton"
-  onClick={() => setShowEnquiry(true)}
->
-  <FaPlus style={{ color: "orange", fontSize: "1.3rem" }} />
-</IconButton>
-
-            {/* Share button (opens modal) */}
-            <IconButton
-              className="shareButton"
-              onClick={() => setShowShare(true)}
-            >
-              <FaShareAlt style={{ color: "#ff5722", fontSize: "1.3rem" }} />
-            </IconButton>
-          </div>
-        </div>
-      </div>
-
-      {/* Share modal */}
-      {showShare && (
-        <Share
-          url={window.location.href}
-          title={`Check out ${userName}'s comic!`}
-          onClose={() => setShowShare(false)}
-        />
-      )}
-
-      {/* Enquiry modal */}
- {showEnquiry && (
- <EnquiryModal
-  isOpen={showEnquiry}
-  comicTitle={`Comic by ${userName}`}
-  onClose={() => setShowEnquiry(false)}
-  onSubmit={(data) => console.log("Enquiry sent:", data)}
-/>
-
-)}
+            {/* Enquiry modal */}
+            {showEnquiry && (
+              <EnquiryModal
+                isOpen={showEnquiry}
+                comicTitle={`Comic by ${userName}`}
+                onClose={() => setShowEnquiry(false)}
+                onSubmit={(data) => console.log("Enquiry sent:", data)}
+              />
+            )}
             <br />
             <Feedback />
           </div>
         </ContentWrapper>
       ) : (
-        <Spinner initial />
+        <DetailsSkeleton initial />
       )}
       <UpdateProjectModal
         open={open}
