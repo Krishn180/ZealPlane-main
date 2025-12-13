@@ -1,9 +1,10 @@
 .support-btn {
   background-color: #ff4500; // Reddit orange-red
   color: #fff;
-  padding: 6px 14px;
+  padding: 3.6px 14px;
   border: none;
   border-radius: 4px;
+  margin-left: 10px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -20,7 +21,6 @@
     background-color: #cc3700;
   }
 }
-
 
 .support-modal-overlay {
   position: fixed;
@@ -90,13 +90,23 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 .success-modal-overlay {
   position: fixed;

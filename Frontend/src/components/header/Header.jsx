@@ -131,10 +131,10 @@ const Header = () => {
             </li>
 
             <li className="menuItem2" onClick={handleForumClick}>
-              {window.innerWidth <= 568 ? (
+              {window.innerWidth <= 1366 ? (
                 <div className="iconWrapper">
                   <FaUsers className="communityIcon" />
-                  <span className="hoverText">Communities</span>
+                  {/* <span className="hoverText">Communities</span> */}
                 </div>
               ) : (
                 "Communities"

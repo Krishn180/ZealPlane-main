@@ -2,7 +2,7 @@ import React from "react";
 import "./About.scss";
 import { FaSuperpowers, FaPenNib, FaUsers } from "react-icons/fa";
 import background from "./../../assets/back.jpeg";
-import Arti from "./../../assets/arati.jpg";
+import Arti from "./../../assets/arat.jpeg";
 import krishna from "./../../assets/krishna.jpg";
 import Jayshree from "./../../assets/Jaishree.jpeg";
 import Prince from "./../../assets/Prince.jpg";

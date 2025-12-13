@@ -8,16 +8,20 @@ const DetailsSkeleton = () => {
       <div className="details-left">
         {/* NEW — Title Above Banner */}
         <div className="sk-top-title shimmer"></div>
-        <div className="sk-top-author shimmer"></div>
+        <div className="sk-user">
+          <div className="sk-avatar shimmer"></div>
+          <div className="sk-username shimmer"></div>
+          <div className="sk-username shimmer"></div>
+        </div>
 
         {/* Banner */}
         <div className="sk-banner shimmer"></div>
 
         {/* User section */}
-        <div className="sk-user">
+        {/* <div className="sk-user">
           <div className="sk-avatar shimmer"></div>
           <div className="sk-username shimmer"></div>
-        </div>
+        </div> */}
 
         {/* Thumbnails */}
         <div className="sk-thumbnails">

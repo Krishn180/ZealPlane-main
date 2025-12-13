@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./Ourcreator.scss";
 import a1 from "./man.jpg";
 import a2 from "./stan.jpg";
-import a3 from "./arati.jpg";
+import a3 from "./arat.jpeg";
 import a4 from "./krishna.jpg";
 import a5 from "./prnc.jpg";
 
@@ -35,11 +35,11 @@ const MeetOurCreator = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 600,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 8000,
   };
 
   return (

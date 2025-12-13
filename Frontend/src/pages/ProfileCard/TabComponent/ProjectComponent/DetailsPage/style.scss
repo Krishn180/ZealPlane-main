@@ -1,6 +1,6 @@
 .detailsBanner {
   width: 100%;
-  // background-color: var(--black);
+
   // padding-top: 100px;
 }
 .title {
@@ -758,7 +758,7 @@
     width: 400px;
   }
   .description1 {
-    width: 79%;
+    width: 78%;
   }
   .User-Profile {
     width: 80vw;
@@ -898,4 +898,10 @@
   align-items: center;
   justify-content: center;
   background: #f4f4f4;
+}
+
+@media (min-width: 768px) and (max-width: 1366px) {
+  .swiper-main-wrapper {
+    width: 75%;
+  }
 }

@@ -20,12 +20,16 @@ const CongratsModal = ({ onClose }) => {
         </div>
 
         <p className="reward-text">
-          🎁 <strong>300 Points Unlocked!</strong>  
-          Use them to start reading premium comics <strong>for FREE</strong> right now!
+          🎁 <strong>300 Points Unlocked!</strong>
+          Use them to start reading premium comics <strong>
+            for FREE
+          </strong>{" "}
+          right now!
         </p>
 
         <p className="encouragement">
-          Keep collecting badges as you read, post, and engage with the community!
+          Keep collecting badges as you read, post, and engage with the
+          community!
         </p>
 
         <button className="login-btn" onClick={onClose}>

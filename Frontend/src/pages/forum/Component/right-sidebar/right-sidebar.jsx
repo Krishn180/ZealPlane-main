@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import "./right-sidebar.scss";
 import { jwtDecode } from "jwt-decode";
+import RightSidebarSkeleton from "./RightSidebarSkeleton";
 
 const CuratedSidebar = () => {
   const [curatedPosts, setCuratedPosts] = useState([]);
@@ -123,7 +124,7 @@ const CuratedSidebar = () => {
             })}
           </ul>
         ) : (
-          <p>No curated posts yet. Check back soon!</p>
+          <RightSidebarSkeleton />
         )}
       </div>
     </div>

@@ -696,7 +696,7 @@ const DetailsPage = () => {
 
                   {/* Like button */}
                   <IconButton className="likeButton" onClick={handleLikeClick}>
-                    <FaThumbsUp style={{ color: liked ? "blue" : "orange" }} />
+                    <FaThumbsUp style={{ color: liked ? "red" : "orange" }} />
                   </IconButton>
 
                   {/* Enquiry button (opens enquiry modal) */}
@@ -713,7 +713,7 @@ const DetailsPage = () => {
                     onClick={() => setShowShare(true)}
                   >
                     <FaShareAlt
-                      style={{ color: "#ff5722", fontSize: "1.3rem" }}
+                      style={{ color: "orange", fontSize: "1.3rem" }}
                     />
                   </IconButton>
                 </div>
