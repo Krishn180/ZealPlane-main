@@ -444,6 +444,7 @@
 //     opacity: 1;
 //   }
 // }
+
 @import "../../mixins.scss";
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
@@ -803,6 +804,27 @@
     }
   }
 }
+
+@media (min-width: 768px) and (max-width: 1366px) {
+  .header1 {
+    .contentWrapper {
+      .logo {
+        .logo-text {
+          display: none !important;
+        }
+      }
+    }
+  }
+  .dash {
+    display: none;
+  }
+}
+
+// @media (min-width: 1280px) and (max-width: 1440px) {
+//   .search-bar input {
+//     padding: 0.5rem 0.8rem 0.3rem 2.5rem;
+//   }
+// }
 
 /* Profile dropdown & modal area unchanged but visually enhanced */
 .profile-options {

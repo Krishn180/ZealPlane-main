@@ -208,8 +208,6 @@ const AvatarComponent = () => {
     if (userId && id) checkFollowStatus();
   }, [userId, id]);
 
-
-
   const handleSendConnectionRequest = async () => {
     try {
       const response = await axiosInstance.post(`users/toggle-follow`, {
@@ -374,6 +372,11 @@ const AvatarComponent = () => {
                           Enquiry
                         </Button>
                       </Col>
+                      <SupportModal>
+                        <Button type="button" className="support-button">
+                          Support
+                        </Button>
+                      </SupportModal>
                     </Row>
                     <div className="text-muted">
                       <small style={{ color: "white" }}>Last seen status</small>
@@ -512,52 +515,55 @@ const AvatarComponent = () => {
                         />
                       </Col>
                     </Row>
-                   <div className="text-center text-sm-left mb-2 mb-sm-0">
-  {isEditMode ? (
-    <>
-      <input type="text" onChange={(e) => {}} />
-      <input type="text" onChange={(e) => {}} />
-      <button type="button">Save</button>
-    </>
-  ) : (
-    <>
-      {user || userDetails ? (
-        <>
-          <h5 className="pt-sm-2 pb-1 mb-0 mt-3 text-nowrap">
-            {userDetails?.fullName || "User name"}
-          </h5>
-          <p className="mb-2" style={{ marginBottom: "2rem" }}>
-            @{user || userDetails.username}
-          </p>
-          <p
-            className="mb-0"
-            style={{
-              fontSize: "16px",
-              fontWeight: "bold",
-              color: "#00bcd4",
-            }}
-          >
-            Level: {level}
-          </p>
-        </>
-      ) : (
-        <p>User data not available</p>
-      )}
-    </>
-  )}
+                    <div className="text-center text-sm-left mb-2 mb-sm-0">
+                      {isEditMode ? (
+                        <>
+                          <input type="text" onChange={(e) => {}} />
+                          <input type="text" onChange={(e) => {}} />
+                          <button type="button">Save</button>
+                        </>
+                      ) : (
+                        <>
+                          {user || userDetails ? (
+                            <>
+                              <h5 className="pt-sm-2 pb-1 mb-0 mt-3 text-nowrap">
+                                {userDetails?.fullName || "User name"}
+                              </h5>
+                              <p
+                                className="mb-2"
+                                style={{ marginBottom: "2rem" }}
+                              >
+                                @{user || userDetails.username}
+                              </p>
+                              <p
+                                className="mb-0"
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: "bold",
+                                  color: "#00bcd4",
+                                }}
+                              >
+                                Level: {level}
+                              </p>
+                            </>
+                          ) : (
+                            <p>User data not available</p>
+                          )}
+                        </>
+                      )}
 
-  {/* Action buttons */}
-  <Row justify="center" style={{ marginTop: "20px" }}>
-    <Col>
-      <Button
-        type="button"
-        className="custom-button"
-        onClick={handleEnquiryOpen}
-      >
-        Enquiry
-      </Button>
-    </Col>
-    {/* <Col style={{ marginLeft: "10px" }}>
+                      {/* Action buttons */}
+                      <Row justify="center" style={{ marginTop: "20px" }}>
+                        <Col>
+                          <Button
+                            type="button"
+                            className="custom-button"
+                            onClick={handleEnquiryOpen}
+                          >
+                            Enquiry
+                          </Button>
+                        </Col>
+                        {/* <Col style={{ marginLeft: "10px" }}>
       <Button
         type="button"
         className="custom-button"
@@ -567,22 +573,22 @@ const AvatarComponent = () => {
       </Button>
     </Col> */}
 
-    {/* ✅ Support the Creator Button */}
-  <Col style={{ marginLeft: "10px" }}>
-  <SupportModal>
-    <Button type="button" className="support-button">
-      Support
-    </Button>
-  </SupportModal>
-</Col>
+                        {/* ✅ Support the Creator Button */}
+                        <Col style={{ marginLeft: "10px" }}>
+                          <SupportModal>
+                            <Button type="button" className="support-button">
+                              Support
+                            </Button>
+                          </SupportModal>
+                        </Col>
+                      </Row>
 
-  </Row>
-
-  <div className="text-muted">
-    <small style={{ color: "white" }}>Last seen status</small>
-  </div>
-</div>
-
+                      <div className="text-muted">
+                        <small style={{ color: "white" }}>
+                          Last seen status
+                        </small>
+                      </div>
+                    </div>
                   </div>
                 </div>
 

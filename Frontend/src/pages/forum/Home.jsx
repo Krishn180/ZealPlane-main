@@ -37,23 +37,28 @@ const Home = () => {
   return (
     <div className="home-container">
       <Header />
-      <div className="main-layout">
-        <div className="sidebar-component">
-          <Sidebar />
+
+      {loading ? (
+        /* 🔥 POORA FORUM SKELETON ONLY WHILE LOADING */
+        <ForumSkeleton />
+      ) : (
+        /* ✅ EXISTING UI – NO CHANGE */
+        <div className="main-layout">
+          <div className="sidebar-component">
+            <Sidebar />
+          </div>
+
+          <div className="main-content" style={{ marginTop: "55px" }}>
+            <main className="content-container">
+              <PostList initialPosts={combinedPosts} />
+            </main>
+          </div>
+
+          <div className="curated-sidebar">
+            <CuratedSidebar />
+          </div>
         </div>
-        <div className="main-content" style={{ marginTop: "55px" }}>
-          <main className="content-container">
-            {loading ? (
-              <ForumSkeleton /> // Show spinner while data is loading
-            ) : (
-              <PostList initialPosts={combinedPosts} /> // Show posts when data is loaded
-            )}
-          </main>
-        </div>
-        <div className="curated-sidebar">
-          <CuratedSidebar />
-        </div>
-      </div>
+      )}
     </div>
   );
 };

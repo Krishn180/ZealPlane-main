@@ -3,29 +3,29 @@ import "./ForumSkeleton.scss";
 
 const ForumSkeleton = () => {
   return (
-    <div className="forum-layout">
-      {/* LEFT SIDEBAR GAP (same width as real left sidebar) */}
-      <div className="left-sidebar-gap"></div>
+    <div className="forum-skeleton-wrapper">
+      {/* LEFT SIDEBAR PLACEHOLDER */}
+      <div className="skeleton-left-sidebar"></div>
 
-      {/* MAIN POST AREA */}
-      <div className="forum-left">
-        <div className="sk-post-card">
-          <div className="sk-title shimmer"></div>
-          <div className="sk-posted shimmer"></div>
-          <div className="sk-main-img shimmer"></div>
-        </div>
+      {/* CENTER POSTS */}
+      <div className="skeleton-center">
+        {[1, 2].map((_, i) => (
+          <div className="sk-post-card" key={i}>
+            <div className="sk-title shimmer"></div>
+            <div className="sk-meta shimmer"></div>
+            <div className="sk-content shimmer"></div>
+            <div className="sk-actions shimmer"></div>
+          </div>
+        ))}
       </div>
 
       {/* RIGHT SIDEBAR */}
-      <div className="forum-right">
+      <div className="skeleton-right-sidebar">
         <div className="sk-sidebar-title shimmer"></div>
 
-        <div className="sk-side-box shimmer"></div>
-        <div className="sk-side-box shimmer"></div>
-        <div className="sk-side-box shimmer"></div>
-        <div className="sk-side-box shimmer"></div>
-        <div className="sk-side-box shimmer"></div>
-        <div className="sk-side-box shimmer"></div>
+        {[1, 2, 3, 4, 5].map((_, i) => (
+          <div className="sk-side-card shimmer" key={i}></div>
+        ))}
       </div>
     </div>
   );
