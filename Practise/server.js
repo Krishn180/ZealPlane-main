@@ -33,6 +33,8 @@ const cors = require("cors");
 app.use(
   cors({
     origin: [
+      "https://zealplane.com",
+      "http://zealplane.com",
       "https://comicplane.site",
       "http://localhost:5173",
       "http://comicplane.site",
