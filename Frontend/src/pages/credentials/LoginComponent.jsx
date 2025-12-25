@@ -31,7 +31,7 @@ export default function LoginComponent() {
 
       try {
         const response = await axios.post(
-          "https://api.comicplane.site/api/users/refresh",
+          `${apiBaseUrl}/users/refresh`,
           { refreshToken }
         );
 
