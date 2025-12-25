@@ -35,10 +35,10 @@ app.use(
     origin: [
       "https://zealplane.com",
       "http://zealplane.com",
-      "https://comicplane.site",
+      // "https://comicplane.site",
       "http://localhost:5173",
-      "http://comicplane.site",
-      "https://www.comicplane.site",
+      // "http://comicplane.site",
+      // "https://www.comicplane.site",
     ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
