@@ -89,7 +89,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
       // Send OTP using existing register API
       const response = await axios.post(
-        `https://api.comicplane.site/api/users/register`,
+        `http://localhost:5000/api`,
         { email: credentials.email }
       );
 

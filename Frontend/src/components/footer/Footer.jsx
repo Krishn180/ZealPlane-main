@@ -195,9 +195,9 @@ const Footer = () => {
             <span onClick={() => navigate("/terms-of-use")} style={{ cursor: "pointer" }}>
               Terms of Use
             </span>
-            <span onClick={() => navigate("/privacy-policy")} style={{ cursor: "pointer" }}>
+            {/* <span onClick={() => navigate("/privacy-policy")} style={{ cursor: "pointer" }}>
               Privacy Policy
-            </span>
+            </span> */}
             <span onClick={() => navigate("/about")} style={{ cursor: "pointer" }}>
               About
             </span>

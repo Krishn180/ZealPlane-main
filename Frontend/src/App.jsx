@@ -99,7 +99,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/dashboard" element={<GamificationDashboard />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} /> */}
           <Route path="/terms-of-use" element={<TermsOfUse />} />
           <Route path="/news" element={<NewsList />} />
           <Route path="/news/:slug" element={<NewsDetail />} />

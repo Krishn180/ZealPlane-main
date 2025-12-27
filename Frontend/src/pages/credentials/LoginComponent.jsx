@@ -62,8 +62,7 @@ const login = async () => {
       return;
     }
 
-    const response = await axios.post(`https://api.zealplane.com
-/users/login`, {
+    const response = await axios.post(`http://localhost:5000/api/users/login`, {
       email: credentials.email,
       password: credentials.password,
     });
