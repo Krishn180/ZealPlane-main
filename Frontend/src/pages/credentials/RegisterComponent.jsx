@@ -89,7 +89,8 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
       // Send OTP using existing register API
       const response = await axios.post(
-        `http://localhost:5000/api`,
+        // `http://localhost:5000/api`,
+        `https://api.zealplane.com/api/users/register`,
         { email: credentials.email }
       );
 
@@ -164,7 +165,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
       // Verify OTP and register the user
       const response = await axios.post(
-        `https://api.comicplane.site/api/users/register`,
+        `https://api.zealplane.com/api/users/register`,
         // `http://localhost:5000/api/users/register`,
         {
           ...credentials,
@@ -212,7 +213,7 @@ export default function RegisterComponent({ showModal, handleClose }) {
       // Send the Google token to your backend for verification and login
       const response = await axios.post(
         // `http://localhost:5000/api/users/google-login`,
-        `https://api.comicplane.site/api/users/google-login`,
+        `https://api.zealplane.com/api/users/google-login`,
         {
           token: googleToken,
         }

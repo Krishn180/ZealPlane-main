@@ -56,7 +56,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
     try {
       // Send request to submit the new comment
       const response = await axios.post(
-        `https://api.comicplane.site/api/posts/${postId}/comments`,
+        `https://api.zealplane.com/api/posts/${postId}/comments`,
         { body: newComment },
         {
           headers: {
@@ -94,7 +94,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
 
     try {
       const response = await axios.put(
-        `https://api.comicplane.site/api/posts/${postId}/comments/${commentId}`,
+        `https://api.zealplane.com/api/posts/${postId}/comments/${commentId}`,
         {
           body: editingComment, // Include the new comment text
           commentId: commentId, // Include commentId in the body
@@ -126,7 +126,7 @@ const CommentsSection = ({ comments = [], setComments, postId }) => {
       try {
         // Send request to delete the comment from the backend
         await axios.delete(
-          `https://api.comicplane.site/api/posts/${postId}/comments/${commentId}`,
+          `https://api.zealplane.com/api/posts/${postId}/comments/${commentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

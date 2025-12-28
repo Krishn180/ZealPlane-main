@@ -41,7 +41,7 @@ const Landing = () => {
 
       try {
         const response = await axios.post(
-          "https://api.comicplane.site/api/refresh-token",
+          "https://api.zealplane.com/api/refresh-token",
           { refreshToken }
         );
         const { token, userId, username: directUsername, user } = response.data;

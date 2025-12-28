@@ -18,8 +18,6 @@ const newsletterRoutes = require("./routes/newsletterRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const uploadRoute = require("./routes/uploadRoutes");
 
-
-
 // Connect to the database
 connectDb();
 
@@ -30,19 +28,44 @@ app.use(express.json());
 
 const cors = require("cors");
 
+// app.use(
+//   cors({
+//     origin: [
+//       "https://zealplane.com",
+//       "http://zealplane.com",
+//       // "https://comicplane.site",
+//       "http://localhost:5173",
+//       // "http://comicplane.site",
+//       // "https://www.comicplane.site",
+//     ],
+//     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+
 app.use(
   cors({
-    origin: [
-      "https://zealplane.com",
-      "http://zealplane.com",
-      // "https://comicplane.site",
-      "http://localhost:5173",
-      // "http://comicplane.site",
-      // "https://www.comicplane.site",
-    ],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    credentials: true,
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://zealplane.com",
+        "https://www.zealplane.com",
+        "http://zealplane.com",
+        "http://localhost:5173",
+      ];
+
+      // allow server-to-server or curl requests
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
@@ -75,5 +98,9 @@ app.use(errorHandler);
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port} in ${process.env.NODE_ENV || "development"} mode`);
+  console.log(
+    `Server is running on port ${port} in ${
+      process.env.NODE_ENV || "development"
+    } mode`
+  );
 });
