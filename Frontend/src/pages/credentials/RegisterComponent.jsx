@@ -89,8 +89,8 @@ export default function RegisterComponent({ showModal, handleClose }) {
 
       // Send OTP using existing register API
       const response = await axios.post(
-        `http://localhost:5000/api/users/register`,
-        // `https://api.zealplane.com/api/users/register`,
+        // `http://localhost:5000/api/users/register`,
+        `https://api.zealplane.com/api/users/register`,
         { email: credentials.email }
       );
 
