@@ -62,8 +62,8 @@ export default function LoginComponent() {
       }
 
       const response = await axios.post(
-        // `http://localhost:5000/api/users/login`,
-        `http://api.zealplane.com/api/users/login`,
+        `http://localhost:5000/api/users/login`,
+        // `http://api.zealplane.com/api/users/login`,
         {
           email: credentials.email,
           password: credentials.password,
