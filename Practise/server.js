@@ -97,10 +97,11 @@ app.use("/api/upload", uploadRoute);
 app.use(errorHandler);
 
 // Start server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(
     `Server is running on port ${port} in ${
       process.env.NODE_ENV || "development"
     } mode`
   );
 });
+
