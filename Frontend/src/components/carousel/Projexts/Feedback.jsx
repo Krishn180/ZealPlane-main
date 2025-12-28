@@ -23,11 +23,11 @@ const Feedback = () => {
 
   // Default Hinglish comments
   const defaultComments = [
-    { text: "Bilkul Bakwaas 😒", color: "#ff4d4d" },
-    { text: "Thik-Thak 🙂", color: "#ffcc00" },
-    { text: "Mast Hai 😎", color: "#00bfff" },
-    { text: "Zabardast 🔥", color: "#ff7f27" },
-    { text: "Paisa Vasool 💯", color: "#28a745" }
+    { text: "Loved the art", color: "#ff4d4d" },
+    { text: "Interesting concept", color: "#ffcc00" },
+    { text: "Waiting for next part", color: "#00bfff" },
+    { text: "This deserves more attention", color: "#ff7f27" },
+    { text: "Felt something while reading this", color: "#28a745" }
   ];
 
   const handleDefaultCommentClick = (commentText) => {

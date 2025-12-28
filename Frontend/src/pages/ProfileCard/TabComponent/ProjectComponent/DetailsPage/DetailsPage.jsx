@@ -675,7 +675,7 @@ const DetailsPage = () => {
             >
               Like My Project?
             </h4>
-            <div className="User-Profile">
+            {/* <div className="User-Profile">
               <div className="avatar-container">
                 <img src={profilePic} alt="" className="avatarImage" />
               </div>
@@ -694,12 +694,10 @@ const DetailsPage = () => {
                     )}
                   </div>
 
-                  {/* Like button */}
                   <IconButton className="likeButton" onClick={handleLikeClick}>
                     <FaThumbsUp style={{ color: liked ? "red" : "orange" }} />
                   </IconButton>
 
-                  {/* Enquiry button (opens enquiry modal) */}
                   <IconButton
                     className="enquiryButton"
                     onClick={() => setShowEnquiry(true)}
@@ -707,7 +705,6 @@ const DetailsPage = () => {
                     <FaPlus style={{ color: "orange", fontSize: "1.3rem" }} />
                   </IconButton>
 
-                  {/* Share button (opens modal) */}
                   <IconButton
                     className="shareButton"
                     onClick={() => setShowShare(true)}
@@ -718,7 +715,7 @@ const DetailsPage = () => {
                   </IconButton>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Share modal */}
             {showShare && (

@@ -40,13 +40,16 @@ const LandingHeroSection = () => {
       </div>
 
       <article className="text-content">
-        <h1>Enter the World of Comics!</h1>
-        <p>
+        {/* <h1>Enter the World of Comics!</h1> */}
+        <h1>A place where comic creators grow without chasing algorithms.</h1>
+        {/* <p>
           Discover bold stories, indie heroes, and fantastical adventures on{" "}
           <strong>ComicPlane</strong> — a place where creators and fans come
           together. Whether you're into dark fantasy, action thrillers, or
           heartwarming tales, there's something waiting just for you.
-        </p>
+        </p> */}
+        <p>Publish your work, get real feedback,
+           and grow in the direction that matters to you — not just likes or trends, be our founding creators.</p>
         <div className="cta-buttons">
           <button className="start-reading" onClick={() => navigate("/home")}>
             Start Reading
