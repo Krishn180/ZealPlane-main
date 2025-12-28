@@ -138,7 +138,6 @@ const userSchema = new mongoose.Schema(
     level: {
       current: { type: Number, default: 0 },
       progress: { type: Number, default: 0 },
-      lootboxesClaimed: [{ level: Number, claimedAt: Date }],
     },
     badges: [
       {

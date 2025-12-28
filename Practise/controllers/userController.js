@@ -6,7 +6,9 @@ const nodemailer = require("nodemailer");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
 const { get } = require("../contactsRoutes");
+// const mongoose = require("mongoose");
 const mongoose = require("mongoose");
+
 
 // Temporary storage for OTPs
 const otpStore = new Map();
@@ -337,157 +339,122 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
-// const loginUser = asynchandler(async (req, res) => {
-//   const { email, password } = req.body;
-
-//   console.log("Login User Request Body:", req.body);
-
-//   // Validate email and password
-//   if (!email || !password) {
-//     res.status(400);
-//     console.log("Missing email or password");
-//     throw new Error("All fields are mandatory!");
-//   }
-
-//   // Step 1: Check if user exists in the database
-//   console.log("Searching for user with email:", email);
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     res.status(404);
-//     console.log("User not found:", email);
-//     throw new Error("User not found");
-//   }
-//   console.log("User found in database:", user);
-
-//   // Step 2: Compare the password
-//   const isPasswordCorrect = await bcrypt.compare(password, user.password);
-//   if (!isPasswordCorrect) {
-//     res.status(401);
-//     console.log("Invalid password for user:", email);
-//     throw new Error("Invalid email or password");
-//   }
-//   console.log("Password matches for user:", email);
-
-//   // 🎯 Step 2.1: Reward login points once per day
-//   const LOGIN_POINTS = 50;
-//   const today = new Date();
-
-//   let rewardGiven = false;
-//   if (!user.lastLogin || !isSameDay(user.lastLogin, today)) {
-//     // Reward only if first login of the day
-//     user.points = (user.points || 0) + LOGIN_POINTS;
-//     user.lastLogin = today;
-//     rewardGiven = true;
-//     await user.save();
-//     console.log(
-//       `✅ User rewarded with ${LOGIN_POINTS} points. Total points:`,
-//       user.points
-//     );
-//   } else {
-//     console.log("⚠️ User already logged in today, no extra points given.");
-//   }
-
-//   // Step 3: Generate access token
-//   const accessToken = jwt.sign(
-//     {
-//       userId: user._id,
-//       email: user.email,
-//       uniqueId: user.uniqueId,
-//       username: user.username,
-//       profilePic: user.profilePic,
-//     },
-//     process.env.ACCESS_TOKEN_SECRET,
-//     { expiresIn: "1h" }
-//   );
-//   console.log("Access token generated successfully for user:", email);
-
-//   // Step 4: Generate refresh token
-//   const refreshToken = jwt.sign(
-//     { userId: user._id },
-//     process.env.REFRESH_TOKEN_SECRET,
-//     { expiresIn: "30d" }
-//   );
-//   console.log("Refresh token generated successfully for user:", email);
-
-//   // Step 5: Send refresh token as an HTTP-only cookie
-//   res.cookie("refreshToken", refreshToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === "production",
-//     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-//     sameSite: "Strict",
-//   });
-//   console.log("Refresh token set in cookies");
-
-//   // Step 6: Send response
-//   res.status(200).json({
-//     _id: user._id,
-//     email: user.email,
-//     username: user.username,
-//     fullName: user.fullName,
-//     profilePic: user.profilePic,
-//     jobRole: user.jobRole,
-//     token: accessToken,
-//     refreshToken: refreshToken,
-//     id: user.uniqueId,
-//     points: user.points, // 🎯 updated points
-//     rewardGiven, // ✅ tell frontend if reward applied today
-//   });
-//   console.log("User login successful for:", email);
-// });
-
 const loginUser = asynchandler(async (req, res) => {
   const { email, password } = req.body;
 
   console.log("Login User Request Body:", req.body);
 
+  // Validate email and password
   if (!email || !password) {
-    return res.status(400).json({ message: "All fields are mandatory" });
+    res.status(400);
+    console.log("Missing email or password");
+    throw new Error("All fields are mandatory!");
   }
 
+  // Step 1: Check if user exists in the database
+  console.log("Searching for user with email:", email);
   const user = await User.findOne({ email });
   if (!user) {
+    res.status(404);
     console.log("User not found:", email);
-    return res.status(404).json({ message: "User not found" });
+    throw new Error("User not found");
   }
+  console.log("User found in database:", user);
 
+  // Step 2: Compare the password
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
-    return res.status(401).json({ message: "Invalid email or password" });
+    res.status(401);
+    console.log("Invalid password for user:", email);
+    throw new Error("Invalid email or password");
   }
+  console.log("Password matches for user:", email);
 
-  // Reward logic (safe)
-  const LOGIN_POINTS = 50;
-  const today = new Date();
-  let rewardGiven = false;
-
-  if (!user.lastLogin || !isSameDay(user.lastLogin, today)) {
-    user.points = (user.points || 0) + LOGIN_POINTS;
-    user.lastLogin = today;
-    rewardGiven = true;
-    await user.save();
-  }
-
+  // Step 3: Generate access token
   const accessToken = jwt.sign(
-    { userId: user._id },
+    {
+      userId: user._id,
+      email: user.email,
+      uniqueId: user.uniqueId,
+      username: user.username,
+      profilePic: user.profilePic,
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "1h" }
   );
+  console.log("Access token generated successfully for user:", email);
 
+  // Step 4: Generate refresh token
   const refreshToken = jwt.sign(
     { userId: user._id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "30d" }
   );
+  console.log("Refresh token generated successfully for user:", email);
 
-  return res.status(200).json({
-    id: user.uniqueId,
-    username: user.username,
-    token: accessToken,
-    refreshToken,
-    points: user.points,
-    rewardGiven,
+  // Step 5: Send refresh token as an HTTP-only cookie
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    sameSite: "Strict",
   });
+  console.log("Refresh token set in cookies");
+
+  // Step 6: Send response
+  res.status(200).json({
+    _id: user._id,
+    email: user.email,
+    username: user.username,
+    fullName: user.fullName,
+    profilePic: user.profilePic,
+    jobRole: user.jobRole,
+    token: accessToken,
+    refreshToken: refreshToken,
+    id: user.uniqueId,
+  });
+  console.log("User login successful for:", email);
 });
+
+
+// const loginUser = asynchandler(async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return res.status(400).json({ message: "Email or password missing" });
+//     }
+
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const isPasswordCorrect = await bcrypt.compare(password, user.password);
+//     if (!isPasswordCorrect) {
+//       return res.status(401).json({ message: "Invalid email or password" });
+//     }
+
+//     // JWT creation
+//     const accessToken = jwt.sign(
+//       { userId: user._id },
+//       process.env.ACCESS_TOKEN_SECRET,
+//       { expiresIn: "1h" }
+//     );
+
+//     const refreshToken = jwt.sign(
+//       { userId: user._id },
+//       process.env.REFRESH_TOKEN_SECRET,
+//       { expiresIn: "30d" }
+//     );
+
+//     return res.json({ ok: true, accessToken, refreshToken });
+//   } catch (err) {
+//     console.error("Login error:", err);
+//     return res.status(500).json({ message: "Login failed", error: err.message });
+//   }
+// });
+
 
 
 // Helper function: compare only calendar day
