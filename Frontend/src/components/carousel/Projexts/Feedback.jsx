@@ -195,7 +195,7 @@ const Feedback = () => {
         <textarea
           ref={textAreaRef}
           className="feedback-input"
-          placeholder="Write your feedback here..."
+          placeholder="Even a single line helps creators continue."
           rows="4"
           value={feedbackText}
           onChange={(e) => setFeedbackText(e.target.value)}
@@ -207,7 +207,7 @@ const Feedback = () => {
       </form>
 
       <div className="feedback-list">
-        <h3 className="feedback-list-title">Recent Feedback</h3>
+        <h3 className="feedback-list-title">What people noticed</h3>
         {feedbackList.length === 0 ? (
           <p>No feedback yet. Be the first to leave a comment!</p>
         ) : (
