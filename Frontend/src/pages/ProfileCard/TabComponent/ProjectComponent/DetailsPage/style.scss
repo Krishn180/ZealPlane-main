@@ -905,3 +905,31 @@
     width: 75%;
   }
 }
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #aaa;
+
+  .crumb {
+    color: #aaa;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  .separator {
+    color: #666;
+  }
+
+  .current {
+    color: #fff;
+    font-weight: 500;
+    cursor: default;
+  }
+}

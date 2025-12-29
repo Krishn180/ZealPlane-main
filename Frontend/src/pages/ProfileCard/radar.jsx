@@ -95,7 +95,7 @@ export default function RadarChartExample() {
   }, [id]);
 
   const data = {
-    labels: ['Popularity', 'Recognition', 'Monetary', 'Connections', 'Grind'],
+    labels: ['Visibility', 'Recognition', 'Sustainibility', 'Connections', 'Momentum'],
     datasets: [{
       label: 'User Stats',
       data: datasetValues,

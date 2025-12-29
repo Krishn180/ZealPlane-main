@@ -103,6 +103,7 @@ const DetailsPage = () => {
   const hasFetched = useRef(false);
   const [showShare, setShowShare] = useState(false);
   const [showEnquiry, setShowEnquiry] = useState(false);
+  
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -371,6 +372,22 @@ const DetailsPage = () => {
       {projectData ? (
         <ContentWrapper>
           <div className="detailsBanner">
+            <div className="breadcrumb">
+  <Link to="/" className="crumb">Home</Link>
+  <span className="separator">/</span>
+
+  {userName ? (
+    <>
+      <Link to={`/profile/${userId}`} className="crumb">
+        {userName}
+      </Link>
+      <span className="separator">/</span>
+    </>
+  ) : null}
+
+  <span className="current">{projectData.name}</span>
+</div>
+
             <div className="title">
               <h1>{projectData.name}</h1>
             </div>
@@ -666,7 +683,7 @@ const DetailsPage = () => {
 
             <br />
 
-            <h4
+            {/* <h4
               style={{
                 color: "white",
                 marginBottom: "30px",
@@ -674,7 +691,7 @@ const DetailsPage = () => {
               }}
             >
               Like My Project?
-            </h4>
+            </h4> */}
             {/* <div className="User-Profile">
               <div className="avatar-container">
                 <img src={profilePic} alt="" className="avatarImage" />
