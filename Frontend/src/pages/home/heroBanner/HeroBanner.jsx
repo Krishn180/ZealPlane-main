@@ -569,69 +569,45 @@ const TruncatedDescription = ({ description, maxLength = 100 }) => {
   );
 };
 
-const HeroBanner = ({ selectedPosterUrl }) => {
-  const [datas, setDatas] = useState([]);
+const HeroBanner = () => {
+  const navigate = useNavigate();
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  const [editorsPick, setEditorsPick] = useState([]);
+  const [mostRecent, setMostRecent] = useState([]);
+  const [mostTalked, setMostTalked] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const [isShareModalVisible, setIsShareModalVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Hook for navigation
-  const { url } = useSelector((state) => state.home);
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-  const swiperRef = useRef(null);
 
-  // Shuffle the array to show projects randomly
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+  const swiperWrappedRef = useRef(null);
+
+  /* ===================== FETCH HERO BANNER DATA ===================== */
+  useEffect(() => {
+  const fetchHeroBanner = async () => {
+    try {
+      const res = await axios.get(`${apiBaseUrl}/projects/hero-banner`);
+
+      console.log("🔥 Hero Banner API Response:", res.data); // <-- log the response
+
+      setEditorsPick(res.data.editorsPick || []);
+      setMostRecent(res.data.mostRecent || []);
+      setMostTalked(res.data.mostTalked || []);
+    } catch (error) {
+      console.error("Error fetching hero banner projects:", error);
+    } finally {
+      setLoading(false);
     }
-    return array;
   };
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await axios.get(`${apiBaseUrl}/projects`);
-        console.log("response projects are:", res.data);
+  fetchHeroBanner();
+}, []);
 
-        const validProjects = res.data.filter(
-          (project) =>
-            project.thumbnailImage && project.thumbnailImages.length > 0
-        );
-        console.log("project data is", validProjects); // Removed `.data` as `validProjects` is already the filtered array
-        setDatas(shuffleArray(validProjects)); // Shuffle the projects
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-    fetchProjects();
-  }, []);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await axios.get(`${apiBaseUrl}/projects`);
-
-        const validProjects = res.data.filter(
-          (project) =>
-            project.thumbnailImage && project.thumbnailImages.length > 0
-        );
-
-        setDatas(shuffleArray(validProjects));
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      } finally {
-        setLoading(false); // 🔥 important
-      }
-    };
-    fetchProjects();
-  }, []);
-
+  /* ===================== HANDLERS ===================== */
   const onProfileClick = (uniqueId) => {
     if (uniqueId) {
       navigate(`/profile/${uniqueId}`);
-    } else {
-      alert("uniqueId not available");
     }
   };
 
@@ -644,150 +620,169 @@ const HeroBanner = ({ selectedPosterUrl }) => {
     setIsShareModalVisible(false);
   };
 
-  // Handle Like Button Click
-  const handleLikeClick = (projectId) => {
-    setDatas((prevData) =>
-      prevData.map((project) =>
+  const handleLikeClick = (projectId, setter) => {
+    setter((prev) =>
+      prev.map((project) =>
         project.projectId === projectId
           ? {
               ...project,
               likes: project.isLiked ? project.likes - 1 : project.likes + 1,
-              isLiked: !project.isLiked, // Toggle like state
+              isLiked: !project.isLiked,
             }
           : project
       )
     );
   };
-  const swiperWrappedRef = useRef(null);
 
+  /* ===================== REUSABLE SWIPER ===================== */
+  const renderHeroRow = (title, projects, setter) => {
+    if (!projects || projects.length === 0) return null;
+
+    return (
+      <div className="hero-row">
+        <h2 className="hero-row-title">{title}</h2>
+
+        <Swiper
+          className="theater-swiper"
+          grabCursor
+          centeredSlides
+          navigation={{
+            nextEl: ".custom-swiper-button-next",
+            prevEl: ".custom-swiper-button-prev",
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+            dynamicMainBullets: 3,
+          }}
+          loop
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          speed={800}
+          modules={[Pagination, Navigation, Autoplay]}
+          onSwiper={(swiper) => {
+            swiperWrappedRef.current = swiper.wrapperEl;
+          }}
+        >
+          {projects.map((project) => (
+            <SwiperSlide key={project.projectId}>
+              <div className="slide-wrapper-top">
+                <div
+                  className="slide-bg"
+                  style={{
+                    backgroundImage: `url(${project.thumbnailImage})`,
+                  }}
+                  onClick={() =>
+                    navigate(`/details/${project.projectId}`)
+                  }
+                />
+
+                <img
+                  src={project.thumbnailImage}
+                  alt={project.name}
+                  className="slide-img"
+                  onClick={() =>
+                    navigate(`/details/${project.projectId}`)
+                  }
+                />
+
+                <div className="content-slider">
+                  <h1
+                    className="title-slider"
+                    onClick={() =>
+                      navigate(`/details/${project.projectId}`)
+                    }
+                  >
+                    {project.name}
+                  </h1>
+
+                  <div
+                    className="description-slider"
+                    onClick={() =>
+                      navigate(`/details/${project.projectId}`)
+                    }
+                  >
+                    <TruncatedDescription
+                      description={project.description}
+                    />
+                  </div>
+
+                  <div className="avtar-username">
+                    <div className="avtar-photo">
+                      <img
+                        src={project.profilePic || Anonimous}
+                        className="avatar"
+                        onClick={() =>
+                          onProfileClick(project.uniqueId)
+                        }
+                      />
+                      <span
+                        onClick={() =>
+                          onProfileClick(project.uniqueId)
+                        }
+                      >
+                        {project.username || "Anonymous User"}
+                      </span>
+                    </div>
+
+                    <div className="icon-group">
+                      <FaHeart
+                        className="heart-icon"
+                        style={{
+                          color: project.isLiked ? "red" : "white",
+                        }}
+                        onClick={() =>
+                          handleLikeClick(project.projectId, setter)
+                        }
+                      />
+                      <span>{project.likes}</span>
+
+                      <MdShare
+                        onClick={() =>
+                          handleShareClick(project)
+                        }
+                      />
+
+                      <button
+                        className="read"
+                        onClick={() =>
+                          navigate(`/details/${project.projectId}`)
+                        }
+                      >
+                        Read More
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    );
+  };
+
+  /* ===================== RENDER ===================== */
   return (
     <div className="swiper-slider-container">
-      {/* 🔥 Show Skeleton While Loading */}
       {loading ? (
         <HeroBannerSkeleton />
       ) : (
         <>
-          {/* 🔥 Actual Swiper Slider After Loading */}
-          <Swiper
-            className="theater-swiper"
-            key={datas.length}
-            grabCursor
-            centeredSlides
-            navigation={{
-              nextEl: ".custom-swiper-button-next",
-              prevEl: ".custom-swiper-button-prev",
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-              dynamicMainBullets: 3,
-            }}
-            loop={true}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            speed={800}
-            modules={[Pagination, Navigation, Autoplay]}
-            onSwiper={(swiper) => {
-              swiperWrappedRef.current = swiper.wrapperEl;
-            }}
-          >
-            {datas.map((project) => (
-              <SwiperSlide key={project.projectId}>
-                <div className="slide-wrapper-top">
-                  <div
-                    className="slide-bg"
-                    style={{
-                      backgroundImage: `url(${project.thumbnailImage})`,
-                    }}
-                    onClick={() => navigate(`/details/${project.projectId}`)}
-                  ></div>
-
-                  <img
-                    src={project.thumbnailImage}
-                    alt={project.name}
-                    className="slide-img"
-                    onClick={() => navigate(`/details/${project.projectId}`)}
-                  />
-
-                  <div className="content-slider">
-                    <div
-                      className="title-slider"
-                      onClick={() => navigate(`/details/${project.projectId}`)}
-                    >
-                      <h1>{project.name}</h1>
-                    </div>
-
-                    <div
-                      className="description-slider"
-                      onClick={() => navigate(`/details/${project.projectId}`)}
-                    >
-                      <TruncatedDescription description={project.description} />
-                    </div>
-
-                    <div className="avtar-username">
-                      <div className="avtar-photo">
-                        <img
-                          src={
-                            project.profilePic ? project.profilePic : Anonimous
-                          }
-                          alt={project.username || "Anonymous User"}
-                          className="avatar"
-                          onClick={() => onProfileClick(project.uniqueId)}
-                        />
-                        <span
-                          className="username"
-                          onClick={() => onProfileClick(project.uniqueId)}
-                        >
-                          {project.username || "Anonymous User"}
-                        </span>
-                      </div>
-
-                      <div className="icons">
-                        <div className="icon-group">
-                          <div
-                            className="icon-wrapper like"
-                            onClick={() => handleLikeClick(project.projectId)}
-                          >
-                            <FaHeart
-                              className="heart-icon"
-                              style={{
-                                color: project.isLiked ? "red" : "white",
-                              }}
-                            />
-                          </div>
-                          <span className="likeCount">{project.likes}</span>
-                          <div
-                            className="icon-wrapper share"
-                            onClick={() => handleShareClick(project)}
-                          >
-                            <MdShare />
-                          </div>
-                          <button
-                            className="read"
-                            onClick={() =>
-                              navigate(`/details/${project.projectId}`)
-                            }
-                          >
-                            Read More
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {renderHeroRow("Editor's Pick", editorsPick, setEditorsPick)}
+          {renderHeroRow("Most Recent", mostRecent, setMostRecent)}
+          {renderHeroRow("Most Discussed", mostTalked, setMostTalked)}
 
           <div className="custom-swiper-button-prev">&#8592;</div>
           <div className="custom-swiper-button-next">&#8594;</div>
 
-          {/* Share Modal */}
           {selectedProject && (
             <Modal
               title={
-                <div className="modalTitle">Share {selectedProject.name}</div>
+                <div className="modalTitle">
+                  Share {selectedProject.name}
+                </div>
               }
-              visible={isShareModalVisible}
+              open={isShareModalVisible}
               onCancel={handleCancel}
               footer={null}
               className="shareModal"
@@ -798,21 +793,25 @@ const HeroBanner = ({ selectedPosterUrl }) => {
                 >
                   <FacebookIcon size={32} round />
                 </FacebookShareButton>
+
                 <TwitterShareButton
                   url={`${window.location.origin}/details/${selectedProject.projectId}`}
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
+
                 <LinkedinShareButton
                   url={`${window.location.origin}/details/${selectedProject.projectId}`}
                 >
                   <LinkedinIcon size={32} round />
                 </LinkedinShareButton>
+
                 <WhatsappShareButton
                   url={`${window.location.origin}/details/${selectedProject.projectId}`}
                 >
                   <WhatsappIcon size={32} round />
                 </WhatsappShareButton>
+
                 <RedditShareButton
                   url={`${window.location.origin}/details/${selectedProject.projectId}`}
                 >
@@ -826,4 +825,5 @@ const HeroBanner = ({ selectedPosterUrl }) => {
     </div>
   );
 };
+
 export default HeroBanner;

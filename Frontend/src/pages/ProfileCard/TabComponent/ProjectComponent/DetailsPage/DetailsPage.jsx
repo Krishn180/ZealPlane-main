@@ -372,14 +372,14 @@ const DetailsPage = () => {
       {projectData ? (
         <ContentWrapper>
           <div className="detailsBanner">
-            <div className="breadcrumb">
+     <div className="breadcrumb">
   <Link to="/" className="crumb">Home</Link>
   <span className="separator">/</span>
 
-  {userName ? (
+  {projectData.username ? (
     <>
-      <Link to={`/profile/${userId}`} className="crumb">
-        {userName}
+      <Link to={`/profile/${projectData.uniqueId}`} className="crumb">
+        {projectData.username}
       </Link>
       <span className="separator">/</span>
     </>
@@ -387,6 +387,7 @@ const DetailsPage = () => {
 
   <span className="current">{projectData.name}</span>
 </div>
+
 
             <div className="title">
               <h1>{projectData.name}</h1>
@@ -636,10 +637,10 @@ const DetailsPage = () => {
                         <span>None</span>
                       )}
                     </div>
-                    <div className="views">
+                    {/* <div className="views">
                       <FaEye style={{ marginRight: "8px", color: "#7f8c8d" }} />{" "}
                       {view} views
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

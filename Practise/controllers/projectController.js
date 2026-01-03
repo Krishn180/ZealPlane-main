@@ -25,6 +25,52 @@ const getAllProjects = async (req, res) => {
   }
 };
 
+const getHeroBannerProjects = async (req, res) => {
+  try {
+    // 1️⃣ Editor’s Picks
+    const editorsPick = await Project.find({
+      isEditorsPick: true,
+      thumbnailImage: { $ne: null, $ne: "" },
+      thumbnailImages: { $exists: true, $not: { $size: 0 } },
+    }).limit(10);
+
+    // 2️⃣ Most Recent
+   // Most Recent
+const mostRecent = await Project.find({
+  thumbnailImage: { $exists: true, $ne: "" }, // must exist and not empty
+})
+.sort({ createdAt: -1 })
+.limit(10);
+
+
+    // 3️⃣ Most Talked (based on comments)
+    const mostTalked = await Project.aggregate([
+      {
+        $match: {
+          "comments.0": { $exists: true },
+          thumbnailImage: { $ne: null, $ne: "" },
+        },
+      },
+      {
+        $addFields: {
+          commentCount: { $size: "$comments" },
+        },
+      },
+      { $sort: { commentCount: -1, updatedAt: -1 } },
+      { $limit: 10 },
+    ]);
+
+    res.json({
+      editorsPick,
+      mostRecent,
+      mostTalked,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 const getProjectById = async (req, res) => {
   try {
     const projectId = req.params.projectId;
@@ -655,5 +701,6 @@ module.exports = {
   likeProject,
   addThumbnailImage,
   getCommentById,
-  deleteProject
+  deleteProject,
+  getHeroBannerProjects
 };

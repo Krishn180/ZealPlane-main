@@ -8,11 +8,12 @@ const {
   updateProject,
   addThumbnailImage,
   getCommentById,
-  updateComment, // Add missing functions
-  deleteComment, // Add missing functions
+  updateComment,
+  deleteComment,
   likeProject,
   commentOnProject,
   deleteProject,
+  getHeroBannerProjects // ✅ ADD THIS
 } = require("../controllers/projectController");
 const ValidateToken = require("../midleware/validateTokenHandler");
 
@@ -21,6 +22,10 @@ const projectUpload = require("../midleware/projectUpload");
 
 // Route to get all projects
 router.get("/", getAllProjects);
+
+// 🔥 Hero Banner (Editors Pick, Most Recent, Most Talked)
+router.get("/hero-banner", getHeroBannerProjects);
+
 
 // Route to get project by projectId
 router.get(
@@ -40,6 +45,8 @@ router.get("/username/:username", getProjectsByUsername);
 
 // Route to create a new project
 router.post("/", projectUpload.singleThumbnail, createProject);
+
+
 
 // Route to update project by projectId
 router.put(
